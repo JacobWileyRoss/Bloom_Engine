@@ -65,7 +65,7 @@ void Core::Initialize() {
             (newEntity, ComponentTypes::Transform);
     auto& sprite = entityManager.getEntityComponent<Sprite>
             (newEntity, ComponentTypes::Sprite);
-    renderingEngine.setTexture(newEntity, "../Game/Assets/bloomGuy.png");
+    renderingEngine.setTexture(newEntity, "../Game/Assets/hero_WalkCycleDown1.png");
     SDL_Texture* frameUP1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP1.png");
     SDL_Texture* frameUP2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP2.png");
     SDL_Texture* frameUP3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP3.png");
