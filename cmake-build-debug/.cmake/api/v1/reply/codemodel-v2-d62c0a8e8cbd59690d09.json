@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Bloom_Engine::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Bloom_Engine-Debug-140eabaccb8a6ca597a5.json",
+					"jsonFile" : "target-Bloom_Engine-Debug-af8aaa7ba940236e0012.json",
 					"name" : "Bloom_Engine",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/enki/Developer/Repositories (Version Controlled)/Bloom-Engine/cmake-build-debug",
-		"source" : "/Users/enki/Developer/Repositories (Version Controlled)/Bloom-Engine"
+		"build" : "/Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine/cmake-build-debug",
+		"source" : "/Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine"
 	},
 	"version" : 
 	{

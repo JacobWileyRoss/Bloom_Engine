@@ -33,7 +33,6 @@ add_executable(Bloom_Engine main.cpp
         src/Component/Component.cpp
         include/Component/Component.h
         include/Component/Event.h
-        include/Component/Input.h
         include/Component/Physics.h
         include/Component/Player.h
         include/Component/Renderable.h

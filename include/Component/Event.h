@@ -5,6 +5,7 @@
 #ifndef BLOOM_ENGINE_EVENT_H
 #define BLOOM_ENGINE_EVENT_H
 
+#include <array>
 #include "Component.h"
 #include "SDL.h"
 

@@ -181,8 +181,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "/Users/enki/Developer/Repositories (Version Controlled)/Bloom-Engine/cmake-build-debug",
-		"source" : "/Users/enki/Developer/Repositories (Version Controlled)/Bloom-Engine"
+		"build" : "/Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine/cmake-build-debug",
+		"source" : "/Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine"
 	},
 	"version" : 
 	{
