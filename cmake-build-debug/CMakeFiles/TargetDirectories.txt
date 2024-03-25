@@ -1,3 +1,0 @@
-/Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine/cmake-build-debug/CMakeFiles/Bloom_Engine.dir
-/Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine/cmake-build-debug/CMakeFiles/rebuild_cache.dir
