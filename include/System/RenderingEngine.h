@@ -26,8 +26,8 @@ public:
                                                                                      dispatcher(dispatcher) {} ;
 
     static void Initialize(SDL_Window* window);
-    void setSprite(Entity&, float x, float y, float w, float h);
-    void setTexture(Entity&, const char* filename);
+    void setSprite(int entityUID, float x, float y, float w, float h);
+    void setTexture(int entityUID, const char* filename);
     void update(std::unordered_map<int, Entity>& entities);
     void Render(std::unordered_map<int, Entity>& entities);
     SDL_Renderer* GetRenderer() { return renderer; };

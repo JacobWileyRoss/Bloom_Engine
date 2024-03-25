@@ -8,12 +8,14 @@
 #include "Dispatcher.h"
 #include "../Entity/Entity.h"
 #include "../Component/Physics.h"
+#include "../Component/Collider.h"
 
 
 class PhysicsEngine {
 public:
-    explicit PhysicsEngine(EntityManager& entityManager, Dispatcher& dispatcher, float& deltaTime) : entityManager(entityManager),
-                                                                                                     dispatcher(dispatcher), deltaTime(deltaTime) {std::cout <<"[INFO] Physics Engine initialized successfully" << std::endl; };
+    explicit PhysicsEngine(EntityManager& entityManager, Dispatcher& dispatcher, float& deltaTime) :
+                            entityManager(entityManager), dispatcher(dispatcher), deltaTime(deltaTime)
+                            {std::cout <<"[INFO] Physics Engine initialized successfully" << std::endl;};
 
     void update(float deltaTime);
     void handleInputEvent(const Event& event);

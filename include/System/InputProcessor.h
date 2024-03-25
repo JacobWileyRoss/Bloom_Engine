@@ -8,6 +8,7 @@
 #include "../Entity/Entity.h"
 #include "EntityManager.h"
 #include "Dispatcher.h"
+#include "../Component/ComponentTypes.h"
 #include "../Component/Event.h"
 #include "../Component/Player.h"
 #include "../Component/Transform.h"
@@ -17,7 +18,7 @@ class InputProcessor {
 public:
     explicit InputProcessor(EntityManager& entityManager, Dispatcher& dispatcher)
             : entityManager(entityManager), dispatcher(dispatcher) {}
-    void ProcessInput();
+    void ProcessInput(SDL_Event& event);
 
 private:
     EntityManager& entityManager;

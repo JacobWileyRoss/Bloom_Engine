@@ -7,8 +7,9 @@
 
 
 Core::Core() : window(nullptr), isRunning(false), dispatcher(entityManager),
-               physicsEngine(entityManager, dispatcher, deltaTime), inputProcessor(entityManager, dispatcher),
-               renderingEngine(entityManager, dispatcher) {}
+               physicsEngine(entityManager, dispatcher, deltaTime),
+               inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),
+               animationEngine(entityManager, dispatcher, deltaTime){}
 
 void Core::Initialize() {
     // Initialize SDL2 using SDL_INIT_EVERYTHING
@@ -25,7 +26,8 @@ void Core::Initialize() {
     std::cout << "[INFO] SDL_Image initialized successfully" << std::endl;
 
     std::cout << "[INFO] Creating window..." << std::endl;
-    window = SDL_CreateWindow("Bloom Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Bloom Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                              800, 600, SDL_WINDOW_SHOWN);
     if (!window) {
         std::cerr << "[ERROR] Failed to create window: " << SDL_GetError() << std::endl;
         SDL_Quit();
@@ -38,44 +40,84 @@ void Core::Initialize() {
 
     // PhysicsEngine subscribes to Dispatcher registering interest in Input event types and adds handleInputEvent()
     // as a callback function
-    dispatcher.addEventListener(EventType::Input, [this](const Event& inputEvent) {
+    dispatcher.addEventListener(EventType::InputKeyDown, [this](const Event& inputEvent) {
+        std::cout << "[INFO] Handling EventType::InputKeyDown" << std::endl;
         physicsEngine.handleInputEvent(inputEvent);
+        animationEngine.handleInputEvent(inputEvent);
     });
 
+    dispatcher.addEventListener(EventType::InputKeyUp, [this](const Event& inputEvent) {
+        std::cout << "[INFO] Handling EventType::InputKeyUp" << std::endl;
+        physicsEngine.handleInputEvent(inputEvent);
+        animationEngine.handleInputEvent(inputEvent);
+    });
+
+    // TODO Entity creation should occur in a Level or State, not in the Core
     int newEntity = entityManager.createEntity();
-    std::cout << "[INFO] Entity created successfully" << std::endl;
-    entityManager.attachComponent(newEntity, new Player);
-    std::cout << "[INFO] Entity assigned Player component" << std::endl;
-    entityManager.attachComponent(newEntity, new Transform);
-    std::cout << "[INFO] Entity assigned Transform component" << std::endl;
-    entityManager.attachComponent(newEntity, new Physics);
-    std::cout << "[INFO] Entity assigned Physics component" << std::endl;
-    entityManager.attachComponent(newEntity, new Renderable);
-    std::cout << "[INFO] Entity assigned Renderable component" << std::endl;
-    entityManager.attachComponent(newEntity, new Sprite);
-    std::cout << "[INFO] Entity assigned Sprite component" << std::endl;
-    entityManager.attachComponent(newEntity, new Texture);
-    std::cout << "[INFO] Entity assigned Texture component" << std::endl;
-    renderingEngine.setTexture(entityManager.getEntity(newEntity), "../Game/Assets/bloomGuy.png");
-    renderingEngine.setSprite(entityManager.getEntity(newEntity), 0, 0, 32, 32);
+    entityManager.attachComponent(newEntity, ComponentTypes::Player);
+    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
+    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+    entityManager.attachComponent(newEntity, ComponentTypes::Animation);
+    auto& transform = entityManager.getEntityComponent<Transform>
+            (newEntity, ComponentTypes::Transform);
+    auto& sprite = entityManager.getEntityComponent<Sprite>
+            (newEntity, ComponentTypes::Sprite);
+    renderingEngine.setTexture(newEntity, "../Game/Assets/bloomGuy.png");
+    SDL_Texture* frameUP1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP1.png");
+    SDL_Texture* frameUP2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP2.png");
+    SDL_Texture* frameUP3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP3.png");
+    SDL_Texture* frameUP4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP4.png");
+    SDL_Texture* frameUP5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP5.png");
+    SDL_Texture* frameDOWN1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDOWN1.png");
+    SDL_Texture* frameDOWN2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDOWN2.png");
+    SDL_Texture* frameDOWN3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDOWN3.png");
+    SDL_Texture* frameDOWN4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDOWN4.png");
+    SDL_Texture* frameDOWN5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDOWN5.png");
+    SDL_Texture* frameLEFT1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLEFT1.png");
+    SDL_Texture* frameLEFT2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLEFT2.png");
+    SDL_Texture* frameLEFT3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLEFT3.png");
+    SDL_Texture* frameLEFT4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLEFT4.png");
+    SDL_Texture* frameLEFT5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLEFT5.png");
+    SDL_Texture* frameRIGHT1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRIGHT1.png");
+    SDL_Texture* frameRIGHT2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRIGHT2.png");
+    SDL_Texture* frameRIGHT3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRIGHT3.png");
+    SDL_Texture* frameRIGHT4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRIGHT4.png");
+    SDL_Texture* frameRIGHT5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRIGHT5.png");
+    renderingEngine.setSprite(newEntity, transform.posX, transform.posY, 64, 64);
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP1 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP2 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP3 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP4 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP5 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN1 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN2 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN3 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN4 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN5 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT1 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT2 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT3 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT4 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT5 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT1 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT2 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT3 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT4 );
+    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT5 );
 
 
     newEntity = entityManager.createEntity();
-    std::cout << "[INFO] Entity created successfully" << std::endl;
-    entityManager.attachComponent(newEntity, new Transform);
-    Transform& transform = entityManager.getEntityComponent<Transform>(entityManager.getEntity(newEntity), "Transform");
-    transform.posX = 100;
-    transform.posY = 100;
-    std::cout << "[INFO] Entity assigned Transform component" << std::endl;
-    entityManager.attachComponent(newEntity, new Physics);
-    std::cout << "[INFO] Entity assigned Physics component" << std::endl;
-    entityManager.attachComponent(newEntity, new Renderable);
-    std::cout << "[INFO] Entity assigned Renderable component" << std::endl;
-    entityManager.attachComponent(newEntity, new Sprite);
-    std::cout << "[INFO] Entity assigned Sprite component" << std::endl;
-    entityManager.attachComponent(newEntity, new Texture);
-    std::cout << "[INFO] Entity assigned Texture component" << std::endl;
-    renderingEngine.setTexture(entityManager.getEntity(newEntity), "../Game/Assets/enemy.png");
+    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+    transform = entityManager.getEntityComponent<Transform>
+            (newEntity, ComponentTypes::Transform);
+    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
+    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+    renderingEngine.setTexture(newEntity, "../Game/Assets/enemy.png");
 }
 
 void Core::MainLoop() {
@@ -91,18 +133,20 @@ void Core::MainLoop() {
             }
             switch (event.type) {
                 case SDL_KEYDOWN:
-                    inputProcessor.ProcessInput();
+                    inputProcessor.ProcessInput(event);
                     break;
                 case SDL_KEYUP:
-                    inputProcessor.ProcessInput();
+                    inputProcessor.ProcessInput(event);
             }
 
 
         }
         physicsEngine.update(deltaTime);
+        //collisionEngine.update(entityManager);
+        animationEngine.update(deltaTime);
         renderingEngine.update(entityManager.entities);
         renderingEngine.Render(entityManager.entities);
-        SDL_Delay((uint32_t)(1000 / 60));
+        //SDL_Delay((uint32_t)(1000 / 60));
     }
 }
 
