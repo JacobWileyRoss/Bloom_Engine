@@ -28,7 +28,6 @@ add_executable(Bloom_Engine main.cpp
         include/System/Dispatcher.h
         src/System/Core.cpp
         include/System/Core.h
-        src/Entity/Entity.cpp
         include/Entity/Entity.h
         src/Component/Component.cpp
         include/Component/Component.h
@@ -38,6 +37,13 @@ add_executable(Bloom_Engine main.cpp
         include/Component/Renderable.h
         include/Component/Sprite.h
         include/Component/Texture.h
-        include/Component/Transform.h)
+        include/Component/Transform.h
+        include/Component/Collider.h
+        src/System/CollisionEngine.cpp
+        include/System/CollisionEngine.h
+        include/Component/ComponentTypes.h
+        include/Component/Animation.h
+        src/System/AnimationEngine.cpp
+        include/System/AnimationEngine.h)
 
 target_link_libraries(Bloom_Engine ${SDL2_LIBRARIES} "/usr/local/Cellar/sdl2_image/2.8.2_1/lib/libSDL2_image.dylib")

@@ -6,38 +6,48 @@
 #include "SDL.h"
 
 
-void InputProcessor::ProcessInput() {
+void InputProcessor::ProcessInput(SDL_Event& event) { // Accept SDL_Event as parameter
+        std::vector<int> playerEntities = entityManager.getEntitiesWithComponent<Player>(ComponentTypes::Player);
+        for (auto entityUID : playerEntities) {
+            switch (event.type) {
+                case SDL_KEYDOWN:
+                    if (!event.key.repeat) { // Process keydown event
+                        std::cout << "[INFO] Dispatching InputKeyDown event for Entity: " << entityUID << std::endl;
+                        dispatcher.dispatchEvent(Event(entityUID, EventType::InputKeyDown, event.key.keysym.scancode));
+                    }
+                    break;
+                case SDL_KEYUP: // Process keyup event
+                    std::cout << "[INFO] Dispatching InputKeyUp event for Entity: " << entityUID << std::endl;
+                    dispatcher.dispatchEvent(Event(entityUID, EventType::InputKeyUp, event.key.keysym.scancode));
+                    break;
+                //default:
+                    //std::cout << "[WARNING] SDL_PollEvent unknown" << std::endl;
+            }
+        }
+
+
+    // It's important to note that continuous key states are processed outside of specific key up/down events.
+    // This section is for actions like continuous movement where the key's current state (pressed or not) matters.
     const Uint8* state = SDL_GetKeyboardState(NULL);
+    for (auto entityUID : playerEntities) {
+        Entity& currentEntity = entityManager.getEntity(entityUID);
+        Physics& physics = entityManager.getEntityComponent<Physics>(entityUID, ComponentTypes::Physics);
 
-    //Get all entityUID's with Player type
-    Player playerType;
-    std::vector<int> entities = entityManager.getEntitiesWithComponent(playerType);
-
-    // For each Entity with Player type apply movement input
-    for(auto entity : entities) {
-        Entity currentEntity = entityManager.getEntity(entity);
-        // This assumes the player entity always exists and has a Physics component.
-        // You might want to add checks to ensure that's the case.
-        Physics& physics = entityManager.getEntityComponent<Physics>(entityManager.getEntity(currentEntity.UID), "Physics");
-
-        // Reset direction initially every frame
+        // Reset direction at the start of every frame to handle the current key state.
         physics.dirX = 0;
         physics.dirY = 0;
 
-        // Then set based on current key state
+        // Then, set the direction based on the current state of WASD keys.
         if (state[SDL_SCANCODE_W]) physics.dirY -= 1;
         if (state[SDL_SCANCODE_S]) physics.dirY += 1;
         if (state[SDL_SCANCODE_A]) physics.dirX -= 1;
         if (state[SDL_SCANCODE_D]) physics.dirX += 1;
 
-        // Normalize direction to maintain consistent speed in all directions
-        float magnitude = std::sqrt(physics.dirX * physics.dirX + physics.dirY * physics.dirY);
+        // Normalize the direction vector to ensure consistent movement speed in all directions.
+        float magnitude = std::hypot(physics.dirX, physics.dirY);
         if (magnitude > 0) {
             physics.dirX /= magnitude;
             physics.dirY /= magnitude;
         }
-
     }
-
-
 }

@@ -12,7 +12,9 @@
 #include "EntityManager.h"
 #include "Dispatcher.h"
 #include "RenderingEngine.h"
+#include "AnimationEngine.h"
 #include "PhysicsEngine.h"
+#include "CollisionEngine.h"
 #include "InputProcessor.h"
 
 #include "../Component/Player.h"
@@ -21,6 +23,7 @@
 #include "../Component/Renderable.h"
 #include "../Component/Sprite.h"
 #include "../Component/Texture.h"
+#include "../Component/Collider.h"
 
 class Core
 {
@@ -35,9 +38,12 @@ public:
 private:
     EntityManager entityManager;
     Dispatcher dispatcher;
-    PhysicsEngine physicsEngine;
     InputProcessor inputProcessor;
+    PhysicsEngine physicsEngine;
     RenderingEngine renderingEngine;
+    AnimationEngine animationEngine;
+    CollisionEngine collisionEngine;
+
 
     SDL_Window* window;
     SDL_Event event{};

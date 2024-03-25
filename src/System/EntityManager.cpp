@@ -10,10 +10,11 @@ EntityManager::EntityManager() {
 int EntityManager::createEntity() {
     int entityUID = nextUID++;
     entities.emplace(entityUID, Entity(entityUID));
+    std::cout << "[INFO] Entity " << entityUID << " created successfully" << std::endl;
     return entityUID;
 }
 
-bool EntityManager::hasComponent(int entityUID, const std::string& componentType) {
+bool EntityManager::hasComponent(int entityUID, const ComponentTypes& componentType) {
     auto entityIt = entities.find(entityUID);
     if (entityIt != entities.end()) {
         // Check if the entity has the specified component type
@@ -23,10 +24,41 @@ bool EntityManager::hasComponent(int entityUID, const std::string& componentType
     return false; // Entity not found or does not have the component
 }
 
-void EntityManager::attachComponent(int entityUID, Component *component) {
+// Creates a component based on the componentType selection. This is used by attachComponent() for composing entities
+std::unique_ptr<Component> EntityManager::createComponent(ComponentTypes componentType) {
+    switch (componentType) {
+        case ComponentTypes::Animation:
+            return std::make_unique<Animation>();
+        case ComponentTypes::Collider:
+            return std::make_unique<Collider>();
+        case ComponentTypes::Event:
+            return std::make_unique<Event>();
+        case ComponentTypes::Physics:
+            return std::make_unique<Physics>();
+        case ComponentTypes::Player:
+            return std::make_unique<Player>();
+        case ComponentTypes::Renderable:
+            return std::make_unique<Renderable>();
+        case ComponentTypes::Sprite:
+            return std::make_unique<Sprite>();
+        case ComponentTypes::Transform:
+            return std::make_unique<Transform>();
+        case ComponentTypes::Texture:
+            return std::make_unique<Texture>();
+    }
+}
+
+// Attaches a component determined by the componentType selection. This calls createComponent to create component
+// object requested
+void EntityManager::attachComponent(int entityUID, ComponentTypes componentType) {
     auto entity = entities.find(entityUID);
     if (entity != entities.end()) {
-        entity->second.components.emplace(component->type, component);
+        std::unique_ptr<Component> component = createComponent(componentType);
+        if (component) {
+            entity->second.components.emplace(componentType, std::move(component));
+            std::cout <<  "[INFO] " << componentTypeToString(componentType) <<
+            " component attached to Entity: " << entityUID << std::endl;
+        }
     } else {
         std::cerr << "Entity with UID " << entityUID << " not found!" << std::endl;
     }
@@ -37,9 +69,3 @@ Entity& EntityManager::getEntity(int UID) {
     return entity->second;
 }
 
-std::unordered_map<std::string, std::shared_ptr<Component>>& EntityManager::getEntityComponents(int UID) {
-    auto entity = entities.find(UID);
-    if (entity != entities.end()) {
-        return entity->second.components;
-    }
-}

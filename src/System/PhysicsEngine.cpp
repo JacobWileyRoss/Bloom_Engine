@@ -8,13 +8,23 @@
 
 void PhysicsEngine::update(float deltaTime) {
     for (auto& [entityUID, entity] : entityManager.entities) {
-        if (entityManager.hasComponent(entityUID, "Physics")) {
-            Physics& physics = entityManager.getEntityComponent<Physics>(entity, "Physics");
+        if (entityManager.hasComponent(entityUID, ComponentTypes::Physics)) {
+            Physics& physics = entityManager.getEntityComponent<Physics>
+                    (entityUID, ComponentTypes::Physics);
 
             // Directly apply movement based on direction and speed
-            auto& transform = entityManager.getEntityComponent<Transform>(entity, "Transform");
+            auto& transform = entityManager.getEntityComponent<Transform>
+                    (entityUID, ComponentTypes::Transform);
             transform.posX += physics.dirX * physics.speed * deltaTime;
             transform.posY += physics.dirY * physics.speed * deltaTime;
+
+            // Check if the entity has a Collider component and update its position
+            if (entityManager.hasComponent(entityUID, ComponentTypes::Collider)) {
+                auto& collider = entityManager.getEntityComponent<Collider>
+                        (entityUID, ComponentTypes::Collider);
+                collider.rect.x = transform.posX; // Ensure proper type casting
+                collider.rect.y = transform.posY;
+            }
         }
     }
 }
@@ -24,19 +34,22 @@ void PhysicsEngine::handleInputEvent(const Event& event) {
 
     // Check if the entity exists before attempting to access it
     if (entityManager.entities.find(entityUID) == entityManager.entities.end()) {
-        std::cerr << "[ERROR] PhysicsEngine::handleInputEvent - Entity with UID " << entityUID << " not found." << std::endl;
+        std::cerr << "[ERROR] PhysicsEngine::handleInputEvent - Entity with UID " <<
+                        entityUID << " not found." << std::endl;
         return;
     }
 
     Entity& entity = entityManager.getEntity(entityUID);
 
     // Ensure the entity has a Physics component before proceeding
-    if (entity.components.find("Physics") == entity.components.end()) {
-        std::cerr << "[ERROR] PhysicsEngine::handleInputEvent - No Physics component found for Entity UID " << entityUID << "." << std::endl;
+    if (entity.components.find(ComponentTypes::Physics) == entity.components.end()) {
+        std::cerr << "[ERROR] PhysicsEngine::handleInputEvent - No Physics component found for Entity UID "
+                    << entityUID << "." << std::endl;
         return;
     }
 
-    auto& physics = entityManager.getEntityComponent<Physics>(entity, "Physics");
+    auto& physics = entityManager.getEntityComponent<Physics>
+            (entityUID, ComponentTypes::Physics);
 
     float velX = physics.velX * physics.speed;
     float velY = physics.velY * physics.speed;
@@ -49,14 +62,17 @@ void PhysicsEngine::handleInputEvent(const Event& event) {
 
 void PhysicsEngine::applyForce(Entity& entity, float velX, float velY) {
     // Ensure the entity has a Transform component before proceeding
-    if (entity.components.find("Transform") == entity.components.end()) {
-        std::cerr << "[ERROR] PhysicsEngine::applyForce - No Transform component found for Entity UID " << entity.UID << "." << std::endl;
+    if (entity.components.find(ComponentTypes::Transform) == entity.components.end()) {
+        std::cerr << "[ERROR] PhysicsEngine::applyForce - No Transform component found for Entity UID "
+                        << entity.UID << "." << std::endl;
         return;
     }
 
-    auto& transform = entityManager.getEntityComponent<Transform>(entity, "Transform");
+    auto& transform = entityManager.getEntityComponent<Transform>
+            (entity.UID, ComponentTypes::Transform);
     transform.posX += velX * deltaTime;
     transform.posY += velY * deltaTime;
 
-    std::cout << "[INFO] PhysicsEngine::applyForce - Entity UID " << entity.UID << " new position: X: " << transform.posX << ", Y: " << transform.posY << std::endl;
+    std::cout << "[INFO] PhysicsEngine::applyForce - Entity UID " << entity.UID << " new position: X: "
+                << transform.posX << ", Y: " << transform.posY << std::endl;
 }

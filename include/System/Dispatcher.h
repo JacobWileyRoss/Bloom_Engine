@@ -17,6 +17,8 @@ public:
 
     void addEventListener(EventType eventType, const EventCallback& callback);
 
+    void createEvent(EventType eventType);
+
     void dispatchEvent(const Event& event);
 
 

@@ -10,8 +10,10 @@
 #include "SDL.h"
 
 enum class EventType {
-    Input,
+    InputKeyDown,
+    InputKeyUp,
     Physics,
+    Undefined,
 
 };
 
@@ -20,6 +22,12 @@ using EventData = std::variant<std::array<float, 2>, char, SDL_Scancode>;
 
 class Event : public Component {
 public:
+    Event() {
+        type = "Event";
+        entityUID = {};
+        eventType = EventType::Undefined;
+        eventData = {};
+    }
     Event(EventType newEventType, const EventData& payload) {
         type = "Event";
         entityUID={};
@@ -27,7 +35,7 @@ public:
         eventData = payload;
     }
 
-    Event(EventType newEventType, int UID, const EventData& payload) {
+    Event(int UID, EventType newEventType, const EventData& payload) {
         type = "Event";
         entityUID = UID;
         eventType = newEventType;
