@@ -1,6 +1,0 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/x64/ninja -G Ninja -S "/Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine" -B "/Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine/cmake-build-debug"
-SDL2_image include dirs: 
-SDL2_image libraries: 
--- Configuring done (0.0s)
--- Generating done (0.0s)
--- Build files have been written to: /Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine/cmake-build-debug
