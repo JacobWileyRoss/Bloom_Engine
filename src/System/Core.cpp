@@ -27,7 +27,7 @@ void Core::Initialize() {
 
     std::cout << "[INFO] Creating window..." << std::endl;
     window = SDL_CreateWindow("Bloom Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              800, 600, SDL_WINDOW_SHOWN);
+                              1920, 1080, SDL_WINDOW_SHOWN);
     if (!window) {
         std::cerr << "[ERROR] Failed to create window: " << SDL_GetError() << std::endl;
         SDL_Quit();
@@ -65,7 +65,9 @@ void Core::Initialize() {
             (newEntity, ComponentTypes::Transform);
     auto& sprite = entityManager.getEntityComponent<Sprite>
             (newEntity, ComponentTypes::Sprite);
+    renderingEngine.setSprite(newEntity, transform.posX, transform.posY, 96, 128);
     renderingEngine.setTexture(newEntity, "../Game/Assets/hero_WalkCycleDown1.png");
+    renderingEngine.setRenderLayer(newEntity, RenderLayer::character);
     SDL_Texture* frameUP1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP1.png");
     SDL_Texture* frameUP2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP2.png");
     SDL_Texture* frameUP3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUP3.png");
@@ -86,7 +88,6 @@ void Core::Initialize() {
     SDL_Texture* frameRIGHT3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRIGHT3.png");
     SDL_Texture* frameRIGHT4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRIGHT4.png");
     SDL_Texture* frameRIGHT5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRIGHT5.png");
-    renderingEngine.setSprite(newEntity, transform.posX, transform.posY, 64, 64);
     animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP1 );
     animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP2 );
     animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP3 );
@@ -117,7 +118,51 @@ void Core::Initialize() {
     entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
     entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
     entityManager.attachComponent(newEntity, ComponentTypes::Texture);
-    renderingEngine.setTexture(newEntity, "../Game/Assets/enemy.png");
+    renderingEngine.setSprite(newEntity, 100, 100, 192, 256);
+    renderingEngine.setTexture(newEntity, "../Game/Assets/statue_DarkEnchantedKnight001.png");
+    renderingEngine.setRenderLayer(newEntity, RenderLayer::foreground);
+    physicsEngine.setTransform(newEntity, 864, 412);
+
+
+
+
+    int windowWidth = 1920;
+    int windowHeight = 1080;
+    int tileWidth = 128;
+    int tileHeight = 128;
+
+// Calculate number of tiles needed horizontally and vertically
+    int tilesX = windowWidth / tileWidth;
+    int tilesY = windowHeight / tileHeight;
+
+// Adjust for any partial tile spaces at the edges
+    if (windowWidth % tileWidth != 0) tilesX++;
+    if (windowHeight % tileHeight != 0) tilesY++;
+
+// Loop through each tile position
+    for (int y = 0; y < tilesY; y++) {
+        for (int x = 0; x < tilesX; x++) {
+            int newEntity = entityManager.createEntity();
+            entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+            entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
+            entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+            entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+
+            // Calculate the position for each tile
+            int posX = x * tileWidth;
+            int posY = y * tileHeight;
+
+            // Assuming setTransform is a method you'll add to physicsEngine
+            // similar to setSprite in renderingEngine, for setting up initial position
+            physicsEngine.setTransform(newEntity, posX, posY);
+            renderingEngine.setSprite(newEntity, posX, posY, tileWidth, tileHeight);
+            renderingEngine.setTexture(newEntity, "../Game/Assets/ground_ForestPath001.png");
+            renderingEngine.setRenderLayer(newEntity, RenderLayer::background); // Assuming Background is a valid enum value
+        }
+    }
+
+
+
 }
 
 void Core::MainLoop() {

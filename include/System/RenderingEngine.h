@@ -31,6 +31,7 @@ public:
     void update(std::unordered_map<int, Entity>& entities);
     void Render(std::unordered_map<int, Entity>& entities);
     SDL_Renderer* GetRenderer() { return renderer; };
+    void setRenderLayer(int entityUID, RenderLayer renderLayer);
     void Shutdown();
 
 private:
