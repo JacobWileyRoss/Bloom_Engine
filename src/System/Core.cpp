@@ -27,7 +27,7 @@ void Core::Initialize() {
 
     std::cout << "[INFO] Creating window..." << std::endl;
     window = SDL_CreateWindow("Bloom Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              1920, 1080, SDL_WINDOW_SHOWN);
+                              1280, 720, SDL_WINDOW_SHOWN);
     if (!window) {
         std::cerr << "[ERROR] Failed to create window: " << SDL_GetError() << std::endl;
         SDL_Quit();
@@ -65,6 +65,7 @@ void Core::Initialize() {
             (newEntity, ComponentTypes::Transform);
     auto& sprite = entityManager.getEntityComponent<Sprite>
             (newEntity, ComponentTypes::Sprite);
+    physicsEngine.setTransform(newEntity, 10, 60);
     renderingEngine.setSprite(newEntity, transform.posX, transform.posY, 96, 128);
     renderingEngine.setTexture(newEntity, "../Game/Assets/hero_WalkCycleDown1.png");
     renderingEngine.setRenderLayer(newEntity, RenderLayer::character);
@@ -109,57 +110,74 @@ void Core::Initialize() {
     animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT4 );
     animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT5 );
 
-
     newEntity = entityManager.createEntity();
     entityManager.attachComponent(newEntity, ComponentTypes::Transform);
-    transform = entityManager.getEntityComponent<Transform>
-            (newEntity, ComponentTypes::Transform);
-    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
     entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
     entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
     entityManager.attachComponent(newEntity, ComponentTypes::Texture);
-    renderingEngine.setSprite(newEntity, 100, 100, 192, 256);
-    renderingEngine.setTexture(newEntity, "../Game/Assets/statue_DarkEnchantedKnight001.png");
-    renderingEngine.setRenderLayer(newEntity, RenderLayer::foreground);
-    physicsEngine.setTransform(newEntity, 864, 412);
+    renderingEngine.setSprite(newEntity, 0, 0, 1280, 720);
+    renderingEngine.setTexture(newEntity, "../Game/Assets/background_DarkPath_Ritual_Scene.png");
+    renderingEngine.setRenderLayer(newEntity, RenderLayer::background);
+    physicsEngine.setTransform(newEntity, 0, 0);
+
+
+//    newEntity = entityManager.createEntity();
+//    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+//    renderingEngine.setSprite(newEntity, 100, 100, 192, 256);
+//    renderingEngine.setTexture(newEntity, "../Game/Assets/statue_DarkEnchantedKnight001.png");
+//    renderingEngine.setRenderLayer(newEntity, RenderLayer::foreground);
+//    physicsEngine.setTransform(newEntity, 900, 412);
+
+//    newEntity = entityManager.createEntity();
+//    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+//    renderingEngine.setSprite(newEntity, 10, 10, 256, 512);
+//    renderingEngine.setTexture(newEntity, "../Game/Assets/tree_FantasyTree001.png");
+//    renderingEngine.setRenderLayer(newEntity, RenderLayer::foreground);
+//    physicsEngine.setTransform(newEntity, 0, 250);
 
 
 
 
-    int windowWidth = 1920;
-    int windowHeight = 1080;
-    int tileWidth = 128;
-    int tileHeight = 128;
-
-// Calculate number of tiles needed horizontally and vertically
-    int tilesX = windowWidth / tileWidth;
-    int tilesY = windowHeight / tileHeight;
-
-// Adjust for any partial tile spaces at the edges
-    if (windowWidth % tileWidth != 0) tilesX++;
-    if (windowHeight % tileHeight != 0) tilesY++;
-
-// Loop through each tile position
-    for (int y = 0; y < tilesY; y++) {
-        for (int x = 0; x < tilesX; x++) {
-            int newEntity = entityManager.createEntity();
-            entityManager.attachComponent(newEntity, ComponentTypes::Transform);
-            entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
-            entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
-            entityManager.attachComponent(newEntity, ComponentTypes::Texture);
-
-            // Calculate the position for each tile
-            int posX = x * tileWidth;
-            int posY = y * tileHeight;
-
-            // Assuming setTransform is a method you'll add to physicsEngine
-            // similar to setSprite in renderingEngine, for setting up initial position
-            physicsEngine.setTransform(newEntity, posX, posY);
-            renderingEngine.setSprite(newEntity, posX, posY, tileWidth, tileHeight);
-            renderingEngine.setTexture(newEntity, "../Game/Assets/ground_ForestPath001.png");
-            renderingEngine.setRenderLayer(newEntity, RenderLayer::background); // Assuming Background is a valid enum value
-        }
-    }
+//    int windowWidth = 1920;
+//    int windowHeight = 1080;
+//    int tileWidth = 128;
+//    int tileHeight = 128;
+//
+//// Calculate number of tiles needed horizontally and vertically
+//    int tilesX = windowWidth / tileWidth;
+//    int tilesY = windowHeight / tileHeight;
+//
+//// Adjust for any partial tile spaces at the edges
+//    if (windowWidth % tileWidth != 0) tilesX++;
+//    if (windowHeight % tileHeight != 0) tilesY++;
+//
+//// Loop through each tile position
+//    for (int y = 0; y < tilesY; y++) {
+//        for (int x = 0; x < tilesX; x++) {
+//            int newEntity = entityManager.createEntity();
+//            entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+//            entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
+//            entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+//            entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+//
+//            // Calculate the position for each tile
+//            int posX = x * tileWidth;
+//            int posY = y * tileHeight;
+//
+//            // Assuming setTransform is a method you'll add to physicsEngine
+//            // similar to setSprite in renderingEngine, for setting up initial position
+//            physicsEngine.setTransform(newEntity, posX, posY);
+//            renderingEngine.setSprite(newEntity, posX, posY, tileWidth, tileHeight);
+//            renderingEngine.setTexture(newEntity, "../Game/Assets/ground_ForestPath001.png");
+//            renderingEngine.setRenderLayer(newEntity, RenderLayer::background); // Assuming Background is a valid enum value
+//        }
+//    }
 
 
 
