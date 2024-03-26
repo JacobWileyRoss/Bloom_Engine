@@ -21,22 +21,21 @@ void RenderingEngine::Initialize(SDL_Window *window) {
     std::cout << "[INFO] RenderingEngine initialized successfully." << std::endl;
 }
 
-void RenderingEngine::setSprite(int entityUID, float x, float y, float w, float h) {
+void RenderingEngine::setSprite(int entityUID, float posX, float posY, float width, float height) {
     if (!renderer) {
         std::cerr << "[ERROR] Renderer not initialized, cannot set sprite." << std::endl;
         return;
     }
 
-    Entity entity = entityManager.getEntity(entityUID);
-
-    std::cout << "[INFO] setSprite() called for entity ID: " << entity.UID << std::endl;
-    auto spriteComponent = entityManager.getEntityComponent<Sprite>
-            (entity.UID, ComponentTypes::Sprite);
-    spriteComponent.rect.x = x;
-    spriteComponent.rect.y = y;
-    spriteComponent.rect.w = w;
-    spriteComponent.rect.h = h;
-    std::cout << "[INFO] Sprite set to x: " << x << ", y: " << y << ", w: " << w << ", h: " << h << std::endl;
+    std::cout << "[INFO] setSprite() called for entity ID: " << entityUID << std::endl;
+    auto& spriteComponent = entityManager.getEntityComponent<Sprite>
+            (entityUID, ComponentTypes::Sprite);
+    spriteComponent.rect.x = posX;
+    spriteComponent.rect.y = posY;
+    spriteComponent.rect.w = width;
+    spriteComponent.rect.h = height;
+    std::cout << "[DEBUG] Sprite set to posX: " << posX << ", posY: " << posY << ", width: " << width << ", height: "
+                << height << std::endl;
 }
 
 void RenderingEngine::setTexture(int entityUID, const char* filename) {
@@ -45,7 +44,7 @@ void RenderingEngine::setTexture(int entityUID, const char* filename) {
         return;
     }
 
-    Entity entity = entityManager.getEntity(entityUID);
+    Entity& entity = entityManager.getEntity(entityUID);
 
     std::cout << "[INFO] setTexture() called for entity ID: " << entity.UID << " with filename: "
                 << filename << std::endl;
@@ -72,17 +71,22 @@ void RenderingEngine::setTexture(int entityUID, const char* filename) {
 void RenderingEngine::update(std::unordered_map<int, Entity>& entities) {
     // Iterate through all entities to find those with both Transform and Sprite components
     for (auto& [entityUID, entity] : entities) {
-        if (entityManager.hasComponent(entityUID, ComponentTypes::Transform)
+        if (entityManager.hasComponent(entityUID, ComponentTypes::Renderable)
+        && entityManager.hasComponent(entityUID, ComponentTypes::Transform)
         && entityManager.hasComponent(entityUID, ComponentTypes::Sprite)) {
             // Retrieve the Transform and Sprite components
+            auto& renderable = entityManager.getEntityComponent<Renderable>
+                    (entityUID, ComponentTypes::Renderable);
             auto& transform = entityManager.getEntityComponent<Transform>
-                    (entity.UID, ComponentTypes::Transform);
+                    (entityUID, ComponentTypes::Transform);
             auto& sprite = entityManager.getEntityComponent<Sprite>
-                    (entity.UID, ComponentTypes::Sprite);
+                    (entityUID, ComponentTypes::Sprite);
 
             // Update the sprite's rect to match the entity's transform
             sprite.rect.x = transform.posX;
             sprite.rect.y = transform.posY;
+            std::cout << "[DEBUG] RenderingEngine::update() Sprite width: " << sprite.rect.w
+                        << " Sprite height: " << sprite.rect.h << std::endl;
         }
     }
 }
@@ -93,39 +97,51 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
         return;
     }
 
-    // Clear the screen and set it to white
+    // Gather all renderable entities
+    std::vector<std::pair<int, RenderLayer>> renderableEntities;
+    for (const auto& [entityUID, entity] : entities) {
+        if (entityManager.hasComponent(entityUID, ComponentTypes::Renderable)) {
+            auto& renderable = entityManager.getEntityComponent<Renderable>
+                    (entityUID, ComponentTypes::Renderable);
+            renderableEntities.push_back({entityUID, renderable.renderLayer});
+        }
+    }
+
+    // Sort entities by their render layer
+    std::sort(renderableEntities.begin(), renderableEntities.end(),
+              [](const std::pair<int, RenderLayer>& a, const std::pair<int, RenderLayer>& b) {
+                  return a.second < b.second;
+              });
+
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
 
-    Texture texture;
-    for (auto entityUID : entityManager.getEntitiesWithComponent<Texture>
-            (ComponentTypes::Texture)) {
-        auto entityIt = entities.find(entityUID);
-        if (entityIt == entities.end()) {
-            std::cerr << "[ERROR] Entity not found for UID: " << entityUID << std::endl;
-            continue;
-        }
+    // Render entities in sorted order
+    for (const auto& [entityUID, renderLayer] : renderableEntities) {
+        // Check if entity has necessary components for rendering (e.g., Texture, Sprite)
+        if (entityManager.hasComponent(entityUID, ComponentTypes::Texture) &&
+            entityManager.hasComponent(entityUID, ComponentTypes::Sprite)) {
+            auto& textureComponent = entityManager.getEntityComponent<Texture>
+                    (entityUID, ComponentTypes::Texture);
+            auto& spriteComponent = entityManager.getEntityComponent<Sprite>
+                    (entityUID, ComponentTypes::Sprite);
 
-        auto& transformComponent = entityManager.getEntityComponent<Transform>
-                (entityIt->first, ComponentTypes::Transform);
-        auto& textureComponent = entityManager.getEntityComponent<Texture>
-                (entityIt->first, ComponentTypes::Texture);
-        auto& spriteComponent = entityManager.getEntityComponent<Sprite>
-                (entityIt->first, ComponentTypes::Sprite);
-
-        if (textureComponent.texture) {
-            //std::cout << "[DEBUG] Rendering texture at x: " << spriteComponent.rect.x << ", y: " << spriteComponent.rect.y
-                     // << ", w: " << spriteComponent.rect.w << ", h: " << spriteComponent.rect.h << std::endl;
-            if (SDL_RenderCopyF(renderer, textureComponent.texture, NULL, &spriteComponent.rect) != 0) {
-                std::cerr << "[ERROR] SDL_RenderCopy error: " << SDL_GetError() << std::endl;
+            if (textureComponent.texture) {
+                if (SDL_RenderCopyF(renderer, textureComponent.texture, NULL,
+                                    &spriteComponent.rect) != 0) {
+                    std::cerr << "[ERROR] SDL_RenderCopy error: " << SDL_GetError() << std::endl;
+                }
             }
-            //std::cout << "[INFO] Rendered entity UID: " << entityUID << std::endl;
-        } else {
-            std::cerr << "[ERROR] Texture not loaded for entity UID: " << entityUID << std::endl;
         }
     }
 
     SDL_RenderPresent(renderer);
+}
+
+void RenderingEngine::setRenderLayer(int entityUID, RenderLayer renderLayer) {
+    auto& renderable = entityManager.getEntityComponent<Renderable>
+            (entityUID, ComponentTypes::Renderable);
+    renderable.renderLayer = renderLayer;
 }
 
 void RenderingEngine::Shutdown() {

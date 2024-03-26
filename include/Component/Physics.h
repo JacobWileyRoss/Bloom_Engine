@@ -20,6 +20,6 @@ public:
     float velY;
     float dirX;
     float dirY;
-    float speed = 100;
+    float speed = 250;
 };
 #endif //BLOOM_ENGINE_PHYSICS_H

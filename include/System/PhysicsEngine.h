@@ -20,6 +20,7 @@ public:
     void update(float deltaTime);
     void handleInputEvent(const Event& event);
     void applyForce(Entity& entity, float x, float y);
+    void setTransform(int entityUID, float posX, float posY);
 
 private:
     Dispatcher& dispatcher;

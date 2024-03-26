@@ -9,12 +9,20 @@
 
 #include <SDL.h>
 
+enum class RenderLayer {
+    background,
+    character,
+    foreground
+};
+
 class  Renderable : public  Component {
 public:
     Renderable() {
         type = "Renderable";
+         renderLayer = RenderLayer::background;
     }
 
+    RenderLayer renderLayer;
 };
 
 

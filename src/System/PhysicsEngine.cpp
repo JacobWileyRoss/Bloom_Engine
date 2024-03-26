@@ -76,3 +76,11 @@ void PhysicsEngine::applyForce(Entity& entity, float velX, float velY) {
     std::cout << "[INFO] PhysicsEngine::applyForce - Entity UID " << entity.UID << " new position: X: "
                 << transform.posX << ", Y: " << transform.posY << std::endl;
 }
+
+void PhysicsEngine::setTransform(int entityUID, float posX, float posY) {
+    auto& transform = entityManager.getEntityComponent<Transform>
+                                    (entityUID, ComponentTypes::Transform);
+
+    transform.posX = posX;
+    transform.posY = posY;
+}
