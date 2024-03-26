@@ -41,7 +41,7 @@ public:
     bool isPlaying = false; // Add a flag to indicate if the animation is playing
     AnimationType currentAnimationType = AnimationType::WalkCycleDOWN; // Default or initial animation
     int currentFrameIndex = 0; // The index of the current frame to be displayed
-    float frameDuration = 0.09; // Duration each frame is displayed
+    float frameDuration = 0.06; // Duration each frame is displayed
     float elapsedTime = 0; // Time elapsed since the current frame was shown
 
 
