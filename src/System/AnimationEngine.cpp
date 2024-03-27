@@ -34,7 +34,7 @@ std::vector<SDL_Texture *>& AnimationEngine::getAnimationType(int entityUID, Ani
     }
 }
 
-void AnimationEngine::handleInputEvent(Event event) {
+void AnimationEngine::handleInputEvent(const Event& event) {
     std::cout << "[INFO] AnimationEngine received input event from Entity: " << event.entityUID << std::endl;
 
     // Attempt to get the SDL_Scancode from eventData

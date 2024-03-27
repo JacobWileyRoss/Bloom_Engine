@@ -9,7 +9,8 @@
 Core::Core() : window(nullptr), isRunning(false), dispatcher(entityManager),
                physicsEngine(entityManager, dispatcher, deltaTime),
                inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),
-               animationEngine(entityManager, dispatcher, deltaTime){}
+               animationEngine(entityManager, dispatcher, deltaTime),
+               collisionEngine(entityManager, dispatcher) {}
 
 void Core::Initialize() {
     // Initialize SDL2 using SDL_INIT_EVERYTHING
@@ -52,11 +53,18 @@ void Core::Initialize() {
         animationEngine.handleInputEvent(inputEvent);
     });
 
+    dispatcher.addEventListener(EventType::Collision, [this](const Event& collisionEvent) {
+        std::cout << "[INFO] Handling EventType::Collision" << std::endl;
+        physicsEngine.handleCollisionEvent(collisionEvent);
+        animationEngine.handleInputEvent(collisionEvent);
+    });
+
     // TODO Entity creation should occur in a Level or State, not in the Core
     int newEntity = entityManager.createEntity();
     entityManager.attachComponent(newEntity, ComponentTypes::Player);
     entityManager.attachComponent(newEntity, ComponentTypes::Transform);
     entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
     entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
     entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
     entityManager.attachComponent(newEntity, ComponentTypes::Texture);
@@ -66,6 +74,7 @@ void Core::Initialize() {
     auto& sprite = entityManager.getEntityComponent<Sprite>
             (newEntity, ComponentTypes::Sprite);
     physicsEngine.setTransform(newEntity, 10, 60);
+    collisionEngine.setBoundaryBox(newEntity, transform.posX, transform.posY, 32, 64);
     renderingEngine.setSprite(newEntity, transform.posX, transform.posY, 96, 128);
     renderingEngine.setTexture(newEntity, "../Game/Assets/hero_WalkCycleDown1.png");
     renderingEngine.setRenderLayer(newEntity, RenderLayer::character);
@@ -119,6 +128,44 @@ void Core::Initialize() {
     renderingEngine.setTexture(newEntity, "../Game/Assets/background_DarkPath_Ritual_Scene.png");
     renderingEngine.setRenderLayer(newEntity, RenderLayer::background);
     physicsEngine.setTransform(newEntity, 0, 0);
+
+
+    newEntity = entityManager.createEntity();
+    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
+    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+    entityManager.attachComponent(newEntity, ComponentTypes::Animation);
+    auto& transform2 = entityManager.getEntityComponent<Transform>
+            (newEntity, ComponentTypes::Transform);
+    auto& sprite2 = entityManager.getEntityComponent<Sprite>
+            (newEntity, ComponentTypes::Sprite);
+    physicsEngine.setTransform(newEntity, 650, 400);
+    collisionEngine.setBoundaryBox(newEntity, transform2.posX, transform2.posY, 32, 64);
+    renderingEngine.setSprite(newEntity, transform2.posX, transform2.posY, 96, 128);
+    renderingEngine.setTexture(newEntity, "../Game/Assets/hero_WalkCycleDown1.png");
+    renderingEngine.setRenderLayer(newEntity, RenderLayer::character);
+
+
+    newEntity = entityManager.createEntity();
+    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+    //entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
+    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+    entityManager.attachComponent(newEntity, ComponentTypes::Animation);
+    auto& transform3 = entityManager.getEntityComponent<Transform>
+            (newEntity, ComponentTypes::Transform);
+    auto& sprite3 = entityManager.getEntityComponent<Sprite>
+            (newEntity, ComponentTypes::Sprite);
+    physicsEngine.setTransform(newEntity, 435, -10);
+    collisionEngine.setBoundaryBox(newEntity, transform3.posX, transform3.posY, 50, 64);
+    renderingEngine.setSprite(newEntity, transform3.posX, transform3.posY, 32, 32);
+    //renderingEngine.setTexture(newEntity, "../Game/Assets/statue_DarkEnchantedKnight001.png");
+    //renderingEngine.setRenderLayer(newEntity, RenderLayer::foreground);
 }
 
 void Core::MainLoop() {
@@ -143,7 +190,7 @@ void Core::MainLoop() {
 
         }
         physicsEngine.update(deltaTime);
-        //collisionEngine.update(entityManager);
+        collisionEngine.update();
         animationEngine.update(deltaTime);
         renderingEngine.update(entityManager.entities);
         renderingEngine.Render(entityManager.entities);

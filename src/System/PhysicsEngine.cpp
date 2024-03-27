@@ -60,6 +60,65 @@ void PhysicsEngine::handleInputEvent(const Event& event) {
     applyForce(entity, velX, velY);
 }
 
+void PhysicsEngine::handleCollisionEvent(const Event &event) {
+    auto collisionData = std::get<CollisionData>(event.eventData);
+    bool isEntityAPlayer = entityManager.hasComponent(collisionData.entity1UID, ComponentTypes::Player);
+    bool isEntityBPlayer = entityManager.hasComponent(collisionData.entity2UID, ComponentTypes::Player);
+    auto& spriteA = entityManager.getEntityComponent<Sprite>(collisionData.entity1UID, ComponentTypes::Sprite);
+    auto& spriteB = entityManager.getEntityComponent<Sprite>(collisionData.entity2UID, ComponentTypes::Sprite);
+    auto& physicsA = entityManager.getEntityComponent<Physics>(collisionData.entity1UID, ComponentTypes::Physics);
+    auto& physicsB = entityManager.getEntityComponent<Physics>(collisionData.entity2UID, ComponentTypes::Physics);
+    auto& transformA = entityManager.getEntityComponent<Transform>(collisionData.entity1UID, ComponentTypes::Transform);
+    auto& transformB = entityManager.getEntityComponent<Transform>(collisionData.entity2UID, ComponentTypes::Transform);
+
+    // Calculate penetration depth and resolve collision based on it
+    float penetrationDepthX = std::min(transformA.posX + spriteA.rect.w - transformB.posX, transformB.posX + spriteB.rect.w - transformA.posX);
+    float penetrationDepthY = std::min(transformA.posY + spriteA.rect.h - transformB.posY, transformB.posY + spriteB.rect.h - transformA.posY);
+
+    // Determine the direction to push entities away based on the least penetration depth
+    if (isEntityAPlayer) {
+        // Move player entity A back slightly
+        if (penetrationDepthX < penetrationDepthY) {
+            physicsA.velX = 0; // Stop horizontal movement
+            if (transformA.posX < transformB.posX) {
+                transformA.posX -= 2; // Move back left
+            } else {
+                transformA.posX += 2; // Move back right
+            }
+        } else {
+            physicsA.velY = 0; // Stop vertical movement
+            if (transformA.posY < transformB.posY) {
+                transformA.posY -= 2; // Move back up
+            } else {
+                transformA.posY += 2; // Move back down
+            }
+        }
+    } else if (isEntityBPlayer) {
+        // Move player entity B back slightly
+        if (penetrationDepthX < penetrationDepthY) {
+            physicsB.velX = 0; // Stop horizontal movement
+            if (transformB.posX < transformA.posX) {
+                transformB.posX -= 2; // Move back left
+            } else {
+                transformB.posX += 2; // Move back right
+            }
+        } else {
+            physicsB.velY = 0; // Stop vertical movement
+            if (transformB.posY < transformA.posY) {
+                transformB.posY -= 2; // Move back up
+            } else {
+                transformB.posY += 2; // Move back down
+            }
+        }
+    }
+
+    std::cout << "[INFO] PhysicsEngine::handleCollisionEvent - Collision resolved for entities " << collisionData.entity1UID << " and " << collisionData.entity2UID << std::endl;
+}
+
+
+
+
+
 void PhysicsEngine::applyForce(Entity& entity, float velX, float velY) {
     // Ensure the entity has a Transform component before proceeding
     if (entity.components.find(ComponentTypes::Transform) == entity.components.end()) {
@@ -83,4 +142,5 @@ void PhysicsEngine::setTransform(int entityUID, float posX, float posY) {
 
     transform.posX = posX;
     transform.posY = posY;
+    std::cout << "[INFO] setTransform() called for entityUID: " << entityUID << std::endl;
 }

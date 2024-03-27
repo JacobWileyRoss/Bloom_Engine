@@ -85,8 +85,8 @@ void RenderingEngine::update(std::unordered_map<int, Entity>& entities) {
             // Update the sprite's rect to match the entity's transform
             sprite.rect.x = transform.posX;
             sprite.rect.y = transform.posY;
-            std::cout << "[DEBUG] RenderingEngine::update() Sprite width: " << sprite.rect.w
-                        << " Sprite height: " << sprite.rect.h << std::endl;
+            //std::cout << "[DEBUG] RenderingEngine::update() Sprite width: " << sprite.rect.w
+            //            << " Sprite height: " << sprite.rect.h << std::endl;
         }
     }
 }
