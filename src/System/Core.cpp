@@ -130,42 +130,80 @@ void Core::Initialize() {
     physicsEngine.setTransform(newEntity, 0, 0);
 
 
-    newEntity = entityManager.createEntity();
-    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
-    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
-    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
-    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
-    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
-    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
-    entityManager.attachComponent(newEntity, ComponentTypes::Animation);
-    auto& transform2 = entityManager.getEntityComponent<Transform>
-            (newEntity, ComponentTypes::Transform);
-    auto& sprite2 = entityManager.getEntityComponent<Sprite>
-            (newEntity, ComponentTypes::Sprite);
-    physicsEngine.setTransform(newEntity, 650, 400);
-    collisionEngine.setBoundaryBox(newEntity, transform2.posX, transform2.posY, 32, 64);
-    renderingEngine.setSprite(newEntity, transform2.posX, transform2.posY, 96, 128);
-    renderingEngine.setTexture(newEntity, "../Game/Assets/hero_WalkCycleDown1.png");
-    renderingEngine.setRenderLayer(newEntity, RenderLayer::character);
+//    newEntity = entityManager.createEntity();
+//    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Animation);
+//    auto& transform2 = entityManager.getEntityComponent<Transform>
+//            (newEntity, ComponentTypes::Transform);
+//    auto& sprite2 = entityManager.getEntityComponent<Sprite>
+//            (newEntity, ComponentTypes::Sprite);
+//    physicsEngine.setTransform(newEntity, 650, 400);
+//    collisionEngine.setBoundaryBox(newEntity, transform2.posX, transform2.posY, 32, 64);
+//    renderingEngine.setSprite(newEntity, transform2.posX, transform2.posY, 96, 128);
+//    renderingEngine.setTexture(newEntity, "../Game/Assets/hero_WalkCycleDown1.png");
+//    renderingEngine.setRenderLayer(newEntity, RenderLayer::character);
 
 
     newEntity = entityManager.createEntity();
     entityManager.attachComponent(newEntity, ComponentTypes::Transform);
     entityManager.attachComponent(newEntity, ComponentTypes::Physics);
     entityManager.attachComponent(newEntity, ComponentTypes::Collider);
-    //entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
     entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
     entityManager.attachComponent(newEntity, ComponentTypes::Texture);
-    entityManager.attachComponent(newEntity, ComponentTypes::Animation);
     auto& transform3 = entityManager.getEntityComponent<Transform>
             (newEntity, ComponentTypes::Transform);
     auto& sprite3 = entityManager.getEntityComponent<Sprite>
             (newEntity, ComponentTypes::Sprite);
-    physicsEngine.setTransform(newEntity, 435, -10);
-    collisionEngine.setBoundaryBox(newEntity, transform3.posX, transform3.posY, 50, 64);
+    physicsEngine.setTransform(newEntity, 430, -30);
+    collisionEngine.setBoundaryBox(newEntity, transform3.posX, transform3.posY, 60, 40);
     renderingEngine.setSprite(newEntity, transform3.posX, transform3.posY, 32, 32);
-    //renderingEngine.setTexture(newEntity, "../Game/Assets/statue_DarkEnchantedKnight001.png");
-    //renderingEngine.setRenderLayer(newEntity, RenderLayer::foreground);
+
+    newEntity = entityManager.createEntity();
+    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+    auto& transform4 = entityManager.getEntityComponent<Transform>
+            (newEntity, ComponentTypes::Transform);
+    auto& sprite4 = entityManager.getEntityComponent<Sprite>
+            (newEntity, ComponentTypes::Sprite);
+    physicsEngine.setTransform(newEntity, 750, -50);
+    collisionEngine.setBoundaryBox(newEntity, transform3.posX, transform3.posY, 90, 40);
+    renderingEngine.setSprite(newEntity, transform3.posX, transform3.posY, 32, 32);
+
+    newEntity = entityManager.createEntity();
+    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+    auto& transform5 = entityManager.getEntityComponent<Transform>
+            (newEntity, ComponentTypes::Transform);
+    auto& sprite5 = entityManager.getEntityComponent<Sprite>
+            (newEntity, ComponentTypes::Sprite);
+    physicsEngine.setTransform(newEntity, 720, 250);
+    collisionEngine.setBoundaryBox(newEntity, transform3.posX, transform3.posY, 50, 30);
+    renderingEngine.setSprite(newEntity, transform3.posX, transform3.posY, 32, 32);
+
+    newEntity = entityManager.createEntity();
+    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+    auto& transform6 = entityManager.getEntityComponent<Transform>
+            (newEntity, ComponentTypes::Transform);
+    auto& sprite6 = entityManager.getEntityComponent<Sprite>
+            (newEntity, ComponentTypes::Sprite);
+    physicsEngine.setTransform(newEntity, 440, 225);
+    collisionEngine.setBoundaryBox(newEntity, transform3.posX, transform3.posY, 70, 20);
+    renderingEngine.setSprite(newEntity, transform3.posX, transform3.posY, 32, 32);
 }
 
 void Core::MainLoop() {
