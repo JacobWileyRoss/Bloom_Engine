@@ -4,6 +4,8 @@ project(Bloom_Engine)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${BLOOM_ENGINE_SOURCE_DIR}/cmake/modules")
 
+# Include Lua
+find_package(Lua REQUIRED)
 
 # Include SDL2
 find_package(SDL2 REQUIRED)
@@ -15,6 +17,11 @@ find_package(SDL2_image REQUIRED)
 message("SDL2_image include dirs: ${SDL2_IMAGE_INCLUDE_DIRS}")
 message("SDL2_image libraries: ${SDL2_IMAGE_LIBRARIES}")
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+
+# Add the Sol2 include directory
+include_directories(/usr/local/lib/sol2-develop/include)
+
+
 add_executable(Bloom_Engine main.cpp
         src/System/RenderingEngine.cpp
         include/System/RenderingEngine.h
@@ -44,6 +51,14 @@ add_executable(Bloom_Engine main.cpp
         include/Component/ComponentTypes.h
         include/Component/Animation.h
         src/System/AnimationEngine.cpp
-        include/System/AnimationEngine.h)
+        include/System/AnimationEngine.h
+        src/System/ScriptingEngine.cpp
+        include/System/ScriptingEngine.h
+        src/System/FileSystem.cpp
+        include/System/FileSystem.h)
 
-target_link_libraries(Bloom_Engine ${SDL2_LIBRARIES} "/usr/local/Cellar/sdl2_image/2.8.2_1/lib/libSDL2_image.dylib")
+target_link_libraries(Bloom_Engine ${SDL2_LIBRARIES} "/usr/local/Cellar/sdl2_image/2.8.2_1/lib/libSDL2_image.dylib"
+                                    ${LUA_LIBRARIES})
+
+# Include Lua headers
+target_include_directories(Bloom_Engine PRIVATE ${LUA_INCLUDE_DIR})

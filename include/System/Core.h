@@ -9,6 +9,8 @@
 #include <vector>
 #include <SDL.h>
 
+#include "FileSystem.h"
+#include "ScriptingEngine.h"
 #include "EntityManager.h"
 #include "Dispatcher.h"
 #include "RenderingEngine.h"
@@ -36,6 +38,8 @@ public:
     SDL_Window* GetWindow();
 
 private:
+    FileSystem fileSystem;
+    ScriptingEngine scriptingEngine;
     EntityManager entityManager;
     Dispatcher dispatcher;
     InputProcessor inputProcessor;
@@ -49,6 +53,7 @@ private:
     SDL_Event event{};
     bool isRunning;
     float deltaTime{};
+    std::time_t lastModifiedTimeLevel{};
 };
 
 

@@ -29,6 +29,7 @@ void PhysicsEngine::update(float deltaTime) {
     }
 }
 
+// Handling of input event created by the InputProcessor and sent to the Dispatcher.
 void PhysicsEngine::handleInputEvent(const Event& event) {
     int entityUID = event.entityUID;
 
@@ -60,6 +61,9 @@ void PhysicsEngine::handleInputEvent(const Event& event) {
     applyForce(entity, velX, velY);
 }
 
+// Takes 2 colliding entities and determines if any of them are the player object, the player entity gets velocity set
+// to 0 and transform set back. Checking for player because if that logic is applied to other entities, the player can
+// can push them back by bumping into them even if that entity was stationary
 void PhysicsEngine::handleCollisionEvent(const Event &event) {
     auto collisionData = std::get<CollisionData>(event.eventData);
     bool isEntityAPlayer = entityManager.hasComponent(collisionData.entity1UID, ComponentTypes::Player);
@@ -118,7 +122,7 @@ void PhysicsEngine::handleCollisionEvent(const Event &event) {
 
 
 
-
+// Applies force to Entity by modifying the transform component by the vel * delta time
 void PhysicsEngine::applyForce(Entity& entity, float velX, float velY) {
     // Ensure the entity has a Transform component before proceeding
     if (entity.components.find(ComponentTypes::Transform) == entity.components.end()) {
