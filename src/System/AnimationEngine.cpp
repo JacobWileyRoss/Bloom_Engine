@@ -5,8 +5,12 @@
 #include "../../include/System/AnimationEngine.h"
 
 void AnimationEngine::addFrame(int entityUID, AnimationType animationType, SDL_Texture* frame) {
+    std::cout << "[DEBUG] AnimationEngine::addFrame() called successfully" << std::endl;
     auto& animation = entityManager.getEntityComponent<Animation>(entityUID, ComponentTypes::Animation);
+    std::cout << "[DEBUG] AnimationEngine getEntityComponent called successfully" << std::endl;
+
     animation.animations[animationType].push_back(frame);
+    std::cout << "[Info] Added frame to: " << animationTypeToString(animationType) << std::endl;
 }
 
 std::vector<SDL_Texture *>& AnimationEngine::getAnimationType(int entityUID, AnimationType animationType) {

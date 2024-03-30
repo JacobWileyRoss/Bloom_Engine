@@ -17,6 +17,7 @@ int EntityManager::createEntity() {
 void EntityManager::destroyEntity(int entityUID) {
     entities.erase(entityUID);
     std::cout << "[INFO] Destroyed Entity: " << entityUID << std::endl;
+    nextUID -=1;
 }
 
 bool EntityManager::hasComponent(int entityUID, const ComponentTypes& componentType) {

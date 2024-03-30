@@ -15,15 +15,18 @@
 
 class ScriptingEngine {
 public:
-    explicit ScriptingEngine(sol::state& lua, EntityManager& entityManager, Dispatcher& dispatcher, RenderingEngine& renderingEngine,
+    explicit ScriptingEngine(sol::state& lua, EntityManager& entityManager, Dispatcher& dispatcher,
+                             RenderingEngine& renderingEngine,
                              AnimationEngine& animationEngine,
-                             PhysicsEngine& physicsEngine) :
+                             PhysicsEngine& physicsEngine,
+                             CollisionEngine& collisionEngine) :
                              lua(lua),
                              entityManager(entityManager),
                              dispatcher(dispatcher),
                              renderingEngine(renderingEngine),
                              animationEngine(animationEngine),
-                             physicsEngine(physicsEngine){
+                             physicsEngine(physicsEngine),
+                             collisionEngine(collisionEngine){
         lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::table);
         bindToLua();
     }
@@ -63,7 +66,7 @@ public:
         );
 
         // Expose the AnimationTypes to Lua
-        lua["AnimationTypes"] = lua.create_table_with(
+        lua["AnimationType"] = lua.create_table_with(
                 "WalkCycleUp", AnimationType::WalkCycleUP,
                 "WalkCycleDown", AnimationType::WalkCycleDOWN,
                 "WalkCycleLeft", AnimationType::WalkCycleLEFT,
@@ -75,7 +78,6 @@ public:
                 "background", RenderLayer::background,
                 "character", RenderLayer::character,
                 "foreground", RenderLayer::foreground
-                // Add other layers as needed
         );
 
         // Expose game functions, entities, and components to Lua
@@ -116,10 +118,22 @@ public:
 
         lua.set_function("setTransform", [this](int entityUID, float posX, float posY) {
            physicsEngine.setTransform(entityUID, posX, posY);
-
-
-
         });
+
+        lua.set_function("setBoundaryBox", [this](int entityUID, int posX, int posY, int width, int height) {
+            collisionEngine.setBoundaryBox(entityUID, posX, posY, width, height);
+        });
+
+        lua.set_function("addFrame", [this](int entityUID, AnimationType animationType, const char* filename) {
+            std::cout << "[DEBUG] ScriptingEngine addFrame() called" << std::endl;
+            SDL_Texture* frame = IMG_LoadTexture(renderingEngine.GetRenderer(), filename);
+            std::cout << "[DEBUG] ScriptingEngine frame loaded successfully" << std::endl;
+            animationEngine.addFrame(entityUID, animationType, frame);
+        });
+    }
+    ~ScriptingEngine() {
+        std::cout << "[INFO] ScriptingEngine destructor called" << std::endl;
+        luaCreatedEntities.clear();
     }
 private:
     sol::state& lua;
@@ -128,6 +142,7 @@ private:
     RenderingEngine& renderingEngine;
     AnimationEngine& animationEngine;
     PhysicsEngine& physicsEngine;
+    CollisionEngine& collisionEngine;
     std::vector<int> luaCreatedEntities;
 };
 

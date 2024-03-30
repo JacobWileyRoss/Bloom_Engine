@@ -85,16 +85,16 @@ void PhysicsEngine::handleCollisionEvent(const Event &event) {
         if (penetrationDepthX < penetrationDepthY) {
             physicsA.velX = 0; // Stop horizontal movement
             if (transformA.posX < transformB.posX) {
-                transformA.posX -= 2; // Move back left
+                transformA.posX -= 5; // Move back left
             } else {
-                transformA.posX += 2; // Move back right
+                transformA.posX += 5; // Move back right
             }
         } else {
             physicsA.velY = 0; // Stop vertical movement
             if (transformA.posY < transformB.posY) {
-                transformA.posY -= 2; // Move back up
+                transformA.posY -= 5; // Move back up
             } else {
-                transformA.posY += 2; // Move back down
+                transformA.posY += 5; // Move back down
             }
         }
     } else if (isEntityBPlayer) {
@@ -102,16 +102,16 @@ void PhysicsEngine::handleCollisionEvent(const Event &event) {
         if (penetrationDepthX < penetrationDepthY) {
             physicsB.velX = 0; // Stop horizontal movement
             if (transformB.posX < transformA.posX) {
-                transformB.posX -= 2; // Move back left
+                transformB.posX -= 5; // Move back left
             } else {
-                transformB.posX += 2; // Move back right
+                transformB.posX += 5; // Move back right
             }
         } else {
             physicsB.velY = 0; // Stop vertical movement
             if (transformB.posY < transformA.posY) {
-                transformB.posY -= 2; // Move back up
+                transformB.posY -= 5; // Move back up
             } else {
-                transformB.posY += 2; // Move back down
+                transformB.posY += 5; // Move back down
             }
         }
     }
