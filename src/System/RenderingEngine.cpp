@@ -68,34 +68,63 @@ void RenderingEngine::setTexture(int entityUID, const char* filename) {
     std::cout << "[INFO] Texture loaded and set successfully for entity ID: " << entity.UID << std::endl;
 }
 
-void RenderingEngine::update(std::unordered_map<int, Entity>& entities) {
-    // Iterate through all entities to find those with both Transform and Sprite components
-    for (auto& [entityUID, entity] : entities) {
-        if (entityManager.hasComponent(entityUID, ComponentTypes::Renderable)
-        && entityManager.hasComponent(entityUID, ComponentTypes::Transform)
-        && entityManager.hasComponent(entityUID, ComponentTypes::Sprite)) {
-            // Retrieve the Transform and Sprite components
-            auto& renderable = entityManager.getEntityComponent<Renderable>
-                    (entityUID, ComponentTypes::Renderable);
-            auto& transform = entityManager.getEntityComponent<Transform>
-                    (entityUID, ComponentTypes::Transform);
-            auto& sprite = entityManager.getEntityComponent<Sprite>
-                    (entityUID, ComponentTypes::Sprite);
-
-            // Update the sprite's rect to match the entity's transform
-            sprite.rect.x = transform.posX;
-            sprite.rect.y = transform.posY;
-            //std::cout << "[DEBUG] RenderingEngine::update() Sprite width: " << sprite.rect.w
-            //            << " Sprite height: " << sprite.rect.h << std::endl;
-        }
-    }
+void RenderingEngine::setCamera(int entityUID, int posX, int posY, int width, int height) {
+    auto& camera = entityManager.getEntityComponent<Camera>
+            (entityUID, ComponentTypes::Camera);
+    camera.viewPort.x = posX;
+    camera.viewPort.y = posY;
+    camera.viewPort.w = width;
+    camera.viewPort.h = height;
 }
+
+void RenderingEngine::update(std::unordered_map<int, Entity>& entities) {
+    // Find the camera entity
+    auto cameraEntities = entityManager.getEntitiesWithComponent<Camera>
+            (ComponentTypes::Camera);
+    if (cameraEntities.empty()) {
+        std::cerr << "No camera entity found." << std::endl;
+        return;
+    }
+    int cameraEntityUID = cameraEntities[0]; // Assuming the first camera entity is the main camera
+    auto& camera = entityManager.getEntityComponent<Camera>
+            (cameraEntityUID, ComponentTypes::Camera);
+
+    // Find the player entity
+    auto playerEntities = entityManager.getEntitiesWithComponent<Player>
+            (ComponentTypes::Player);
+    if (playerEntities.empty()) {
+        std::cerr << "No player entity found." << std::endl;
+        return;
+    }
+    int playerEntityUID = playerEntities[0]; // Assuming the first player entity is the main player
+    auto& playerTransform = entityManager.getEntityComponent<Transform>
+            (playerEntityUID, ComponentTypes::Transform);
+
+    // Center the camera on the player
+    camera.viewPort.x = playerTransform.posX - (camera.viewPort.w / 2);
+    camera.viewPort.y = playerTransform.posY - (camera.viewPort.h / 2);
+
+    // Optionally, you could add constraints here to prevent the camera from showing areas outside your game world
+}
+
 
 void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
     if (!renderer) {
         std::cerr << "[ERROR] Renderer not initialized, cannot render." << std::endl;
         return;
     }
+
+    // First, find the camera entity UID
+    auto cameraEntityUIDs = entityManager.getEntitiesWithComponent<Camera>
+            (ComponentTypes::Camera);
+    if (cameraEntityUIDs.empty()) {
+        std::cerr << "[ERROR] No camera entity found, cannot render." << std::endl;
+        return;
+    }
+    // Assuming the first camera entity is the one to be used
+    int cameraEntityUID = cameraEntityUIDs.front();
+    auto& cameraComponent = entityManager.getEntityComponent<Camera>
+            (cameraEntityUID, ComponentTypes::Camera);
 
     // Gather all renderable entities
     std::vector<std::pair<int, RenderLayer>> renderableEntities;
@@ -116,19 +145,28 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
 
-    // Render entities in sorted order
+    // Render entities in sorted order according to the camera's viewport and zoom
     for (const auto& [entityUID, renderLayer] : renderableEntities) {
-        // Check if entity has necessary components for rendering (e.g., Texture, Sprite)
         if (entityManager.hasComponent(entityUID, ComponentTypes::Texture) &&
             entityManager.hasComponent(entityUID, ComponentTypes::Sprite)) {
             auto& textureComponent = entityManager.getEntityComponent<Texture>
                     (entityUID, ComponentTypes::Texture);
             auto& spriteComponent = entityManager.getEntityComponent<Sprite>
                     (entityUID, ComponentTypes::Sprite);
+            auto& transformComponent = entityManager.getEntityComponent<Transform>
+                    (entityUID, ComponentTypes::Transform);
 
             if (textureComponent.texture) {
-                if (SDL_RenderCopyF(renderer, textureComponent.texture, NULL,
-                                    &spriteComponent.rect) != 0) {
+                SDL_Rect renderQuad = {
+                        static_cast<int>((transformComponent.posX - cameraComponent.viewPort.x) *
+                        cameraComponent.zoomLevel),
+                        static_cast<int>((transformComponent.posY - cameraComponent.viewPort.y) *
+                        cameraComponent.zoomLevel),
+                        static_cast<int>(spriteComponent.rect.w * cameraComponent.zoomLevel),
+                        static_cast<int>(spriteComponent.rect.h * cameraComponent.zoomLevel),
+                };
+
+                if (SDL_RenderCopy(renderer, textureComponent.texture, NULL, &renderQuad) != 0) {
                     std::cerr << "[ERROR] SDL_RenderCopy error: " << SDL_GetError() << std::endl;
                 }
             }
@@ -137,6 +175,7 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
 
     SDL_RenderPresent(renderer);
 }
+
 
 void RenderingEngine::setRenderLayer(int entityUID, RenderLayer renderLayer) {
     auto& renderable = entityManager.getEntityComponent<Renderable>

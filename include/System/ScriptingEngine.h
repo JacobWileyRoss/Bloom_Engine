@@ -55,6 +55,7 @@ public:
         // Expose the ComponentTypes to Lua
         lua["ComponentTypes"] = lua.create_table_with(
                 "Animation", ComponentTypes::Animation,
+                "Camera", ComponentTypes::Camera,
                 "Collider", ComponentTypes::Collider,
                 "Event", ComponentTypes::Event,
                 "Physics", ComponentTypes::Physics,
@@ -118,6 +119,10 @@ public:
 
         lua.set_function("setTransform", [this](int entityUID, float posX, float posY) {
            physicsEngine.setTransform(entityUID, posX, posY);
+        });
+
+        lua.set_function("setCamera", [this](int entityUID, int posX, int posY, int width, int height) {
+            renderingEngine.setCamera(entityUID, posX, posY, width, height);
         });
 
         lua.set_function("setBoundaryBox", [this](int entityUID, int posX, int posY, int width, int height) {

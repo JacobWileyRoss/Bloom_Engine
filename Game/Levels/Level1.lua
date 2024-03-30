@@ -97,11 +97,13 @@ function createPlayerEntity(posX, posY, width, height)
     attachComponent(player, ComponentTypes.Renderable)
     attachComponent(player, ComponentTypes.Sprite)
     attachComponent(player, ComponentTypes.Texture)
-    attachComponent(player,ComponentTypes.Animation)
-    setSprite(player, posX, posY, 96, 128)
+    attachComponent(player, ComponentTypes.Animation)
+    attachComponent(player, ComponentTypes.Camera)
+    setSprite(player, posX, posY, width, height)
     setTexture(player, "../Game/Assets/hero_WalkCycleDown1.png")
     setRenderLayer(player, RenderLayer.character)
     setTransform(player, posX, posY)
+    setCamera(player, posX, posY, 1280, 720);
     setBoundaryBox(player, posX, posY, 32, 32)
 
     -- Load WalkCycleDown

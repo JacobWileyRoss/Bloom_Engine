@@ -35,6 +35,9 @@ std::unique_ptr<Component> EntityManager::createComponent(ComponentTypes compone
     switch (componentType) {
         case ComponentTypes::Animation:
             return std::make_unique<Animation>();
+        case ComponentTypes::Camera:
+            std::cout << "[DEBUG] Attaching CameraComponent" << std::endl;
+            return std::make_unique<Camera>();
         case ComponentTypes::Collider:
             return std::make_unique<Collider>();
         case ComponentTypes::Event:

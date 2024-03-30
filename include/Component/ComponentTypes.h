@@ -7,6 +7,7 @@
 
 enum class ComponentTypes {
     Animation,
+    Camera,
     Collider,
     Event,
     Physics,
@@ -20,6 +21,7 @@ enum class ComponentTypes {
 inline std::string componentTypeToString(ComponentTypes type) {
     switch (type) {
         case ComponentTypes::Animation: return "Animation";
+        case ComponentTypes::Camera: return "Camera";
         case ComponentTypes::Collider: return "Collider";
         case ComponentTypes::Event: return "Event";
         case ComponentTypes::Physics: return "Physics";

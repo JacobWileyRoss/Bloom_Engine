@@ -16,6 +16,7 @@
 #include "../Component/Renderable.h"
 #include "../Component/Sprite.h"
 #include "../Component/Texture.h"
+#include "../Component/Camera.h"
 
 
 
@@ -28,6 +29,7 @@ public:
     static void Initialize(SDL_Window* window);
     void setSprite(int entityUID, float x, float y, float w, float h);
     void setTexture(int entityUID, const char* filename);
+    void setCamera(int entityUID, int posX, int posY, int width, int height);
     void update(std::unordered_map<int, Entity>& entities);
     void Render(std::unordered_map<int, Entity>& entities);
     SDL_Renderer* GetRenderer() { return renderer; };
