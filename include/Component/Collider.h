@@ -13,9 +13,9 @@
 class Collider : public Component {
 public:
     SDL_Rect rect;
-    static inline const std::string type = "Collider";
 
     Collider() {
+        type = "Collider";
         int x = {};
         int y = {};
         int w = {};

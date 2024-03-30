@@ -23,7 +23,9 @@ class AnimationEngine {
 
     std::vector<SDL_Texture*>& getAnimationType(int entityUID, AnimationType animationType);
 
-    void handleInputEvent(Event event);
+    void handleInputEvent(const Event& event);
+
+    void handleCollisionEvent(const Event& event);
 
     void startAnimation(int entityUID, AnimationType animationType);
 

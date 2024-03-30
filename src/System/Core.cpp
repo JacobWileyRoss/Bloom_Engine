@@ -4,14 +4,21 @@
 
 #include "../../include/System/Core.h"
 #include <iostream>
+#include <sol/sol.hpp>
 
-
-Core::Core() : window(nullptr), isRunning(false), dispatcher(entityManager),
-               physicsEngine(entityManager, dispatcher, deltaTime),
-               inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),
-               animationEngine(entityManager, dispatcher, deltaTime){}
+Core::Core() : window(nullptr), isRunning(false), fileSystem(),
+                dispatcher(entityManager),
+                physicsEngine(entityManager, dispatcher, deltaTime),
+                inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),
+                animationEngine(entityManager, dispatcher, deltaTime),
+                collisionEngine(entityManager, dispatcher),
+                scriptingEngine(entityManager, dispatcher, renderingEngine, animationEngine, physicsEngine){}
 
 void Core::Initialize() {
+    // Load Lua script for game logic
+    scriptingEngine.loadScript("../include/System/game_logic.lua");
+    scriptingEngine.initialize();
+
     // Initialize SDL2 using SDL_INIT_EVERYTHING
     std::cout << "[INFO] Initializing SDL..." << std::endl;
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -52,135 +59,161 @@ void Core::Initialize() {
         animationEngine.handleInputEvent(inputEvent);
     });
 
+    dispatcher.addEventListener(EventType::Collision, [this](const Event& collisionEvent) {
+        std::cout << "[INFO] Handling EventType::Collision" << std::endl;
+        physicsEngine.handleCollisionEvent(collisionEvent);
+        animationEngine.handleInputEvent(collisionEvent);
+    });
+
+
+    scriptingEngine.loadScript("../Game/Levels/Level1.lua");
+
+
     // TODO Entity creation should occur in a Level or State, not in the Core
-    int newEntity = entityManager.createEntity();
-    entityManager.attachComponent(newEntity, ComponentTypes::Player);
-    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
-    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
-    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
-    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
-    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
-    entityManager.attachComponent(newEntity, ComponentTypes::Animation);
-    auto& transform = entityManager.getEntityComponent<Transform>
-            (newEntity, ComponentTypes::Transform);
-    auto& sprite = entityManager.getEntityComponent<Sprite>
-            (newEntity, ComponentTypes::Sprite);
-    physicsEngine.setTransform(newEntity, 10, 60);
-    renderingEngine.setSprite(newEntity, transform.posX, transform.posY, 96, 128);
-    renderingEngine.setTexture(newEntity, "../Game/Assets/hero_WalkCycleDown1.png");
-    renderingEngine.setRenderLayer(newEntity, RenderLayer::character);
-    SDL_Texture* frameUP1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUp1.png");
-    SDL_Texture* frameUP2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUp2.png");
-    SDL_Texture* frameUP3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUp3.png");
-    SDL_Texture* frameUP4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUp4.png");
-    SDL_Texture* frameUP5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUp5.png");
-    SDL_Texture* frameDOWN1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDown1.png");
-    SDL_Texture* frameDOWN2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDown2.png");
-    SDL_Texture* frameDOWN3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDown3.png");
-    SDL_Texture* frameDOWN4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDown4.png");
-    SDL_Texture* frameDOWN5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDown5.png");
-    SDL_Texture* frameLEFT1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLeft1.png");
-    SDL_Texture* frameLEFT2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLeft2.png");
-    SDL_Texture* frameLEFT3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLeft3.png");
-    SDL_Texture* frameLEFT4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLeft4.png");
-    SDL_Texture* frameLEFT5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLeft5.png");
-    SDL_Texture* frameRIGHT1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRight1.png");
-    SDL_Texture* frameRIGHT2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRight2.png");
-    SDL_Texture* frameRIGHT3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRight3.png");
-    SDL_Texture* frameRIGHT4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRight4.png");
-    SDL_Texture* frameRIGHT5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRight5.png");
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP1 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP2 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP3 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP4 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP5 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN1 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN2 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN3 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN4 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN5 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT1 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT2 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT3 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT4 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT5 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT1 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT2 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT3 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT4 );
-    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT5 );
-
-    newEntity = entityManager.createEntity();
-    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
-    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
-    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
-    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
-    renderingEngine.setSprite(newEntity, 0, 0, 1280, 720);
-    renderingEngine.setTexture(newEntity, "../Game/Assets/background_DarkPath_Ritual_Scene.png");
-    renderingEngine.setRenderLayer(newEntity, RenderLayer::background);
-    physicsEngine.setTransform(newEntity, 0, 0);
-
-
+//    int newEntity = entityManager.createEntity();
+//    entityManager.attachComponent(newEntity, ComponentTypes::Player);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Animation);
+//    auto& transform = entityManager.getEntityComponent<Transform>
+//            (newEntity, ComponentTypes::Transform);
+//    auto& sprite = entityManager.getEntityComponent<Sprite>
+//            (newEntity, ComponentTypes::Sprite);
+//    physicsEngine.setTransform(newEntity, 10, 60);
+//    collisionEngine.setBoundaryBox(newEntity, transform.posX, transform.posY, 32, 64);
+//    renderingEngine.setSprite(newEntity, transform.posX, transform.posY, 96, 128);
+//    renderingEngine.setTexture(newEntity, "../Game/Assets/hero_WalkCycleDown1.png");
+//    renderingEngine.setRenderLayer(newEntity, RenderLayer::character);
+//    SDL_Texture* frameUP1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUp1.png");
+//    SDL_Texture* frameUP2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUp2.png");
+//    SDL_Texture* frameUP3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUp3.png");
+//    SDL_Texture* frameUP4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUp4.png");
+//    SDL_Texture* frameUP5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleUp5.png");
+//    SDL_Texture* frameDOWN1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDown1.png");
+//    SDL_Texture* frameDOWN2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDown2.png");
+//    SDL_Texture* frameDOWN3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDown3.png");
+//    SDL_Texture* frameDOWN4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDown4.png");
+//    SDL_Texture* frameDOWN5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleDown5.png");
+//    SDL_Texture* frameLEFT1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLeft1.png");
+//    SDL_Texture* frameLEFT2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLeft2.png");
+//    SDL_Texture* frameLEFT3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLeft3.png");
+//    SDL_Texture* frameLEFT4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLeft4.png");
+//    SDL_Texture* frameLEFT5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleLeft5.png");
+//    SDL_Texture* frameRIGHT1 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRight1.png");
+//    SDL_Texture* frameRIGHT2 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRight2.png");
+//    SDL_Texture* frameRIGHT3 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRight3.png");
+//    SDL_Texture* frameRIGHT4 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRight4.png");
+//    SDL_Texture* frameRIGHT5 = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Game/Assets/hero_WalkCycleRight5.png");
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP1 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP2 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP3 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP4 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleUP, frameUP5 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN1 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN2 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN3 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN4 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleDOWN, frameDOWN5 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT1 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT2 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT3 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT4 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleLEFT, frameLEFT5 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT1 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT2 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT3 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT4 );
+//    animationEngine.addFrame(newEntity, AnimationType::WalkCycleRIGHT, frameRIGHT5 );
+//
 //    newEntity = entityManager.createEntity();
 //    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
 //    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
 //    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
 //    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
-//    renderingEngine.setSprite(newEntity, 100, 100, 192, 256);
-//    renderingEngine.setTexture(newEntity, "../Game/Assets/statue_DarkEnchantedKnight001.png");
-//    renderingEngine.setRenderLayer(newEntity, RenderLayer::foreground);
-//    physicsEngine.setTransform(newEntity, 900, 412);
+//    renderingEngine.setSprite(newEntity, 0, 0, 1280, 720);
+//    renderingEngine.setTexture(newEntity, "../Game/Assets/background_DarkPath_Ritual_Scene.png");
+//    renderingEngine.setRenderLayer(newEntity, RenderLayer::background);
+//    physicsEngine.setTransform(newEntity, 0, 0);
+
 
 //    newEntity = entityManager.createEntity();
 //    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
 //    entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
 //    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
 //    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
-//    renderingEngine.setSprite(newEntity, 10, 10, 256, 512);
-//    renderingEngine.setTexture(newEntity, "../Game/Assets/tree_FantasyTree001.png");
-//    renderingEngine.setRenderLayer(newEntity, RenderLayer::foreground);
-//    physicsEngine.setTransform(newEntity, 0, 250);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Animation);
+//    auto& transform2 = entityManager.getEntityComponent<Transform>
+//            (newEntity, ComponentTypes::Transform);
+//    auto& sprite2 = entityManager.getEntityComponent<Sprite>
+//            (newEntity, ComponentTypes::Sprite);
+//    physicsEngine.setTransform(newEntity, 650, 400);
+//    collisionEngine.setBoundaryBox(newEntity, transform2.posX, transform2.posY, 32, 64);
+//    renderingEngine.setSprite(newEntity, transform2.posX, transform2.posY, 96, 128);
+//    renderingEngine.setTexture(newEntity, "../Game/Assets/hero_WalkCycleDown1.png");
+//    renderingEngine.setRenderLayer(newEntity, RenderLayer::character);
 
 
-
-
-//    int windowWidth = 1920;
-//    int windowHeight = 1080;
-//    int tileWidth = 128;
-//    int tileHeight = 128;
+//    newEntity = entityManager.createEntity();
+//    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+//    auto& transform3 = entityManager.getEntityComponent<Transform>
+//            (newEntity, ComponentTypes::Transform);
+//    auto& sprite3 = entityManager.getEntityComponent<Sprite>
+//            (newEntity, ComponentTypes::Sprite);
+//    physicsEngine.setTransform(newEntity, 430, -30);
+//    collisionEngine.setBoundaryBox(newEntity, transform3.posX, transform3.posY, 60, 40);
+//    renderingEngine.setSprite(newEntity, transform3.posX, transform3.posY, 32, 32);
 //
-//// Calculate number of tiles needed horizontally and vertically
-//    int tilesX = windowWidth / tileWidth;
-//    int tilesY = windowHeight / tileHeight;
+//    newEntity = entityManager.createEntity();
+//    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+//    auto& transform4 = entityManager.getEntityComponent<Transform>
+//            (newEntity, ComponentTypes::Transform);
+//    auto& sprite4 = entityManager.getEntityComponent<Sprite>
+//            (newEntity, ComponentTypes::Sprite);
+//    physicsEngine.setTransform(newEntity, 750, -50);
+//    collisionEngine.setBoundaryBox(newEntity, transform3.posX, transform3.posY, 90, 40);
+//    renderingEngine.setSprite(newEntity, transform3.posX, transform3.posY, 32, 32);
 //
-//// Adjust for any partial tile spaces at the edges
-//    if (windowWidth % tileWidth != 0) tilesX++;
-//    if (windowHeight % tileHeight != 0) tilesY++;
+//    newEntity = entityManager.createEntity();
+//    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+//    auto& transform5 = entityManager.getEntityComponent<Transform>
+//            (newEntity, ComponentTypes::Transform);
+//    auto& sprite5 = entityManager.getEntityComponent<Sprite>
+//            (newEntity, ComponentTypes::Sprite);
+//    physicsEngine.setTransform(newEntity, 720, 250);
+//    collisionEngine.setBoundaryBox(newEntity, transform3.posX, transform3.posY, 50, 30);
+//    renderingEngine.setSprite(newEntity, transform3.posX, transform3.posY, 32, 32);
 //
-//// Loop through each tile position
-//    for (int y = 0; y < tilesY; y++) {
-//        for (int x = 0; x < tilesX; x++) {
-//            int newEntity = entityManager.createEntity();
-//            entityManager.attachComponent(newEntity, ComponentTypes::Transform);
-//            entityManager.attachComponent(newEntity, ComponentTypes::Renderable);
-//            entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
-//            entityManager.attachComponent(newEntity, ComponentTypes::Texture);
-//
-//            // Calculate the position for each tile
-//            int posX = x * tileWidth;
-//            int posY = y * tileHeight;
-//
-//            // Assuming setTransform is a method you'll add to physicsEngine
-//            // similar to setSprite in renderingEngine, for setting up initial position
-//            physicsEngine.setTransform(newEntity, posX, posY);
-//            renderingEngine.setSprite(newEntity, posX, posY, tileWidth, tileHeight);
-//            renderingEngine.setTexture(newEntity, "../Game/Assets/ground_ForestPath001.png");
-//            renderingEngine.setRenderLayer(newEntity, RenderLayer::background); // Assuming Background is a valid enum value
-//        }
-//    }
-
-
-
+//    newEntity = entityManager.createEntity();
+//    entityManager.attachComponent(newEntity, ComponentTypes::Transform);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Physics);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Collider);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Sprite);
+//    entityManager.attachComponent(newEntity, ComponentTypes::Texture);
+//    auto& transform6 = entityManager.getEntityComponent<Transform>
+//            (newEntity, ComponentTypes::Transform);
+//    auto& sprite6 = entityManager.getEntityComponent<Sprite>
+//            (newEntity, ComponentTypes::Sprite);
+//    physicsEngine.setTransform(newEntity, 440, 225);
+//    collisionEngine.setBoundaryBox(newEntity, transform3.posX, transform3.posY, 70, 20);
+//    renderingEngine.setSprite(newEntity, transform3.posX, transform3.posY, 32, 32);
 }
 
 void Core::MainLoop() {
@@ -204,8 +237,10 @@ void Core::MainLoop() {
 
 
         }
+        fileSystem.checkAndReloadScript(scriptingEngine.getLuaState(), "../Game/Levels/Level1.lua", lastModifiedTimeLevel);
+        scriptingEngine.update(deltaTime);
         physicsEngine.update(deltaTime);
-        //collisionEngine.update(entityManager);
+        collisionEngine.update();
         animationEngine.update(deltaTime);
         renderingEngine.update(entityManager.entities);
         renderingEngine.Render(entityManager.entities);

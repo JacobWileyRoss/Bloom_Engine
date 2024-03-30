@@ -34,7 +34,7 @@ std::vector<SDL_Texture *>& AnimationEngine::getAnimationType(int entityUID, Ani
     }
 }
 
-void AnimationEngine::handleInputEvent(Event event) {
+void AnimationEngine::handleInputEvent(const Event& event) {
     std::cout << "[INFO] AnimationEngine received input event from Entity: " << event.entityUID << std::endl;
 
     // Attempt to get the SDL_Scancode from eventData
@@ -96,13 +96,9 @@ void AnimationEngine::startAnimation(int entityUID, AnimationType animationType)
 
 void AnimationEngine::stopAnimation(int entityUID, AnimationType animationType) {
     auto& animationComponent = entityManager.getEntityComponent<Animation>(entityUID, ComponentTypes::Animation);
-    // Optionally check if the currentAnimationType matches the provided animationType before stopping
     if(animationComponent.currentAnimationType == animationType) {
-        // Set the animation to stop
         animationComponent.isPlaying = false;
-        std::cout << "[INFO] isPlaying is set to: " << animationComponent.isPlaying << std::endl;
-        // Optionally reset the frame index to 0 if you want the animation to restart from the beginning next time
-        // animationComponent.currentFrameIndex = 0;
+        animationComponent.currentFrameIndex = 0; // Reset to the first frame
         std::cout << "[INFO] Stopping animation for entity " << entityUID << " type: " << animationTypeToString(animationType) << std::endl;
     } else {
         std::cout << "[WARNING] Attempted to stop an animation that is not currently playing for entity " << entityUID << std::endl;
