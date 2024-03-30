@@ -6,18 +6,21 @@
 #include <iostream>
 #include <sol/sol.hpp>
 
-Core::Core() : window(nullptr), isRunning(false), fileSystem(),
+
+Core::Core() : window(nullptr), isRunning(false), fileSystem(), stateMachine(entityManager, lua),
                 dispatcher(entityManager),
                 physicsEngine(entityManager, dispatcher, deltaTime),
                 inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),
                 animationEngine(entityManager, dispatcher, deltaTime),
                 collisionEngine(entityManager, dispatcher),
-                scriptingEngine(entityManager, dispatcher, renderingEngine, animationEngine, physicsEngine){}
+                scriptingEngine(lua, entityManager, dispatcher, renderingEngine, animationEngine, physicsEngine){}
 
 void Core::Initialize() {
     // Load Lua script for game logic
     scriptingEngine.loadScript("../include/System/game_logic.lua");
     scriptingEngine.initialize();
+
+
 
     // Initialize SDL2 using SDL_INIT_EVERYTHING
     std::cout << "[INFO] Initializing SDL..." << std::endl;
@@ -45,6 +48,7 @@ void Core::Initialize() {
 
     RenderingEngine::Initialize(window);
 
+
     // PhysicsEngine subscribes to Dispatcher registering interest in Input event types and adds handleInputEvent()
     // as a callback function
     dispatcher.addEventListener(EventType::InputKeyDown, [this](const Event& inputEvent) {
@@ -67,6 +71,8 @@ void Core::Initialize() {
 
 
     scriptingEngine.loadScript("../Game/Levels/Level1.lua");
+
+    stateMachine.changeState("GameplayState");
 
 
     // TODO Entity creation should occur in a Level or State, not in the Core

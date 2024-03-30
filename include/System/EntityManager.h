@@ -38,7 +38,9 @@ public:
     // Creates a new Entity object and returns the entityUID of the new Entity
     int createEntity();
 
-    Entity& getEntity(int UID);
+    Entity& getEntity(int entityUID);
+
+    void destroyEntity(int entityUID);
 
     bool hasComponent(int entityUID, const ComponentTypes& componentType);
 

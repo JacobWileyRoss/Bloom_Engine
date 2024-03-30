@@ -14,6 +14,11 @@ int EntityManager::createEntity() {
     return entityUID;
 }
 
+void EntityManager::destroyEntity(int entityUID) {
+    entities.erase(entityUID);
+    std::cout << "[INFO] Destroyed Entity: " << entityUID << std::endl;
+}
+
 bool EntityManager::hasComponent(int entityUID, const ComponentTypes& componentType) {
     auto entityIt = entities.find(entityUID);
     if (entityIt != entities.end()) {
@@ -64,8 +69,8 @@ void EntityManager::attachComponent(int entityUID, ComponentTypes componentType)
     }
 }
 
-Entity& EntityManager::getEntity(int UID) {
-    auto entity = entities.find(UID);
+Entity& EntityManager::getEntity(int entityUID) {
+    auto entity = entities.find(entityUID);
     return entity->second;
 }
 

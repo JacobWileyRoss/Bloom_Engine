@@ -10,6 +10,7 @@
 #include <SDL.h>
 
 #include "FileSystem.h"
+#include "StateMachine.h"
 #include "ScriptingEngine.h"
 #include "EntityManager.h"
 #include "Dispatcher.h"
@@ -39,7 +40,9 @@ public:
 
 private:
     FileSystem fileSystem;
+    sol::state lua;
     ScriptingEngine scriptingEngine;
+    StateMachine stateMachine;
     EntityManager entityManager;
     Dispatcher dispatcher;
     InputProcessor inputProcessor;

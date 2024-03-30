@@ -21,6 +21,8 @@ public:
         if (currentModifiedTime != lastModifiedTime) {
             // The file has been modified since last check, reload it
             lua.script_file(scriptPath);
+            // Destroys all entities in state so they aren't duplicated during hot reload
+            lua["destroyEntities"]();
             lua["constructLevel"]();
 
             // Update the last modified time to the current

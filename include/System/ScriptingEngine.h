@@ -15,9 +15,10 @@
 
 class ScriptingEngine {
 public:
-    explicit ScriptingEngine(EntityManager& entityManager, Dispatcher& dispatcher, RenderingEngine& renderingEngine,
+    explicit ScriptingEngine(sol::state& lua, EntityManager& entityManager, Dispatcher& dispatcher, RenderingEngine& renderingEngine,
                              AnimationEngine& animationEngine,
                              PhysicsEngine& physicsEngine) :
+                             lua(lua),
                              entityManager(entityManager),
                              dispatcher(dispatcher),
                              renderingEngine(renderingEngine),
@@ -86,8 +87,15 @@ public:
         // Exposing EntityManager's createEntity() functionality
         lua.set_function("createEntity", [this]() {
           int newEntity = entityManager.createEntity();
+          luaCreatedEntities.push_back(newEntity);
             return newEntity;
+        });
 
+        lua.set_function("destroyEntities", [this]() {
+            for(auto entity : luaCreatedEntities) {
+                entityManager.destroyEntity(entity);
+            }
+            luaCreatedEntities.clear();
         });
 
         lua.set_function("attachComponent", [this](int entityUID, ComponentTypes componentType) {
@@ -114,12 +122,13 @@ public:
         });
     }
 private:
-    sol::state lua;
+    sol::state& lua;
     EntityManager& entityManager;
     Dispatcher& dispatcher;
     RenderingEngine& renderingEngine;
     AnimationEngine& animationEngine;
     PhysicsEngine& physicsEngine;
+    std::vector<int> luaCreatedEntities;
 };
 
 
