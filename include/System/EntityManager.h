@@ -11,6 +11,7 @@
 #include "../Entity/Entity.h"
 
 #include "../Component/Animation.h"
+#include "../Component/Camera.h"
 #include "../Component/Collider.h"
 #include "../Component/Component.h"
 #include "../Component/ComponentTypes.h"
@@ -35,14 +36,12 @@ public:
     // itself as the value
     std::unordered_map<int, Entity> entities;
 
-    // Creates a new Entity object and returns the entityUID of the new Entity
     int createEntity();
-
-    Entity& getEntity(int UID);
-
+    Entity& getEntity(int entityUID);
+    void destroyEntity(int entityUID);
     bool hasComponent(int entityUID, const ComponentTypes& componentType);
 
-
+    // This function returns a vector full of all entityUIDs that possess the specified component
     template<typename T>
     std::vector<int> getEntitiesWithComponent(ComponentTypes componentType) {
         std::vector<int> entitiesWithComponent;
@@ -56,10 +55,10 @@ public:
                 }
             }
         }
-
         return entitiesWithComponent;
     }
 
+    // This function returns the actual component from the specified entityUID and component type
     template<typename T>
     T& getEntityComponent(int entityUID, const ComponentTypes componentType) {
         auto& entity = getEntity(entityUID);
@@ -68,9 +67,7 @@ public:
         return dynamic_cast<T&>(*component->second);
     }
 
-
     std::unique_ptr<Component> createComponent(ComponentTypes componentType);
-
     void attachComponent(int entityUID, ComponentTypes);
 };
 

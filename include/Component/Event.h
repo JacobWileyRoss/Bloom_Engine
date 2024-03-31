@@ -9,6 +9,8 @@
 #include "Component.h"
 #include "SDL.h"
 
+// TODO determine if this is the best place to define EventTypes
+// Define possible EventTypes
 enum class EventType {
     InputKeyDown,
     InputKeyUp,
@@ -18,9 +20,10 @@ enum class EventType {
 
 };
 
+// Determine if this is the best place to define the CollisionData
+// Define CollisionData structure used in CollisionEngine for dispatching Collision Events
  class CollisionData {
  public:
-
      CollisionData();
     CollisionData(int entityUID1, int entityUID2, float velX1, float velY1, float velX2, float velY2) {
         entity1UID = entityUID1;
@@ -34,7 +37,6 @@ enum class EventType {
     int entity2UID;
     float velX1, velY1; // Velocity of entity 1
     float velX2, velY2; // Velocity of entity 2
-    // Additional collision properties (if needed)
 };
 
 using EventData = std::variant<std::array<float, 2>, char, SDL_Scancode, CollisionData>;

@@ -55,7 +55,13 @@ add_executable(Bloom_Engine main.cpp
         src/System/ScriptingEngine.cpp
         include/System/ScriptingEngine.h
         src/System/FileSystem.cpp
-        include/System/FileSystem.h)
+        include/System/FileSystem.h
+        src/System/StateMachine.cpp
+        include/System/StateMachine.h
+        include/GameState/GameState.h
+        Game/State/GameplayState.h
+        include/GameState/LuaGameState.h
+        include/Component/Camera.h)
 
 target_link_libraries(Bloom_Engine ${SDL2_LIBRARIES} "/usr/local/Cellar/sdl2_image/2.8.2_1/lib/libSDL2_image.dylib"
                                     ${LUA_LIBRARIES})

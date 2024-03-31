@@ -7,11 +7,19 @@ EntityManager::EntityManager() {
     std::cout << "[INFO] EntityManager Created!" << std::endl;
 }
 
+// This creates a new blank entity and returns the new entityUID
 int EntityManager::createEntity() {
     int entityUID = nextUID++;
     entities.emplace(entityUID, Entity(entityUID));
     std::cout << "[INFO] Entity " << entityUID << " created successfully" << std::endl;
     return entityUID;
+}
+
+// Destroys entity object specified by the entityUID and removes it from the entities map container
+void EntityManager::destroyEntity(int entityUID) {
+    entities.erase(entityUID);
+    std::cout << "[INFO] Destroyed Entity: " << entityUID << std::endl;
+    nextUID -=1;
 }
 
 bool EntityManager::hasComponent(int entityUID, const ComponentTypes& componentType) {
@@ -29,6 +37,9 @@ std::unique_ptr<Component> EntityManager::createComponent(ComponentTypes compone
     switch (componentType) {
         case ComponentTypes::Animation:
             return std::make_unique<Animation>();
+        case ComponentTypes::Camera:
+            std::cout << "[DEBUG] Attaching CameraComponent" << std::endl;
+            return std::make_unique<Camera>();
         case ComponentTypes::Collider:
             return std::make_unique<Collider>();
         case ComponentTypes::Event:
@@ -64,8 +75,9 @@ void EntityManager::attachComponent(int entityUID, ComponentTypes componentType)
     }
 }
 
-Entity& EntityManager::getEntity(int UID) {
-    auto entity = entities.find(UID);
+// Returns the actual entity object requested by the entityUID
+Entity& EntityManager::getEntity(int entityUID) {
+    auto entity = entities.find(entityUID);
     return entity->second;
 }
 

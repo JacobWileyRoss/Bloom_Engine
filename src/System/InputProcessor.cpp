@@ -5,8 +5,12 @@
 #include "../../include/System/InputProcessor.h"
 #include "SDL.h"
 
-
+// ProcessInput is called in the Core MainLoop() function if the SDL Event is detected as a SDL_Key event
 void InputProcessor::ProcessInput(SDL_Event& event) { // Accept SDL_Event as parameter
+
+        // We get the entity with a Player component as that should be the only entity that processes user input
+        // from the keyboard or mouse
+        // TODO update ProcessInput so that it detects and supports mouse events
         std::vector<int> playerEntities = entityManager.getEntitiesWithComponent<Player>(ComponentTypes::Player);
         for (auto entityUID : playerEntities) {
             switch (event.type) {
@@ -25,7 +29,7 @@ void InputProcessor::ProcessInput(SDL_Event& event) { // Accept SDL_Event as par
             }
         }
 
-
+    // TODO ProcessInput() should process the actions defined by the ScriptingEngine and not be hard coded here
     // It's important to note that continuous key states are processed outside of specific key up/down events.
     // This section is for actions like continuous movement where the key's current state (pressed or not) matters.
     const Uint8* state = SDL_GetKeyboardState(NULL);
