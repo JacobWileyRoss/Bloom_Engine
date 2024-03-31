@@ -27,7 +27,7 @@ end
 GameplayState = {}
 
 function GameplayState.enter()
-    print("[INFO] Entering GameplayState 2")
+    print("[INFO] Entering GameplayState 1")
 end
 
 function GameplayState.exit()
@@ -64,8 +64,8 @@ function createBackgroundPainting()
     attachComponent(backgroundPainting, ComponentTypes.Texture)
 
     -- Set sprite, texture, render layer, and initial transform
-    setSprite(backgroundPainting, 0, 0, 1280, 720)
-    setTexture(backgroundPainting, "../Game/Assets/background_DarkPath_Castle_Scene.png")
+    setSprite(backgroundPainting, 0, 0, 1920, 1080)
+    setTexture(backgroundPainting, "../Game/Assets/background_Future_Magic_Forest_ISOGRAPHIC.png")
     setRenderLayer(backgroundPainting, RenderLayer.background)
     setTransform(backgroundPainting, 0, 0)
 end
@@ -89,7 +89,7 @@ end
 -- Function to create and setup a new entity
 function createPlayerEntity(posX, posY, width, height)
     -- Create Player Object
-    local player = createEntity(posX, posY, width, height)
+    local player = createEntity()
     logMessage("[INFO] Lua created Entity: " .. player);
     attachComponent(player, ComponentTypes.Player)
     attachComponent(player, ComponentTypes.Transform)
@@ -98,11 +98,13 @@ function createPlayerEntity(posX, posY, width, height)
     attachComponent(player, ComponentTypes.Renderable)
     attachComponent(player, ComponentTypes.Sprite)
     attachComponent(player, ComponentTypes.Texture)
-    attachComponent(player,ComponentTypes.Animation)
+    attachComponent(player, ComponentTypes.Animation)
+    attachComponent(player, ComponentTypes.Camera)
     setSprite(player, posX, posY, width, height)
     setTexture(player, "../Game/Assets/hero_WalkCycleDown1.png")
     setRenderLayer(player, RenderLayer.character)
     setTransform(player, posX, posY)
+    setCamera(player, posX, posY, 1280, 720);
     setBoundaryBox(player, posX, posY, 32, 32)
 
     -- Load WalkCycleDown
@@ -145,7 +147,7 @@ function constructLevel()
 
     createBackgroundPainting();
     createBoundaryBox(430, -30, 60, 40);
-    createPlayerEntity(592, 600, 96, 128);
+    createPlayerEntity(615, 600, 96, 128);
 
 end
 

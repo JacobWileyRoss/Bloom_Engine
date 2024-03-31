@@ -7,6 +7,7 @@ EntityManager::EntityManager() {
     std::cout << "[INFO] EntityManager Created!" << std::endl;
 }
 
+// This creates a new blank entity and returns the new entityUID
 int EntityManager::createEntity() {
     int entityUID = nextUID++;
     entities.emplace(entityUID, Entity(entityUID));
@@ -14,6 +15,7 @@ int EntityManager::createEntity() {
     return entityUID;
 }
 
+// Destroys entity object specified by the entityUID and removes it from the entities map container
 void EntityManager::destroyEntity(int entityUID) {
     entities.erase(entityUID);
     std::cout << "[INFO] Destroyed Entity: " << entityUID << std::endl;
@@ -73,6 +75,7 @@ void EntityManager::attachComponent(int entityUID, ComponentTypes componentType)
     }
 }
 
+// Returns the actual entity object requested by the entityUID
 Entity& EntityManager::getEntity(int entityUID) {
     auto entity = entities.find(entityUID);
     return entity->second;

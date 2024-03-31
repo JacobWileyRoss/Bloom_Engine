@@ -6,7 +6,7 @@
 #include <iostream>
 #include <sol/sol.hpp>
 
-
+// Engine Core's constructor which initializes the individual required systems
 Core::Core() : window(nullptr), isRunning(false), fileSystem(), stateMachine(entityManager, lua),
                 dispatcher(entityManager),
                 physicsEngine(entityManager, dispatcher, deltaTime),
@@ -16,12 +16,6 @@ Core::Core() : window(nullptr), isRunning(false), fileSystem(), stateMachine(ent
                 scriptingEngine(lua, entityManager, dispatcher, renderingEngine, animationEngine, physicsEngine, collisionEngine){}
 
 void Core::Initialize() {
-    // Load Lua script for game logic
-    //scriptingEngine.loadScript("../include/System/game_logic.lua");
-    scriptingEngine.initialize();
-
-
-
     // Initialize SDL2 using SDL_INIT_EVERYTHING
     std::cout << "[INFO] Initializing SDL..." << std::endl;
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -35,9 +29,10 @@ void Core::Initialize() {
     IMG_Init(IMG_INIT_PNG);
     std::cout << "[INFO] SDL_Image initialized successfully" << std::endl;
 
+    // Create an SDL window and define window size
     std::cout << "[INFO] Creating window..." << std::endl;
     window = SDL_CreateWindow("Bloom Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              1280, 720, SDL_WINDOW_SHOWN);
+                              1920, 1080, SDL_WINDOW_SHOWN);
     if (!window) {
         std::cerr << "[ERROR] Failed to create window: " << SDL_GetError() << std::endl;
         SDL_Quit();
@@ -46,11 +41,10 @@ void Core::Initialize() {
     std::cout << "[INFO] Window created successfully." << std::endl;
     isRunning = true;
 
+    // Initialize RenderingEngine and pass the SDL window
     RenderingEngine::Initialize(window);
 
-
-    // PhysicsEngine subscribes to Dispatcher registering interest in Input event types and adds handleInputEvent()
-    // as a callback function
+    // PhysicsEngine and AnimationEngine registering to the dispatcher for Input and Collision events
     dispatcher.addEventListener(EventType::InputKeyDown, [this](const Event& inputEvent) {
         std::cout << "[INFO] Handling EventType::InputKeyDown" << std::endl;
         physicsEngine.handleInputEvent(inputEvent);
@@ -69,13 +63,15 @@ void Core::Initialize() {
         animationEngine.handleInputEvent(collisionEvent);
     });
 
-
+    // Load Lua script for current Level
     scriptingEngine.loadScript("../Game/Levels/Level1.lua");
 
-
+    // TODO review StateMachine and the relevance of changeState - does not affect hot reloading like I thought
+    // Load GameplayState defined in the Level Lua script
     stateMachine.changeState("GameplayState");
 }
 
+// Start the Engine's MainLoop function
 void Core::MainLoop() {
     std::cout << "[INFO] MainLoop() Called!" << std::endl;
     uint32_t lastTime = SDL_GetTicks();
@@ -94,10 +90,13 @@ void Core::MainLoop() {
                 case SDL_KEYUP:
                     inputProcessor.ProcessInput(event);
             }
-
-
         }
+
+        // FileSystem checks the Lua script for the date of last modification, if changed it reload the script this
+        // Enables "Hot Reloading"
         fileSystem.checkAndReloadScript(scriptingEngine.getLuaState(), "../Game/Levels/Level1.lua", lastModifiedTimeLevel);
+
+        // All systems perform their own update() functions
         physicsEngine.update(deltaTime);
         collisionEngine.update();
         animationEngine.update(deltaTime);
@@ -108,6 +107,7 @@ void Core::MainLoop() {
     }
 }
 
+// Engine Core calls Shutdown() function to destroy SDL window
 void Core::Shutdown() {
     SDL_DestroyWindow(window);
     window = nullptr;
@@ -120,4 +120,5 @@ SDL_Window *Core::GetWindow() {
     return window;
 }
 
+// Core defualt destructor
 Core::~Core() = default;

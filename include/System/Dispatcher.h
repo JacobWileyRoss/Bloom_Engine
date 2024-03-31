@@ -13,12 +13,10 @@
 class Dispatcher {
 public:
     Dispatcher(EntityManager& entityManager) : entityManager(entityManager) {};
+
     using EventCallback = std::function<void(const Event&)>;
 
     void addEventListener(EventType eventType, const EventCallback& callback);
-
-    void createEvent(EventType eventType);
-
     void dispatchEvent(const Event& event);
 
 

@@ -6,6 +6,7 @@
 #include "../../include/Component/Transform.h"
 #include <iostream>
 
+// TODO I need to review the update() function and make sure I completely understand it and determine if its the best method
 void PhysicsEngine::update(float deltaTime) {
     for (auto& [entityUID, entity] : entityManager.entities) {
         if (entityManager.hasComponent(entityUID, ComponentTypes::Physics)) {
@@ -29,6 +30,7 @@ void PhysicsEngine::update(float deltaTime) {
     }
 }
 
+// TODO this needs to be updated to support Input controls being defined in Lua and not hardcoded by InputProcessor
 // Handling of input event created by the InputProcessor and sent to the Dispatcher.
 void PhysicsEngine::handleInputEvent(const Event& event) {
     int entityUID = event.entityUID;
@@ -61,6 +63,7 @@ void PhysicsEngine::handleInputEvent(const Event& event) {
     applyForce(entity, velX, velY);
 }
 
+// TODO I need to review the handleCollisionEvent and make sure I completely understand it and determine if it is the best method
 // Takes 2 colliding entities and determines if any of them are the player object, the player entity gets velocity set
 // to 0 and transform set back. Checking for player because if that logic is applied to other entities, the player can
 // can push them back by bumping into them even if that entity was stationary
@@ -115,12 +118,8 @@ void PhysicsEngine::handleCollisionEvent(const Event &event) {
             }
         }
     }
-
     std::cout << "[INFO] PhysicsEngine::handleCollisionEvent - Collision resolved for entities " << collisionData.entity1UID << " and " << collisionData.entity2UID << std::endl;
 }
-
-
-
 
 // Applies force to Entity by modifying the transform component by the vel * delta time
 void PhysicsEngine::applyForce(Entity& entity, float velX, float velY) {
@@ -140,10 +139,10 @@ void PhysicsEngine::applyForce(Entity& entity, float velX, float velY) {
                 << transform.posX << ", Y: " << transform.posY << std::endl;
 }
 
+// This function can set a Transform Component's X and Y coordinate position to the specified coordinates
 void PhysicsEngine::setTransform(int entityUID, float posX, float posY) {
     auto& transform = entityManager.getEntityComponent<Transform>
                                     (entityUID, ComponentTypes::Transform);
-
     transform.posX = posX;
     transform.posY = posY;
     std::cout << "[INFO] setTransform() called for entityUID: " << entityUID << std::endl;
