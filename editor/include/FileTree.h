@@ -7,33 +7,43 @@
 
 #include <filesystem>
 #include "imgui.h"
+#include "CodeEditor.h"
 
 
 class FileTree {
 public:
+    FileTree() : selectedFilePath("") {}
 
-    void DisplayFileTree(const std::filesystem::path& path) {
-    if (!std::filesystem::exists(path) || !std::filesystem::is_directory(path)) {
-        ImGui::Text("Invalid directory");
-        return;
-    }
+    void DisplayFileTree(const std::filesystem::path& path, CodeEditor& codeEditor) {
+        if (!std::filesystem::exists(path) || !std::filesystem::is_directory(path)) {
+            ImGui::Text("Invalid directory");
+            return;
+        }
 
         ImGui::BeginChild("FileTree", ImVec2(0, 0), true);
         for (const auto& entry : std::filesystem::directory_iterator(path)) {
             const auto filename = entry.path().filename().string();
             if (std::filesystem::is_directory(entry.status())) {
                 if (ImGui::TreeNode(filename.c_str())) {
-                    DisplayFileTree(entry.path()); // Recursive call for subdirectories
+                    DisplayFileTree(entry.path(), codeEditor); // Recursive call for subdirectories
                     ImGui::TreePop();
                 }
             } else {
-                ImGui::Text("%s", filename.c_str());
+                // Display selectable file names
+                if (ImGui::Selectable(filename.c_str())) {
+                    selectedFilePath = entry.path().string();
+                }
+                // Handle double-click event
+                if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
+                    codeEditor.LoadFile(selectedFilePath);
+                }
             }
         }
-
         ImGui::EndChild();
     }
 
+private:
+    std::string selectedFilePath;
 };
 
 #endif //BLOOM_ENGINEPROJECT_FILETREE_H

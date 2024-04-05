@@ -14,28 +14,6 @@
 #include "include/FileTree.h"
 #include "include/CodeEditor.h"
 
-void DisplayFileTree(const std::filesystem::path& path) {
-//    if (!std::filesystem::exists(path) || !std::filesystem::is_directory(path)) {
-//        ImGui::Text("Invalid directory");
-//        return;
-//    }
-
-    ImGui::BeginChild("FileTree", ImVec2(0, 0), true);
-
-    for (const auto& entry : std::filesystem::directory_iterator(path)) {
-        const auto filename = entry.path().filename().string();
-        if (std::filesystem::is_directory(entry.status())) {
-            if (ImGui::TreeNode(filename.c_str())) {
-                DisplayFileTree(entry.path()); // Recursive call for subdirectories
-                ImGui::TreePop();
-            }
-        } else {
-            ImGui::Text("%s", filename.c_str());
-        }
-    }
-
-    ImGui::EndChild();
-}
 
 
 
@@ -91,7 +69,7 @@ int main() {
             bool ImGuiWantsKeyboard = ImGui::GetIO().WantCaptureKeyboard;
 
             // If ImGui wants to capture mouse or keyboard, skip passing the event to the engine
-            if (!ImGuiWantsMouse || !ImGuiWantsKeyboard) {
+            if (!ImGuiWantsMouse && !ImGuiWantsKeyboard) {
                 // Pass the event to the engine
                 engine.HandleInput(event);
             }
@@ -122,12 +100,12 @@ int main() {
 
         // Render project window
         ImGui::Begin("Project Browser");
-        fileTree.DisplayFileTree("../../editor/Game");
+        fileTree.DisplayFileTree("../../editor/Game", codeEditor);
         ImGui::End();
 
         // Render Asset Browser
         ImGui::Begin("Asset Browser");
-        fileTree.DisplayFileTree("../../editor/Game/Assets");
+        fileTree.DisplayFileTree("../../editor/Game/Assets", codeEditor);
         ImGui::End();
 
         // Render console log window
@@ -136,9 +114,9 @@ int main() {
         ImGui::End();
 
         // Code Editor
-//        ImGui::Begin("Code Editor");
-//        codeEditor.Render();
-//        ImGui::End();
+        ImGui::Begin("Code Editor");
+        codeEditor.Render();
+        ImGui::End();
 
         // ImGui rendering
         ImGui::Render();

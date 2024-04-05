@@ -37,18 +37,37 @@ public:
     }
 
     void Render() {
+        // Set background color to black
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // Text color to white
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 1.0f)); // Window background color to black
+
+        // Begin the CodeEditor window with ImGuiWindowFlags_NoBackground flag to set the background color to black
+        ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_NoBackground);
+
+        // InputTextMultiline function to display the text editor
         ImGui::InputTextMultiline("##Editor", buffer.data(), buffer.size() + 1, ImVec2(-1, -1));
-        //                                             ^^^^^^^^^^^^^^^
+
+        // End the CodeEditor window
+        ImGui::End();
+
+        // Restore the default style colors
+        ImGui::PopStyleColor(2); // Pop the pushed style colors outside the Render function
+
+
         // Use std::string::data() to get a pointer to the underlying character array
         if (ImGui::Button("Open")) {
-            ImGui::OpenPopup("Open Lua Script");
+            // Show file dialog when "Open" button is clicked
+            ImGui::OpenPopup("Open Source File");
         }
         if (ImGui::BeginPopup("Open Lua Script")) {
-            if (ImGui::Selectable("Script 1")) {
-                LoadFile("../../editor/Game/Scripts/script1.lua");
-            }
-            if (ImGui::Selectable("Script 2")) {
-                LoadFile("../../editor/Game/Scripts/script2.lua");
+            // Iterate over files in the directory and display them as selectable options
+            for (const auto& entry : std::filesystem::directory_iterator("../../editor/Game/src")) {
+                if (!entry.is_directory()) {
+                    if (ImGui::Selectable(entry.path().filename().string().c_str())) {
+                        // Load the selected file
+                        LoadFile(entry.path().string());
+                    }
+                }
             }
             ImGui::EndPopup();
         }
@@ -57,6 +76,8 @@ public:
             SaveFile();
         }
     }
+
+
 
 private:
     std::string filename;
