@@ -5,7 +5,7 @@
 #ifndef BLOOM_ENGINEPROJECT_CONSOLELOGWINDOW_H
 #define BLOOM_ENGINEPROJECT_CONSOLELOGWINDOW_H
 #include <vector>
-#include "imgui.h"
+#include "../imgui.h"
 
 
 class ConsoleLogWindow {

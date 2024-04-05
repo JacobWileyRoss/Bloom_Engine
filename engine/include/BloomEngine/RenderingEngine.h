@@ -19,11 +19,6 @@
 #include "Camera.h"
 
 
-
-
-
-
-
 class RenderingEngine {
 public:
     explicit RenderingEngine(EntityManager& entityManager, Dispatcher& dispatcher) : entityManager(entityManager),

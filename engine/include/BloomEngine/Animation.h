@@ -42,7 +42,7 @@ public:
     AnimationType currentAnimationType = AnimationType::WalkCycleDOWN; // Default or initial animation
     int currentFrameIndex = 0; // The index of the current frame to be displayed
     // TODO frameDuration should be set by Lua script and not hard coded here
-    float frameDuration = 0.50; // Duration each frame is displayed
+    float frameDuration = 0.25; // Duration each frame is displayed
     float elapsedTime = 0; // Time elapsed since the current frame was shown
 
 

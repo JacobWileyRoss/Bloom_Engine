@@ -24,15 +24,15 @@ include_directories(../vendor/sol2-develop/include)
 
 # ImGui source files
 file(GLOB IMGUI_SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui-master/*.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui-master/backends/imgui_impl_sdl2.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui-master/backends/imgui_impl_sdlrenderer2.cpp" # Adjust this line as needed for your graphics API
+        "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui-docking/*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui-docking/backends/imgui_impl_sdl2.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui-docking/backends/imgui_impl_sdlrenderer2.cpp" # Adjust this line as needed for your graphics API
 )
 
 # Include directories for ImGui and the backends
 include_directories(
-        "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui-master"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui-master/backends"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui-dockingr"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui-docking/backends"
 )
 
 

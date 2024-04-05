@@ -3,9 +3,9 @@
 //
 
 #include "BloomEngine/RenderingEngine.h"
-#include "../../vendor/imgui-master/backends/imgui_impl_sdl2.h"
-#include "../../vendor/imgui-master/backends/imgui_impl_sdlrenderer2.h"
-#include "../../vendor/imgui-master/imgui.h"
+#include "../../vendor/imgui-docking/backends/imgui_impl_sdl2.h"
+#include "../../vendor/imgui-docking/backends/imgui_impl_sdlrenderer2.h"
+#include "../../vendor/imgui-docking/imgui.h"
 
 SDL_Renderer* RenderingEngine::renderer = nullptr;
 SDL_Texture* RenderingEngine::renderTargetTexture = nullptr;
@@ -24,7 +24,7 @@ void RenderingEngine::Initialize(SDL_Window *window) {
     }
 
     // Initialize renderTargetTexture
-    renderTargetTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1920, 1080);
+    renderTargetTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
     if (!renderTargetTexture) {
         std::cerr << "[ERROR] Failed to create render target texture: " << SDL_GetError() << std::endl;
     }
@@ -131,8 +131,6 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
     }
 
     SDL_SetRenderTarget(renderer, renderTargetTexture);
-
-
 
     // First, find the camera entity UID
     auto cameraEntityUIDs = entityManager.getEntitiesWithComponent<Camera>

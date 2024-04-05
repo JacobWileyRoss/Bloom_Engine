@@ -3,30 +3,26 @@
 //
 
 #include <iostream>
-#include <filesystem>
 
 #include "../engine/include/BloomEngine/Core.h"
-#include "../vendor/imgui-master/imgui.h"
-#include "../vendor/imgui-master/backends/imgui_impl_sdl2.h"
-#include "../vendor/imgui-master/backends/imgui_impl_sdlrenderer2.h"
+#include "../vendor/imgui-docking/imgui.h"
+#include "../vendor/imgui-docking/backends/imgui_impl_sdl2.h"
+#include "../vendor/imgui-docking/backends/imgui_impl_sdlrenderer2.h"
+#include "../vendor/imgui-docking/imgui_internal.h"
 #include "include/ConsoleStreamBuffer.h"
 #include "include/ConsoleLogWindow.h"
 #include "include/FileTree.h"
 #include "include/CodeEditor.h"
 
 
-
-
-
 int main() {
-    // Editor and Engine initialization
+    // Engine initialization
     BloomEngine::Core engine;
     engine.Initialize(); // Make sure SDL and the renderer are initialized here
 
+    // Editor initialization
     ConsoleLogWindow consoleLogWindow;
-
     FileTree fileTree;
-
     CodeEditor codeEditor;
 
     // Setup ImGui context
@@ -35,6 +31,7 @@ int main() {
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -59,10 +56,10 @@ int main() {
         while (SDL_PollEvent(&event)) {
             // Let ImGui handle the event first
             ImGui_ImplSDL2_ProcessEvent(&event);
+            engine.HandleInput(event);
 
             // Check if debug window is active and highlighted
             //bool DebugWindowActive = ImGui::IsWindowFocused(IMGUI_);
-
 
             // Check if ImGui wants to capture mouse or keyboard
             bool ImGuiWantsMouse = ImGui::GetIO().WantCaptureMouse;
@@ -87,35 +84,58 @@ int main() {
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
-        // Render game output
+
+        // Begin DockSpace
+        //static ImGuiID dockspace_id = ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
+        ImGui::DockSpaceOverViewport();
+        ImGuiID dockspace_id1 = ImGui::GetID("Dockspace1");
+        ImGuiID dockspace_id2 = ImGui::GetID("Dockspace2");
+        ImGuiID dockspace_id3 = ImGui::GetID("Dockspace3");
+        ImGuiID dockspace_id4 = ImGui::GetID("Dockspace4");
+
+
+        // Render engine output
         engine.Render();
-        ImVec2 gameResolution(1280, 720);
-        ImGui::SetNextWindowSize(gameResolution); // Set the width and height of the next window
-        ImGui::SetNextWindowSizeConstraints(gameResolution, gameResolution);
+
+        // Render viewport
+        ImVec2 viewportResolution(960, 540);
+        ImGui::SetNextWindowSize(viewportResolution); // Set the width and height of the next window
+        ImGui::SetNextWindowSizeConstraints(viewportResolution, viewportResolution);
         ImGui::Begin("Viewport");
+        ImGui::DockBuilderDockWindow("Viewport", dockspace_id1);
         ImTextureID texID = reinterpret_cast<ImTextureID>(engine.GetRenderTargetTexture());
-        ImVec2 imageSize = ImVec2(gameResolution.x, gameResolution.y);
+        ImVec2 imageSize = ImVec2(viewportResolution.x, viewportResolution.y);
         ImGui::Image(texID, imageSize);
         ImGui::End();
 
-        // Render project window
-        ImGui::Begin("Project Browser");
-        fileTree.DisplayFileTree("../../editor/Game", codeEditor);
+
+        // Render project window docked
+        ImGui::SetNextWindowSize(ImVec2(200, 400), ImGuiCond_FirstUseEver);
+        if (ImGui::Begin("Project Browser")) {
+            ImGui::DockBuilderDockWindow("Project Browser", dockspace_id2);
+            fileTree.DisplayFileTree("../../editor/Game", codeEditor);
+        }
         ImGui::End();
 
-        // Render Asset Browser
-        ImGui::Begin("Asset Browser");
-        fileTree.DisplayFileTree("../../editor/Game/Assets", codeEditor);
+// Render Asset Browser docked
+        if (ImGui::Begin("Asset Browser")) {
+            ImGui::DockBuilderDockWindow("Asset Browser", dockspace_id2);
+            fileTree.DisplayFileTree("../../editor/Game/Assets", codeEditor);
+        }
         ImGui::End();
 
-        // Render console log window
-        ImGui::Begin("Console Log");
-        consoleLogWindow.ShowConsoleLogWindow(consoleStreamBuffer.GetLines());
+// Render console log window docked
+        if (ImGui::Begin("Console Log")) {
+            ImGui::DockBuilderDockWindow("Console Log", dockspace_id3);
+            consoleLogWindow.ShowConsoleLogWindow(consoleStreamBuffer.GetLines());
+        }
         ImGui::End();
 
-        // Code Editor
-        ImGui::Begin("Code Editor");
-        codeEditor.Render();
+// Render Code Editor docked
+        if (ImGui::Begin("Code Editor")) {
+            ImGui::DockBuilderDockWindow("Code Editor", dockspace_id4);
+            codeEditor.Render();
+        }
         ImGui::End();
 
         // ImGui rendering
@@ -124,11 +144,6 @@ int main() {
         ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
         SDL_RenderPresent(engine.GetRenderer());
     }
-
-
-
-
-
 
     // Cleanup
     engine.Shutdown();
