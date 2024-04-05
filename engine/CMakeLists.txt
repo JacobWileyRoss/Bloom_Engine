@@ -61,7 +61,7 @@ add_library(BloomEngine STATIC
         src/StateMachine.cpp
         include/BloomEngine/StateMachine.h
         include/BloomEngine/GameState.h
-        ../editor/Game/State/GameplayState.h
+        ../editor/Game/src/State/GameplayState.h
         include/BloomEngine/LuaGameState.h
         include/BloomEngine/Camera.h)
 

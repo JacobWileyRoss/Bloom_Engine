@@ -30,10 +30,17 @@ namespace BloomEngine{
         IMG_Init(IMG_INIT_PNG);
         std::cout << "[INFO] SDL_Image initialized successfully" << std::endl;
 
-        // Create an SDL window and define window size
+        // Get the desktop display mode
+        SDL_DisplayMode desktopDisplayMode;
+        if (SDL_GetDesktopDisplayMode(0, &desktopDisplayMode) != 0) {
+            std::cerr << "[ERROR] Failed to get desktop display mode: " << SDL_GetError() << std::endl;
+            return;
+        }
+
+        // Create an SDL window with the desktop display mode dimensions
         std::cout << "[INFO] Creating window..." << std::endl;
         window = SDL_CreateWindow("Bloom engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                  1920, 1080, SDL_WINDOW_SHOWN);
+                                  desktopDisplayMode.w, desktopDisplayMode.h, SDL_WINDOW_SHOWN);
         if (!window) {
             std::cerr << "[ERROR] Failed to create window: " << SDL_GetError() << std::endl;
             SDL_Quit();

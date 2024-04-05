@@ -9,6 +9,10 @@
 #include "../vendor/imgui-master/imgui.h"
 #include "../vendor/imgui-master/backends/imgui_impl_sdl2.h"
 #include "../vendor/imgui-master/backends/imgui_impl_sdlrenderer2.h"
+#include "include/ConsoleStreamBuffer.h"
+#include "include/ConsoleLogWindow.h"
+#include "include/FileTree.h"
+#include "include/CodeEditor.h"
 
 void DisplayFileTree(const std::filesystem::path& path) {
 //    if (!std::filesystem::exists(path) || !std::filesystem::is_directory(path)) {
@@ -33,10 +37,19 @@ void DisplayFileTree(const std::filesystem::path& path) {
     ImGui::EndChild();
 }
 
+
+
+
 int main() {
     // Editor and Engine initialization
     BloomEngine::Core engine;
     engine.Initialize(); // Make sure SDL and the renderer are initialized here
+
+    ConsoleLogWindow consoleLogWindow;
+
+    FileTree fileTree;
+
+    CodeEditor codeEditor;
 
     // Setup ImGui context
     IMGUI_CHECKVERSION();
@@ -52,6 +65,12 @@ int main() {
     // Setup Platform/Renderer bindings
     ImGui_ImplSDL2_InitForSDLRenderer(engine.GetWindow(), engine.GetRenderer());
     ImGui_ImplSDLRenderer2_Init(engine.GetRenderer());
+
+    // Redirect cout and cerr to the custom stream buffer
+    std::stringstream consoleBuffer;
+    ConsoleStreamBuffer consoleStreamBuffer(std::cout);
+    std::cout.rdbuf(&consoleStreamBuffer);
+    std::cerr.rdbuf(&consoleStreamBuffer);
 
     bool editorRunning = true;
     SDL_Event event;
@@ -90,11 +109,6 @@ int main() {
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
-
-
-
-
-
         // Render game output
         engine.Render();
         ImVec2 gameResolution(1280, 720);
@@ -107,15 +121,24 @@ int main() {
         ImGui::End();
 
         // Render project window
-
-        ImGui::Begin("Project");
-        ImGui::Text("File Tree");
-        DisplayFileTree("../../editor/Game");
+        ImGui::Begin("Project Browser");
+        fileTree.DisplayFileTree("../../editor/Game");
         ImGui::End();
 
-        ImGui::Begin("Assets");
-        ImGui::Text("Asset Browser");
+        // Render Asset Browser
+        ImGui::Begin("Asset Browser");
+        fileTree.DisplayFileTree("../../editor/Game/Assets");
         ImGui::End();
+
+        // Render console log window
+        ImGui::Begin("Console Log");
+        consoleLogWindow.ShowConsoleLogWindow(consoleStreamBuffer.GetLines());
+        ImGui::End();
+
+        // Code Editor
+//        ImGui::Begin("Code Editor");
+//        codeEditor.Render();
+//        ImGui::End();
 
         // ImGui rendering
         ImGui::Render();

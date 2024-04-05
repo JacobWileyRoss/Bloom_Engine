@@ -44,7 +44,11 @@ message("Editor sources: ${EDITOR_SOURCES}")
 
 add_executable(BloomEngineEditor main.cpp
         ${IMGUI_SOURCES}
-        ${EDITOR_SOURCES})
+        ${EDITOR_SOURCES}
+        include/ConsoleStreamBuffer.h
+        include/ConsoleLogWindow.h
+        include/FileTree.h
+        include/CodeEditor.h)
 
 
 target_include_directories(BloomEngineEditor PRIVATE ${LUA_INCLUDE_DIR} PRIVATE ../engine/include )
