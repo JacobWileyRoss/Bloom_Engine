@@ -18,11 +18,25 @@ message("SDL2_image include dirs: ${SDL2_IMAGE_INCLUDE_DIRS}")
 message("SDL2_image libraries: ${SDL2_IMAGE_LIBRARIES}")
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 
+# ImGui source files
+file(GLOB IMGUI_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-docking/*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-docking/backends/imgui_impl_sdl2.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-docking/backends/imgui_impl_sdlrenderer2.cpp" # Adjust this line as needed for your graphics API
+)
+
+# Include directories for ImGui and the backends
+include_directories(
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-dockingr"
+        "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-docking/backends"
+)
+
 # Add the Sol2 include directory
 include_directories(/usr/local/lib/sol2-develop/include)
 
 
 add_executable(Bloom_Engine main.cpp
+        ${IMGUI_SOURCES}
         src/System/RenderingEngine.cpp
         include/System/RenderingEngine.h
         src/System/PhysicsEngine.cpp

@@ -33,6 +33,7 @@ public:
     void update(std::unordered_map<int, Entity>& entities);
     void Render(std::unordered_map<int, Entity>& entities);
     SDL_Renderer* GetRenderer() { return renderer; };
+    SDL_Texture* GetRenderTargetTexture() const { return renderTargetTexture; }
     void setRenderLayer(int entityUID, RenderLayer renderLayer);
     void Shutdown();
 
@@ -40,6 +41,9 @@ private:
     EntityManager& entityManager;
     Dispatcher& dispatcher;
     static SDL_Renderer* renderer;
+    static SDL_Texture* renderTargetTexture;
+
+
 
 };
 

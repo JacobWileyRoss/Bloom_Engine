@@ -5,6 +5,8 @@
 #include "../../include/System/RenderingEngine.h"
 
 SDL_Renderer* RenderingEngine::renderer = nullptr;
+SDL_Texture* RenderingEngine::renderTargetTexture = nullptr;
+
 
 void RenderingEngine::Initialize(SDL_Window *window) {
     if (!window) {
@@ -17,6 +19,13 @@ void RenderingEngine::Initialize(SDL_Window *window) {
         std::cerr << "[ERROR] Create Renderer Error: " << SDL_GetError() << std::endl;
         return;
     }
+
+    // Initialize renderTargetTexture
+    renderTargetTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
+    if (!renderTargetTexture) {
+        std::cerr << "[ERROR] Failed to create render target texture: " << SDL_GetError() << std::endl;
+    }
+
     std::cout << "[INFO] RenderingEngine initialized successfully." << std::endl;
 }
 
@@ -34,7 +43,7 @@ void RenderingEngine::setSprite(int entityUID, float posX, float posY, float wid
     spriteComponent.rect.w = width;
     spriteComponent.rect.h = height;
     std::cout << "[DEBUG] Sprite set to posX: " << posX << ", posY: " << posY << ", width: " << width << ", height: "
-                << height << std::endl;
+              << height << std::endl;
 }
 
 // This function accepts an image filepath and assigns it to a Texture Component's SDL_Texture*
@@ -46,7 +55,7 @@ void RenderingEngine::setTexture(int entityUID, const char* filename) {
 
     Entity& entity = entityManager.getEntity(entityUID);
     std::cout << "[INFO] setTexture() called for entity ID: " << entity.UID << " with filename: "
-                << filename << std::endl;
+              << filename << std::endl;
 
     SDL_Surface* surface = IMG_Load(filename);
     if (!surface) {
@@ -118,6 +127,8 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
         return;
     }
 
+    SDL_SetRenderTarget(renderer, renderTargetTexture);
+
     // First, find the camera entity UID
     auto cameraEntityUIDs = entityManager.getEntitiesWithComponent<Camera>
             (ComponentTypes::Camera);
@@ -164,9 +175,9 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
             if (textureComponent.texture) {
                 SDL_Rect renderQuad = {
                         static_cast<int>((transformComponent.posX - cameraComponent.viewPort.x) *
-                        cameraComponent.zoomLevel),
+                                         cameraComponent.zoomLevel),
                         static_cast<int>((transformComponent.posY - cameraComponent.viewPort.y) *
-                        cameraComponent.zoomLevel),
+                                         cameraComponent.zoomLevel),
                         static_cast<int>(spriteComponent.rect.w * cameraComponent.zoomLevel),
                         static_cast<int>(spriteComponent.rect.h * cameraComponent.zoomLevel),
                 };
@@ -176,7 +187,8 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
             }
         }
     }
-    SDL_RenderPresent(renderer);
+    //SDL_RenderPresent(renderer);
+    SDL_SetRenderTarget(renderer, NULL); // Reset to default when done
 }
 
 // This function sets a Renderable Component's RenderLayer which is used for separating entities from background,

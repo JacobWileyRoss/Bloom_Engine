@@ -8,6 +8,10 @@
 
 #include <vector>
 #include <SDL.h>
+#include "../../vendor/imgui-docking/imgui.h"
+#include "../../vendor/imgui-docking/imgui_internal.h"
+#include "../../vendor/imgui-docking/backends/imgui_impl_sdl2.h"
+#include "../../vendor/imgui-docking/backends/imgui_impl_sdlrenderer2.h"
 
 #include "FileSystem.h"
 #include "StateMachine.h"
@@ -27,6 +31,11 @@
 #include "../Component/Sprite.h"
 #include "../Component/Texture.h"
 #include "../Component/Collider.h"
+
+#include "../../Bloom_Editor/include/CodeEditor.h"
+#include "../../Bloom_Editor/include/ConsoleLogWindow.h"
+#include "../../Bloom_Editor/include/ConsoleStreamBuffer.h"
+#include "../../Bloom_Editor/include/FileTree.h"
 
 class Core
 {
