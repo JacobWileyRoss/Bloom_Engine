@@ -46,6 +46,7 @@ public:
     void MainLoop();
     void Shutdown();
     SDL_Window* GetWindow();
+    void RenderEntityManager();
 
 private:
     FileSystem fileSystem;
@@ -66,6 +67,8 @@ private:
     bool isRunning;
     float deltaTime{};
     std::time_t lastModifiedTimeLevel{};
+    int currentSelectedEntity = -1; // Initialized to -1 to indicate no entity selected
+
 };
 
 

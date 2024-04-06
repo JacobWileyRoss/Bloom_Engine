@@ -75,6 +75,22 @@ void EntityManager::attachComponent(int entityUID, ComponentTypes componentType)
     }
 }
 
+void EntityManager::removeComponent(int entityUID, ComponentTypes componentType) {
+    auto entityIt = entities.find(entityUID);
+    if (entityIt != entities.end()) {
+        auto& components = entityIt->second.components;
+        auto compIt = components.find(componentType);
+        if (compIt != components.end()) {
+            components.erase(compIt);
+            std::cout << "[INFO] " << componentTypeToString(componentType) << " component removed from Entity: " << entityUID << std::endl;
+        } else {
+            std::cerr << "[ERROR] Component not found in Entity: " << entityUID << std::endl;
+        }
+    } else {
+        std::cerr << "[ERROR] Entity not found: " << entityUID << std::endl;
+    }
+}
+
 // Returns the actual entity object requested by the entityUID
 Entity& EntityManager::getEntity(int entityUID) {
     auto entity = entities.find(entityUID);

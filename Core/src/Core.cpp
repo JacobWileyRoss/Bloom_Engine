@@ -65,7 +65,7 @@ void Core::Initialize() {
     });
 
     // Load Lua script for current Level
-    scriptingEngine.loadScript("../Game/levels/Level1.lua");
+    scriptingEngine.loadScript("../Game/src/levels/Level1.lua");
 
     // TODO review StateMachine and the relevance of changeState - does not affect hot reloading like I thought
     // Load GameplayState defined in the Level Lua script
@@ -127,7 +127,7 @@ void Core::MainLoop() {
 
         // FileSystem checks the Lua script for the date of last modification, if changed it reload the script this
         // Enables "Hot Reloading"
-        fileSystem.checkAndReloadScript(scriptingEngine.getLuaState(), "../Game/levels/Level1.lua", lastModifiedTimeLevel);
+        fileSystem.checkAndReloadScript(scriptingEngine.getLuaState(), "../Game/src/levels/Level1.lua", lastModifiedTimeLevel);
 
         // All systems perform their own update() functions
         physicsEngine.update(deltaTime);
@@ -155,7 +155,7 @@ void Core::MainLoop() {
         ImGuiID dockspace_id3 = ImGui::GetID("Dockspace3");
         ImGuiID dockspace_id4 = ImGui::GetID("Dockspace4");
 
-        ImGui::ShowDemoWindow();
+        //ImGui::ShowDemoWindow();
 
 
         // Render viewport
@@ -169,6 +169,7 @@ void Core::MainLoop() {
         ImGui::Image(texID, imageSize);
         ImGui::End();
 
+        // Render FPS counter
         ImGui::Begin("Performance");
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::End();
@@ -188,6 +189,8 @@ void Core::MainLoop() {
             fileTree.DisplayFileTree("../Game/assets", codeEditor);
         }
         ImGui::End();
+
+        RenderEntityManager();
 
 // Render console log window docked
         if (ImGui::Begin("Console Log")) {
@@ -229,6 +232,114 @@ void Core::Shutdown() {
 SDL_Window *Core::GetWindow() {
     return window;
 }
+
+void Core::RenderEntityManager() {
+    ImGui::Begin("Entity Manager");
+
+    // Split view
+    ImGui::Columns(3, nullptr, false); // Updated to 3 columns for better UI distribution
+
+    // Column 1: Entity List
+    ImGui::Text("Entities");
+    ImGui::Separator();
+    for (const auto& entityPair : entityManager.entities) {
+        bool is_selected = (currentSelectedEntity == entityPair.first);
+        if (ImGui::Selectable(std::to_string(entityPair.first).c_str(), is_selected)) {
+            currentSelectedEntity = entityPair.first;
+        }
+    }
+
+    if (ImGui::Button("Create New Entity")) {
+        currentSelectedEntity = entityManager.createEntity();
+    }
+
+    ImGui::NextColumn();
+
+    // Column 2: Component Attachment
+    ImGui::Text("Attach Component");
+    ImGui::Separator();
+    if (currentSelectedEntity != -1) {
+        static int componentTypeIndex = 0;
+        ComponentTypes componentTypes[] = {
+                ComponentTypes::Animation, ComponentTypes::Camera, ComponentTypes::Collider,
+                ComponentTypes::Event, ComponentTypes::Physics, ComponentTypes::Player,
+                ComponentTypes::Renderable, ComponentTypes::Sprite, ComponentTypes::Texture,
+                ComponentTypes::Transform
+        };
+        const char* componentTypeNames[] = {
+                "Animation", "Camera", "Collider", "Event", "Physics",
+                "Player", "Renderable", "Sprite", "Texture", "Transform"
+        };
+
+        ImGui::Combo("Component Type", &componentTypeIndex, componentTypeNames, IM_ARRAYSIZE(componentTypeNames));
+
+        if (ImGui::Button("Attach")) {
+            entityManager.attachComponent(currentSelectedEntity, componentTypes[componentTypeIndex]);
+        }
+    }
+
+    ImGui::NextColumn();
+
+    // Column 3: Component Editing
+    ImGui::Text("Edit Components");
+    ImGui::Separator();
+    if (currentSelectedEntity != -1) {
+        Entity& entity = entityManager.getEntity(currentSelectedEntity);
+        ImGui::Text("Entity %d Components", currentSelectedEntity);
+
+        std::vector<ComponentTypes> componentsToBeRemoved;
+        for (const auto& compPair : entity.components) {
+            ComponentTypes compType = compPair.first;
+            std::string compName = componentTypeToString(compType);
+
+            if (ImGui::TreeNode(compName.c_str())) {
+                // Immediate UI for removing a component
+                ImGui::SameLine(ImGui::GetWindowWidth() - 100); // Adjust based on your UI layout
+                if (ImGui::Button(("Remove##" + compName).c_str())) {
+                    componentsToBeRemoved.push_back(compType);
+                }
+
+                // Component-specific UI based on type
+                switch (compType) {
+                    case ComponentTypes::Transform: {
+                        auto& transform = dynamic_cast<Transform&>(*compPair.second);
+                        ImGui::InputFloat("Position X", &transform.posX);
+                        ImGui::InputFloat("Position Y", &transform.posY);
+                        break;
+                    }
+                    case ComponentTypes::Sprite: {
+                        auto& sprite = dynamic_cast<Sprite&>(*compPair.second);
+                        ImGui::InputFloat("Position X", &sprite.rect.x);
+                        ImGui::InputFloat("Position Y", &sprite.rect.y);
+                        ImGui::InputFloat("Width", &sprite.rect.w);
+                        ImGui::InputFloat("Height", &sprite.rect.h);
+                        break;
+                    }
+                    case ComponentTypes::Texture: {
+                        // Example: Text input for texture file path
+                        static char filePath[256] = "";
+                        ImGui::InputText("Texture Path##Texture", filePath, sizeof(filePath));
+                        if (ImGui::Button("Load Texture##Texture")) {
+                            renderingEngine.setTexture(currentSelectedEntity, filePath);
+                        }
+                        break;
+                    }
+                        // Additional component types...
+                }
+                ImGui::TreePop();
+            }
+        }
+
+        // Process pending removals after UI loop to avoid iterator invalidation
+        for (auto compType : componentsToBeRemoved) {
+            entityManager.removeComponent(currentSelectedEntity, compType);
+        }
+    }
+
+    ImGui::End();
+}
+
+
 
 // Core default destructor
 Core::~Core() = default;

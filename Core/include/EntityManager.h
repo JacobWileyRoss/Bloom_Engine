@@ -69,6 +69,7 @@ public:
 
     std::unique_ptr<Component> createComponent(ComponentTypes componentType);
     void attachComponent(int entityUID, ComponentTypes);
+    void removeComponent(int entityUID, ComponentTypes componentType);
 };
 
 #endif //BLOOM_ENGINE_ENTITYMANAGER_H
