@@ -1,0 +1,79 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "map001.tmx",
+    "expandedProjectPaths": [
+        "mystic_woods_free_2.1",
+        "mystic_woods_free_2.1/tsx",
+        "."
+    ],
+    "fileStates": {
+        "map001.tmx": {
+            "scale": 0.2538,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 981.0874704491724,
+                "y": 878.6446020488572
+            }
+        },
+        "mystic_woods_free_2.1/sprites/tilesets/water2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 4.2176
+        },
+        "mystic_woods_free_2.1/tsx/Serene_Village_16x16.tsx": {
+            "scaleInDock": 2.2781,
+            "scaleInEditor": 2.287
+        },
+        "mystic_woods_free_2.1/tsx/TX Tileset Grass.tsx": {
+            "scaleInDock": 1.2891,
+            "scaleInEditor": 1
+        },
+        "mystic_woods_free_2.1/tsx/TX Tileset Stone Ground.tsx": {
+            "scaleInDock": 1.2338,
+            "scaleInEditor": 1
+        },
+        "mystic_woods_free_2.1/tsx/grass.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "mystic_woods_free_2.1/tsx/plains.tsx": {
+            "scaleInDock": 1.3702,
+            "scaleInEditor": 1
+        },
+        "mystic_woods_free_2.1/tsx/water1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 3.8706
+        }
+    },
+    "last.imagePath": "/Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine/Game/SERENE_VILLAGE_REVAMPED",
+    "map.height": 90,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 120,
+    "openFiles": [
+        "map001.tmx",
+        "mystic_woods_free_2.1/tsx/plains.tsx",
+        "mystic_woods_free_2.1/tsx/TX Tileset Grass.tsx",
+        "mystic_woods_free_2.1/tsx/TX Tileset Stone Ground.tsx",
+        "mystic_woods_free_2.1/tsx/Serene_Village_16x16.tsx"
+    ],
+    "project": "Bloom_Sandbox.tiled-project",
+    "recentFiles": [
+        "mystic_woods_free_2.1/tsx/Serene_Village_16x16.tsx",
+        "mystic_woods_free_2.1/tsx/TX Tileset Stone Ground.tsx",
+        "mystic_woods_free_2.1/tsx/TX Tileset Grass.tsx",
+        "mystic_woods_free_2.1/tsx/plains.tsx",
+        "map001.tmx",
+        "mystic_woods_free_2.1/tsx/grass.tsx",
+        "mystic_woods_free_2.1/tsx/water1.tsx",
+        "mystic_woods_free_2.1/sprites/tilesets/water2.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
