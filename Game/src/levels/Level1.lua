@@ -82,7 +82,7 @@ function createBackgroundPainting2()
 
     -- Set sprite, texture, render layer, and initial transform
     setSprite(backgroundPainting, 0, 0, 1280, 720)
-    setTexture(backgroundPainting, "../Game/assets/background_DarkPath_Ritual_Scene.png")
+    setTexture(backgroundPainting, "../Game/assets/background_DarkPath_Castle_Scene.png")
     setRenderLayer(backgroundPainting, RenderLayer.background)
     setTransform(backgroundPainting, 0, -720)
 end
