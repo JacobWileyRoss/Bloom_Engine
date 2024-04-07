@@ -40,10 +40,11 @@ public:
     void setCurrentSelectedScript(std::string filepath) {
         currentSelectedScript = filepath;
     }
+    void addEntity(int entityUID);
 
     ~ScriptingEngine() {
         std::cout << "[INFO] ScriptingEngine destructor called" << std::endl;
-        luaCreatedEntities.clear();
+        createdEntities.clear();
     }
 private:
     sol::state& lua;
@@ -53,7 +54,7 @@ private:
     AnimationEngine& animationEngine;
     PhysicsEngine& physicsEngine;
     CollisionEngine& collisionEngine;
-    std::vector<int> luaCreatedEntities;
+    std::vector<int> createdEntities;
     std::string currentSelectedScript;
 
 };

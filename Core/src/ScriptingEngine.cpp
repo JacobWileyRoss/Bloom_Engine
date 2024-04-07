@@ -21,6 +21,10 @@ void ScriptingEngine::loadScript(const std::string &scriptPath) {
     lua.script_file(scriptPath);
 }
 
+void ScriptingEngine::addEntity(int entityUID) {
+    createdEntities.push_back(entityUID);
+}
+
 // This function "exposes" Engine functionality and data to the ScriptingEngine so that Lua can interact with the
 // actual Engine itself
 void ScriptingEngine::bindToLua() {
@@ -64,15 +68,15 @@ void ScriptingEngine::bindToLua() {
     // Exposing EntityManager's createEntity() functionality
     lua.set_function("createEntity", [this]() {
         int newEntity = entityManager.createEntity();
-        luaCreatedEntities.push_back(newEntity);
+        createdEntities.push_back(newEntity);
         return newEntity;
     });
 
     lua.set_function("destroyEntities", [this]() {
-        for(auto entity : luaCreatedEntities) {
+        for(auto entity : createdEntities) {
             entityManager.destroyEntity(entity);
         }
-        luaCreatedEntities.clear();
+        createdEntities.clear();
     });
 
     lua.set_function("attachComponent", [this](int entityUID, ComponentTypes componentType) {

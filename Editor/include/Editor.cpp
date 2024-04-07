@@ -89,7 +89,7 @@ void Editor::Render() {
     ImGui::SetNextWindowSize(viewportResolution); // Set the width and height of the next window
     ImGui::SetNextWindowSizeConstraints(viewportResolution, viewportResolution);
     ImGui::Begin("Viewport");
-    ImGui::DockBuilderDockWindow("Viewport", dockspace_id1);
+    ImGui::DockBuilderDockWindow("Viewport" , dockspace_id1);
     ImTextureID texID = reinterpret_cast<ImTextureID>(renderingEngine.GetRenderTargetTexture());
     ImVec2 imageSize = ImVec2(viewportResolution.x, viewportResolution.y);
     ImGui::Image(texID, imageSize);
@@ -132,6 +132,7 @@ void Editor::Render() {
     }
     if (ImGui::Button("Create New Entity")) {
         currentSelectedEntity = entityManager.createEntity();
+        scriptingEngine.addEntity(currentSelectedEntity);
     }
 
     // Column 2: Component Attachment
@@ -153,6 +154,8 @@ void Editor::Render() {
         ImGui::Combo("Component", &componentTypeIndex, componentTypeNames,
                      IM_ARRAYSIZE(componentTypeNames));
         if (ImGui::Button("Attach")) {
+            // TODO attach will fail and crash if attaching Collider without a Physics component already attached
+            // Other components were failing without a Transform, so I attach one by default during createEntity()
             entityManager.attachComponent(currentSelectedEntity, componentTypes[componentTypeIndex]);
         }
     }
@@ -177,10 +180,38 @@ void Editor::Render() {
 
                 // Component-specific UI based on type
                 switch (compType) {
-                    case ComponentTypes::Transform: {
-                        auto& transform = dynamic_cast<Transform&>(*compPair.second);
-                        ImGui::InputFloat("Position X", &transform.posX);
-                        ImGui::InputFloat("Position Y", &transform.posY);
+                    case ComponentTypes::Animation: {
+                        break;
+                    }
+                    case ComponentTypes::Camera: {
+                        break;
+                    }
+                    case ComponentTypes::Collider: {
+                        auto& collider = dynamic_cast<Collider&>(*compPair.second);
+                        ImGui::InputInt("Position X", &collider.rect.x);
+                        ImGui::InputInt("Position Y", &collider.rect.y);
+                        ImGui::InputInt("Width", &collider.rect.w);
+                        ImGui::InputInt("Height", &collider.rect.h);
+                    }
+                    case ComponentTypes::Physics: {
+                        break;
+                    }
+                    case ComponentTypes::Player: {
+                        break;
+                    }
+                    case ComponentTypes::Renderable: {
+                        static int renderLayerIndex = 0;
+                        RenderLayer renderLayers[] = {
+                                RenderLayer::background, RenderLayer::character, RenderLayer::foreground
+                        };
+                        const char* renderLayerNames[] = {
+                                "Background", "Character", "Foreground"
+                        };
+                        ImGui::Combo("Layer", &renderLayerIndex, renderLayerNames,
+                                     IM_ARRAYSIZE(renderLayers));
+                        if (ImGui::Button("Set Render Layer")) {
+                            renderingEngine.setRenderLayer(currentSelectedEntity, renderLayers[renderLayerIndex]);
+                        }
                         break;
                     }
                     case ComponentTypes::Sprite: {
@@ -200,7 +231,12 @@ void Editor::Render() {
                         }
                         break;
                     }
-                        // Additional component types...
+                    case ComponentTypes::Transform: {
+                        auto& transform = dynamic_cast<Transform&>(*compPair.second);
+                        ImGui::InputFloat("Position X", &transform.posX);
+                        ImGui::InputFloat("Position Y", &transform.posY);
+                        break;
+                    }
                 }
                 ImGui::TreePop();
             }
