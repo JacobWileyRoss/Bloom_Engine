@@ -225,10 +225,27 @@ void Editor::Render() {
                     case ComponentTypes::Texture: {
                         // Example: Text input for texture file path
                         static char filePath[256] = "";
-                        ImGui::InputText("Texture Path##Texture", filePath, sizeof(filePath));
+                        //ImGui::InputText("Texture Path##Texture", filePath, sizeof(filePath));
                         if (ImGui::Button("Load Texture##Texture")) {
-                            renderingEngine.setTexture(currentSelectedEntity, filePath);
+                            ImGuiFileDialog::Instance()->OpenDialog("ChooseTextureDlgKey", "Load Texture", ".png");
                         }
+
+
+                        // Check if the dialog needs to be displayed
+                        if (ImGuiFileDialog::Instance()->Display("ChooseTextureDlgKey")) {
+                            // If the user selects a file and clicks OK, the dialog will return true
+                            if (ImGuiFileDialog::Instance()->IsOk()) {
+                                auto filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+                                // Now you can load the texture from the selected file
+                                renderingEngine.setTexture(currentSelectedEntity, filePath);                            }
+
+                            // Close the dialog after processing (or if cancelled)
+                            ImGuiFileDialog::Instance()->Close();
+                        }
+
+//                        if (ImGui::Button("Load Texture##Texture")) {
+//                            renderingEngine.setTexture(currentSelectedEntity, filePath);
+//                        }
                         break;
                     }
                     case ComponentTypes::Transform: {
