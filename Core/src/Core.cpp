@@ -8,12 +8,13 @@
 
 // Engine Core's constructor which initializes the individual required systems
 Core::Core() : window(nullptr), isRunning(false), fileSystem(), stateMachine(entityManager, lua),
-                dispatcher(entityManager),
-                physicsEngine(entityManager, dispatcher, deltaTime),
-                inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),
-                animationEngine(entityManager, dispatcher, deltaTime),
-                collisionEngine(entityManager, dispatcher),
-                scriptingEngine(lua, entityManager, dispatcher, renderingEngine, animationEngine, physicsEngine, collisionEngine){}
+               editor(window, renderingEngine, entityManager, scriptingEngine),
+               dispatcher(entityManager),
+               physicsEngine(entityManager, dispatcher, deltaTime),
+               inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),
+               animationEngine(entityManager, dispatcher, deltaTime),
+               collisionEngine(entityManager, dispatcher),
+               scriptingEngine(lua, entityManager, dispatcher, renderingEngine, animationEngine, physicsEngine, collisionEngine){}
 
 void Core::Initialize() {
     // Initialize SDL2 using SDL_INIT_EVERYTHING
@@ -74,12 +75,8 @@ void Core::Initialize() {
 
 // Start the Engine's MainLoop function
 void Core::MainLoop() {
-    // Editor initialization
-    ConsoleLogWindow consoleLogWindow;
-    FileTree fileTree;
-    CodeEditor codeEditor;
 
-    // Setup ImGui context
+// Setup ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -87,21 +84,11 @@ void Core::MainLoop() {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
 
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsLight();
 
     // Setup Platform/Renderer bindings
     ImGui_ImplSDL2_InitForSDLRenderer(window, renderingEngine.GetRenderer());
     ImGui_ImplSDLRenderer2_Init(renderingEngine.GetRenderer());
-
-    // Redirect cout and cerr to the custom stream buffer
-    std::stringstream consoleBuffer;
-    ConsoleStreamBuffer consoleStreamBuffer(std::cout);
-    std::cout.rdbuf(&consoleStreamBuffer);
-    std::cerr.rdbuf(&consoleStreamBuffer);
-
-    bool editorRunning = true;
+    editor.Initialize();
     SDL_Event event;
 
     std::cout << "[INFO] MainLoop() Called!" << std::endl;
@@ -111,7 +98,8 @@ void Core::MainLoop() {
         deltaTime = (currentTime - lastTime) / 1000.f;
         lastTime = currentTime;
         while(SDL_PollEvent(&event) != 0) {
-            ImGui_ImplSDL2_ProcessEvent(&event);
+            //ImGui_ImplSDL2_ProcessEvent(&event);
+            editor.Update(event);
 
             if(event.type == SDL_QUIT) {
                 isRunning = false;
@@ -140,77 +128,8 @@ void Core::MainLoop() {
         //Lock to 60 FPS
         //SDL_Delay((uint32_t)(1000 / 60));
 
+        editor.Render();
 
-        // Render ImGui
-        ImGui_ImplSDLRenderer2_NewFrame();
-        ImGui_ImplSDL2_NewFrame();
-        ImGui::NewFrame();
-
-
-        // Begin DockSpace
-        //static ImGuiID dockspace_id = ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
-        ImGui::DockSpaceOverViewport();
-        ImGuiID dockspace_id1 = ImGui::GetID("Dockspace1");
-        ImGuiID dockspace_id2 = ImGui::GetID("Dockspace2");
-        ImGuiID dockspace_id3 = ImGui::GetID("Dockspace3");
-        ImGuiID dockspace_id4 = ImGui::GetID("Dockspace4");
-
-        //ImGui::ShowDemoWindow();
-
-
-        // Render viewport
-        ImVec2 viewportResolution(1280, 720);
-        ImGui::SetNextWindowSize(viewportResolution); // Set the width and height of the next window
-        ImGui::SetNextWindowSizeConstraints(viewportResolution, viewportResolution);
-        ImGui::Begin("Viewport");
-        ImGui::DockBuilderDockWindow("Viewport", dockspace_id1);
-        ImTextureID texID = reinterpret_cast<ImTextureID>(renderingEngine.GetRenderTargetTexture());
-        ImVec2 imageSize = ImVec2(viewportResolution.x, viewportResolution.y);
-        ImGui::Image(texID, imageSize);
-        ImGui::End();
-
-        // Render FPS counter
-        ImGui::Begin("Performance");
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::End();
-
-
-        // Render project window docked
-        ImGui::SetNextWindowSize(ImVec2(200, 400), ImGuiCond_FirstUseEver);
-        if (ImGui::Begin("Project Browser")) {
-            ImGui::DockBuilderDockWindow("Project Browser", dockspace_id2);
-            fileTree.DisplayFileTree("../Game", codeEditor);
-        }
-        ImGui::End();
-
-// Render Asset Browser docked
-        if (ImGui::Begin("Asset Browser")) {
-            ImGui::DockBuilderDockWindow("Asset Browser", dockspace_id2);
-            fileTree.DisplayFileTree("../Game/assets", codeEditor);
-        }
-        ImGui::End();
-
-        RenderEntityManager();
-
-// Render console log window docked
-        if (ImGui::Begin("Console Log")) {
-            ImGui::DockBuilderDockWindow("Console Log", dockspace_id3);
-            consoleLogWindow.ShowConsoleLogWindow(consoleStreamBuffer.GetLines());
-        }
-        ImGui::End();
-
-// Render Code Editor docked
-//        if (ImGui::Begin("Code Editor")) {
-//            ImGui::DockBuilderDockWindow("Code Editor", dockspace_id4);
-//            codeEditor.Render();
-//        }
-//        ImGui::End();
-
-        // ImGui rendering
-        ImGui::Render();
-        SDL_RenderClear(renderingEngine.GetRenderer());
-        ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
-        SDL_RenderPresent(renderingEngine.GetRenderer());
     }
     ImGui_ImplSDLRenderer2_Shutdown();
     ImGui_ImplSDL2_Shutdown();
@@ -233,111 +152,7 @@ SDL_Window *Core::GetWindow() {
     return window;
 }
 
-void Core::RenderEntityManager() {
-    ImGui::Begin("Entity Manager");
 
-    // Split view
-    ImGui::Columns(3, nullptr, false); // Updated to 3 columns for better UI distribution
-
-    // Column 1: Entity List
-    ImGui::Text("Entities");
-    ImGui::Separator();
-    for (const auto& entityPair : entityManager.entities) {
-        bool is_selected = (currentSelectedEntity == entityPair.first);
-        if (ImGui::Selectable(std::to_string(entityPair.first).c_str(), is_selected)) {
-            currentSelectedEntity = entityPair.first;
-        }
-    }
-
-    if (ImGui::Button("Create New Entity")) {
-        currentSelectedEntity = entityManager.createEntity();
-    }
-
-    ImGui::NextColumn();
-
-    // Column 2: Component Attachment
-    ImGui::Text("Attach Component");
-    ImGui::Separator();
-    if (currentSelectedEntity != -1) {
-        static int componentTypeIndex = 0;
-        ComponentTypes componentTypes[] = {
-                ComponentTypes::Animation, ComponentTypes::Camera, ComponentTypes::Collider,
-                ComponentTypes::Event, ComponentTypes::Physics, ComponentTypes::Player,
-                ComponentTypes::Renderable, ComponentTypes::Sprite, ComponentTypes::Texture,
-                ComponentTypes::Transform
-        };
-        const char* componentTypeNames[] = {
-                "Animation", "Camera", "Collider", "Event", "Physics",
-                "Player", "Renderable", "Sprite", "Texture", "Transform"
-        };
-
-        ImGui::Combo("Component Type", &componentTypeIndex, componentTypeNames, IM_ARRAYSIZE(componentTypeNames));
-
-        if (ImGui::Button("Attach")) {
-            entityManager.attachComponent(currentSelectedEntity, componentTypes[componentTypeIndex]);
-        }
-    }
-
-    ImGui::NextColumn();
-
-    // Column 3: Component Editing
-    ImGui::Text("Edit Components");
-    ImGui::Separator();
-    if (currentSelectedEntity != -1) {
-        Entity& entity = entityManager.getEntity(currentSelectedEntity);
-        ImGui::Text("Entity %d Components", currentSelectedEntity);
-
-        std::vector<ComponentTypes> componentsToBeRemoved;
-        for (const auto& compPair : entity.components) {
-            ComponentTypes compType = compPair.first;
-            std::string compName = componentTypeToString(compType);
-
-            if (ImGui::TreeNode(compName.c_str())) {
-                // Immediate UI for removing a component
-                ImGui::SameLine(ImGui::GetWindowWidth() - 100); // Adjust based on your UI layout
-                if (ImGui::Button(("Remove##" + compName).c_str())) {
-                    componentsToBeRemoved.push_back(compType);
-                }
-
-                // Component-specific UI based on type
-                switch (compType) {
-                    case ComponentTypes::Transform: {
-                        auto& transform = dynamic_cast<Transform&>(*compPair.second);
-                        ImGui::InputFloat("Position X", &transform.posX);
-                        ImGui::InputFloat("Position Y", &transform.posY);
-                        break;
-                    }
-                    case ComponentTypes::Sprite: {
-                        auto& sprite = dynamic_cast<Sprite&>(*compPair.second);
-                        ImGui::InputFloat("Position X", &sprite.rect.x);
-                        ImGui::InputFloat("Position Y", &sprite.rect.y);
-                        ImGui::InputFloat("Width", &sprite.rect.w);
-                        ImGui::InputFloat("Height", &sprite.rect.h);
-                        break;
-                    }
-                    case ComponentTypes::Texture: {
-                        // Example: Text input for texture file path
-                        static char filePath[256] = "";
-                        ImGui::InputText("Texture Path##Texture", filePath, sizeof(filePath));
-                        if (ImGui::Button("Load Texture##Texture")) {
-                            renderingEngine.setTexture(currentSelectedEntity, filePath);
-                        }
-                        break;
-                    }
-                        // Additional component types...
-                }
-                ImGui::TreePop();
-            }
-        }
-
-        // Process pending removals after UI loop to avoid iterator invalidation
-        for (auto compType : componentsToBeRemoved) {
-            entityManager.removeComponent(currentSelectedEntity, compType);
-        }
-    }
-
-    ImGui::End();
-}
 
 
 

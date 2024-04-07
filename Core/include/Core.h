@@ -36,6 +36,7 @@
 #include "../../Editor/include/ConsoleLogWindow.h"
 #include "../../Editor/include/ConsoleStreamBuffer.h"
 #include "../../Editor/include/FileTree.h"
+#include "../../Editor/include/Editor.h"
 
 class Core
 {
@@ -46,9 +47,9 @@ public:
     void MainLoop();
     void Shutdown();
     SDL_Window* GetWindow();
-    void RenderEntityManager();
 
 private:
+    Editor editor;
     FileSystem fileSystem;
     sol::state lua;
     ScriptingEngine scriptingEngine;
