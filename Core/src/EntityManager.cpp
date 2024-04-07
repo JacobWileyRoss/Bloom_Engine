@@ -8,9 +8,11 @@ EntityManager::EntityManager() {
 }
 
 // This creates a new blank entity and returns the new entityUID
+// It automatically attaches a Transform component as other component types will crash without the transform
 int EntityManager::createEntity() {
     int entityUID = nextUID++;
     entities.emplace(entityUID, Entity(entityUID));
+    attachComponent(entityUID, ComponentTypes::Transform);
     std::cout << "[INFO] Entity " << entityUID << " created successfully" << std::endl;
     return entityUID;
 }
@@ -60,7 +62,7 @@ std::unique_ptr<Component> EntityManager::createComponent(ComponentTypes compone
 }
 
 // Attaches a component determined by the componentType selection. This calls createComponent to create component
-// object requested
+// type specified
 void EntityManager::attachComponent(int entityUID, ComponentTypes componentType) {
     auto entity = entities.find(entityUID);
     if (entity != entities.end()) {
@@ -75,6 +77,7 @@ void EntityManager::attachComponent(int entityUID, ComponentTypes componentType)
     }
 }
 
+// Remove specified component type
 void EntityManager::removeComponent(int entityUID, ComponentTypes componentType) {
     auto entityIt = entities.find(entityUID);
     if (entityIt != entities.end()) {

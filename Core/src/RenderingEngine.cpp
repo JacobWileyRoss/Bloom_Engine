@@ -47,7 +47,7 @@ void RenderingEngine::setSprite(int entityUID, float posX, float posY, float wid
 }
 
 // This function accepts an image filepath and assigns it to a Texture Component's SDL_Texture*
-void RenderingEngine::setTexture(int entityUID, const char* filename) {
+void RenderingEngine::setTexture(int entityUID, std::string filename) {
     if (!renderer) {
         std::cerr << "[ERROR] Renderer is not initialized, cannot set texture." << std::endl;
         return;
@@ -57,7 +57,7 @@ void RenderingEngine::setTexture(int entityUID, const char* filename) {
     std::cout << "[INFO] setTexture() called for entity ID: " << entity.UID << " with filename: "
               << filename << std::endl;
 
-    SDL_Surface* surface = IMG_Load(filename);
+    SDL_Surface* surface = IMG_Load(filename.c_str());
     if (!surface) {
         std::cerr << "[ERROR] Surface Error for " << filename << ": " << IMG_GetError() << std::endl;
         return;

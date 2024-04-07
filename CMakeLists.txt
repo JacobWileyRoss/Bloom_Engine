@@ -31,12 +31,15 @@ include_directories(
         "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-docking/backends"
 )
 
+# ImGui
+
 # Add the Sol2 include directory
 include_directories(/usr/local/lib/sol2-develop/include)
 
 
 add_executable(Bloom_Engine main.cpp
         ${IMGUI_SOURCES}
+        vendor/ImGuiFileDialog-master/ImGuiFileDialog.cpp
         Core/src/RenderingEngine.cpp
         Core/include/RenderingEngine.h
         Core/src/PhysicsEngine.cpp
@@ -77,7 +80,8 @@ add_executable(Bloom_Engine main.cpp
         Core/include/LuaGameState.h
         Core/include/Camera.h
         Editor/include/Editor.cpp
-        Editor/include/Editor.h)
+        Editor/include/Editor.h
+        )
 
 target_link_libraries(Bloom_Engine ${SDL2_LIBRARIES} "/usr/local/Cellar/sdl2_image/2.8.2_1/lib/libSDL2_image.dylib"
                                     ${LUA_LIBRARIES})
