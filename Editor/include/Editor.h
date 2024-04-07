@@ -19,6 +19,7 @@
 #include "CodeEditor.h"
 #include "../../Core/include/ScriptingEngine.h"
 #include "SDL_events.h"
+#include "../../vendor/ImGuiFileDialog-master/ImGuiFileDialog.h"
 
 
 class Editor {
@@ -28,6 +29,7 @@ public:
     void Initialize();
     void Update(SDL_Event &event);
     void Render();
+    void LoadLevel(std::string filepath);
     void ShutDown();
 
 private:

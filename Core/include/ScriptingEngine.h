@@ -36,6 +36,10 @@ public:
     void update(float deltaTime);
     void loadScript(const std::string& scriptPath);
     void bindToLua();
+    std::string getCurrentSelectedScript() {return currentSelectedScript;};
+    void setCurrentSelectedScript(std::string filepath) {
+        currentSelectedScript = filepath;
+    }
 
     ~ScriptingEngine() {
         std::cout << "[INFO] ScriptingEngine destructor called" << std::endl;
@@ -50,6 +54,8 @@ private:
     PhysicsEngine& physicsEngine;
     CollisionEngine& collisionEngine;
     std::vector<int> luaCreatedEntities;
+    std::string currentSelectedScript;
+
 };
 
 

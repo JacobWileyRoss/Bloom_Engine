@@ -5,9 +5,6 @@
 #include "Editor.h"
 
 void Editor::Initialize() {
-
-
-
     auto& style = ImGui::GetStyle();
     style.Alpha = 1.0;
     style.WindowRounding = 3;
@@ -15,11 +12,10 @@ void Editor::Initialize() {
     style.GrabMinSize = 20;
     style.FrameRounding = 3;
 
-
     //style.Colors[ImGuiCol_Text] = ImVec4(0.00f, 1.00f, 1.00f, 1.00f);
     style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.00f, 0.40f, 0.41f, 1.00f);
     style.Colors[ImGuiCol_WindowBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-    style.Colors[ImGuiCol_ChildBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+    style.Colors[ImGuiCol_ChildBg] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
     style.Colors[ImGuiCol_Border] = ImVec4(255.0f, 0, 135.0f, 0.3f);
     style.Colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
     style.Colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.10f, 0.10f, 0.66f);
@@ -41,42 +37,52 @@ void Editor::Initialize() {
     // Redirect cout and cerr to the custom stream buffer
     std::cout.rdbuf(&consoleStreamBuffer);
     std::cerr.rdbuf(&consoleStreamBuffer);
-
-    bool editorRunning = true;
-    SDL_Event event;
-
-
-
-
 }
 
 void Editor::Update(SDL_Event &event) {
     ImGui_ImplSDL2_ProcessEvent(&event);
-
-    // FileSystem checks the Lua script for the date of last modification, if changed it reload the script this
-    // Enables "Hot Reloading"
-    //fileSystem.checkAndReloadScript(scriptingEngine.getLuaState(), "../Game/src/levels/Level1.lua", lastModifiedTimeLevel);
-
 }
 
 void Editor::Render() {
-    // Render ImGui
+
+    // Start ImGui rendering
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
     // Begin DockSpace
-    //static ImGuiID dockspace_id = ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
     ImGui::DockSpaceOverViewport();
     ImGuiID dockspace_id1 = ImGui::GetID("Dockspace1");
     ImGuiID dockspace_id2 = ImGui::GetID("Dockspace2");
     ImGuiID dockspace_id3 = ImGui::GetID("Dockspace3");
     ImGuiID dockspace_id4 = ImGui::GetID("Dockspace4");
 
+    // Main Menu Bar
+    if (ImGui::BeginMainMenuBar()) {
+        // File Menu
+        if (ImGui::BeginMenu("File")) {
+            // Load Level Option
+            if (ImGui::MenuItem("Load Level")) {
+                // Open the file dialog when "Load Level" is clicked
+                ImGuiFileDialog::Instance()->OpenDialog("ChooseLevelDlgKey", "Choose Level", ".lua");
+            }
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
 
+    // Check if the dialog needs to be displayed
+    if (ImGuiFileDialog::Instance()->Display("ChooseLevelDlgKey")) {
+        // If the user selects a file and clicks OK, the dialog will return true
+        if (ImGuiFileDialog::Instance()->IsOk()) {
+            auto filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+            // Now you can load the level from the selected file
+            LoadLevel(filePath); // Assuming this is a function you've defined
+        }
 
-    //ImGui::ShowDemoWindow();
-
+        // Close the dialog after processing (or if cancelled)
+        ImGuiFileDialog::Instance()->Close();
+    }
 
     // Render viewport
     ImVec2 viewportResolution(1280, 720);
@@ -94,7 +100,6 @@ void Editor::Render() {
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     ImGui::End();
 
-
     // Render project window docked
     ImGui::SetNextWindowSize(ImVec2(200, 400), ImGuiCond_FirstUseEver);
     if (ImGui::Begin("Project Browser")) {
@@ -110,6 +115,7 @@ void Editor::Render() {
     }
     ImGui::End();
 
+    // Render Entity Manager
     ImGui::Begin("Entity Manager");
 
     // Split view
@@ -124,14 +130,12 @@ void Editor::Render() {
             currentSelectedEntity = entityPair.first;
         }
     }
-
     if (ImGui::Button("Create New Entity")) {
         currentSelectedEntity = entityManager.createEntity();
     }
 
-    ImGui::NextColumn();
-
     // Column 2: Component Attachment
+    ImGui::NextColumn();
     ImGui::Text("Attach Component");
     ImGui::Separator();
     if (currentSelectedEntity != -1) {
@@ -146,28 +150,24 @@ void Editor::Render() {
                 "Animation", "Camera", "Collider", "Event", "Physics",
                 "Player", "Renderable", "Sprite", "Texture", "Transform"
         };
-
-        ImGui::Combo("Component", &componentTypeIndex, componentTypeNames, IM_ARRAYSIZE(componentTypeNames));
-
+        ImGui::Combo("Component", &componentTypeIndex, componentTypeNames,
+                     IM_ARRAYSIZE(componentTypeNames));
         if (ImGui::Button("Attach")) {
             entityManager.attachComponent(currentSelectedEntity, componentTypes[componentTypeIndex]);
         }
     }
 
-    ImGui::NextColumn();
-
     // Column 3: Component Editing
+    ImGui::NextColumn();
     ImGui::Text("Edit Components");
     ImGui::Separator();
     if (currentSelectedEntity != -1) {
         Entity& entity = entityManager.getEntity(currentSelectedEntity);
         ImGui::Text("Entity %d Components", currentSelectedEntity);
-
         std::vector<ComponentTypes> componentsToBeRemoved;
         for (const auto& compPair : entity.components) {
             ComponentTypes compType = compPair.first;
             std::string compName = componentTypeToString(compType);
-
             if (ImGui::TreeNode(compName.c_str())) {
                 // Immediate UI for removing a component
                 ImGui::SameLine(ImGui::GetWindowWidth() - 100); // Adjust based on your UI layout
@@ -220,23 +220,27 @@ void Editor::Render() {
     }
     ImGui::End();
 
-// Render Code Editor docked
-        if (ImGui::Begin("Code Editor")) {
-            ImGui::DockBuilderDockWindow("Code Editor", dockspace_id4);
-            codeEditor.Render();
-        }
-        ImGui::End();
+    // Render Code Editor docked
+    if (ImGui::Begin("Code Editor")) {
+        ImGui::DockBuilderDockWindow("Code Editor", dockspace_id4);
+        codeEditor.Render();
+    }
+    ImGui::End();
 
     // ImGui rendering
     ImGui::Render();
     SDL_RenderClear(renderingEngine.GetRenderer());
     ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
     SDL_RenderPresent(renderingEngine.GetRenderer());
-
 }
 
 void Editor::ShutDown() {
     ImGui_ImplSDLRenderer2_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
+}
+
+void Editor::LoadLevel(std::string filepath) {
+    scriptingEngine.setCurrentSelectedScript(filepath);
+    scriptingEngine.loadScript(filepath);
 }

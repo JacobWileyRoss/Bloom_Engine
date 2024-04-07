@@ -14,7 +14,8 @@ Core::Core() : window(nullptr), isRunning(false), fileSystem(), stateMachine(ent
                inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),
                animationEngine(entityManager, dispatcher, deltaTime),
                collisionEngine(entityManager, dispatcher),
-               scriptingEngine(lua, entityManager, dispatcher, renderingEngine, animationEngine, physicsEngine, collisionEngine){}
+               scriptingEngine(lua, entityManager, dispatcher, renderingEngine, animationEngine,
+                               physicsEngine, collisionEngine){}
 
 void Core::Initialize() {
     // Initialize SDL2 using SDL_INIT_EVERYTHING
@@ -66,7 +67,9 @@ void Core::Initialize() {
     });
 
     // Load Lua script for current Level
-    scriptingEngine.loadScript("../Game/src/levels/Level1.lua");
+    scriptingEngine.setCurrentSelectedScript("../Game/src/levels/Level1.lua") ;
+    scriptingEngine.loadScript(scriptingEngine.getCurrentSelectedScript());
+
 
     // TODO review StateMachine and the relevance of changeState - does not affect hot reloading like I thought
     // Load GameplayState defined in the Level Lua script
@@ -76,7 +79,8 @@ void Core::Initialize() {
 // Start the Engine's MainLoop function
 void Core::MainLoop() {
 
-// Setup ImGui context
+    // Setup ImGui context
+    std::cout << "[INFO] Initializing ImGui..." << std::endl;
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -84,13 +88,13 @@ void Core::MainLoop() {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
 
-
     // Setup Platform/Renderer bindings
     ImGui_ImplSDL2_InitForSDLRenderer(window, renderingEngine.GetRenderer());
     ImGui_ImplSDLRenderer2_Init(renderingEngine.GetRenderer());
     editor.Initialize();
-    SDL_Event event;
+    std::cout << "[INFO] ImGui initialized successfully" << std::endl;
 
+    // Start the Core MainLoop()
     std::cout << "[INFO] MainLoop() Called!" << std::endl;
     uint32_t lastTime = SDL_GetTicks();
     while(isRunning) {
@@ -98,7 +102,8 @@ void Core::MainLoop() {
         deltaTime = (currentTime - lastTime) / 1000.f;
         lastTime = currentTime;
         while(SDL_PollEvent(&event) != 0) {
-            //ImGui_ImplSDL2_ProcessEvent(&event);
+
+            // Editor event handling
             editor.Update(event);
 
             if(event.type == SDL_QUIT) {
@@ -115,7 +120,7 @@ void Core::MainLoop() {
 
         // FileSystem checks the Lua script for the date of last modification, if changed it reload the script this
         // Enables "Hot Reloading"
-        fileSystem.checkAndReloadScript(scriptingEngine.getLuaState(), "../Game/src/levels/Level1.lua", lastModifiedTimeLevel);
+        fileSystem.checkAndReloadScript(scriptingEngine.getLuaState(), scriptingEngine.getCurrentSelectedScript(), lastModifiedTimeLevel);
 
         // All systems perform their own update() functions
         physicsEngine.update(deltaTime);
@@ -129,32 +134,24 @@ void Core::MainLoop() {
         //SDL_Delay((uint32_t)(1000 / 60));
 
         editor.Render();
-
     }
     ImGui_ImplSDLRenderer2_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
-
 }
 
 // Engine Core calls Shutdown() function to destroy SDL window
 void Core::Shutdown() {
-
     SDL_DestroyWindow(window);
     window = nullptr;
     std::cout << "[INFO] Quitting SDL..." << std::endl;
     SDL_Quit();
     std::cout << "[INFO] SDL quit successfully." << std::endl;
-
 }
 
 SDL_Window *Core::GetWindow() {
     return window;
 }
-
-
-
-
 
 // Core default destructor
 Core::~Core() = default;
