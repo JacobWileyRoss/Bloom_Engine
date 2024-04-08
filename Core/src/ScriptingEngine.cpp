@@ -17,8 +17,18 @@ void ScriptingEngine::update(float deltaTime) {
     lua["update"](deltaTime);
 }
 
-void ScriptingEngine::loadScript(const std::string &scriptPath) {
-    lua.script_file(scriptPath);
+void ScriptingEngine::loadScript(const std::string &filePath) {
+    lua.script_file(filePath);
+}
+
+void ScriptingEngine::saveScript(const std::string& filePath, const std::string& data) {
+    std::ofstream outFile(filePath);
+    if (!outFile.is_open()) {
+        std::cerr << "Failed to open file for writing: " << filePath << std::endl;
+        return; // Consider how to handle errors, possibly by returning a success/failure status
+    }
+    outFile << data;
+    outFile.close();
 }
 
 void ScriptingEngine::addEntity(int entityUID) {
@@ -63,6 +73,11 @@ void ScriptingEngine::bindToLua() {
     // Exposing a function to log messages from Lua:
     lua.set_function("logMessage", [](const std::string& message) {
         std::cout << message << std::endl;
+    });
+
+    // Expose functionality to Lua to save the script for serializing Lua game state
+    lua.set_function("saveScript", [this](const std::string& filePath, const std::string& data) {
+        saveScript(filePath, data);
     });
 
     // Exposing EntityManager's createEntity() functionality

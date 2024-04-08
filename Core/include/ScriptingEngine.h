@@ -5,7 +5,10 @@
 #ifndef BLOOM_ENGINE_SCRIPTINGENGINE_H
 #define BLOOM_ENGINE_SCRIPTINGENGINE_H
 
+#include <iostream>
+#include <fstream>
 #include <sol/sol.hpp>
+#include "FileSystem.h"
 #include "EntityManager.h"
 #include "PhysicsEngine.h"
 #include "RenderingEngine.h"
@@ -34,7 +37,8 @@ public:
     void initialize();
     sol::state& getLuaState();
     void update(float deltaTime);
-    void loadScript(const std::string& scriptPath);
+    void loadScript(const std::string& filePath);
+    void saveScript(const std::string& filePath, const std::string& data);
     void bindToLua();
     std::string getCurrentSelectedScript() {return currentSelectedScript;};
     void setCurrentSelectedScript(std::string filepath) {

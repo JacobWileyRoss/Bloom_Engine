@@ -15,6 +15,15 @@ enum class RenderLayer {
     foreground
 };
 
+inline std::string renderLayerToString(RenderLayer& layer) {
+    switch (layer) {
+        case RenderLayer::background: return "background";
+        case RenderLayer::character: return "character";
+        case RenderLayer::foreground: return "foreground";
+
+    }
+}
+
 class  Renderable : public  Component {
 public:
     Renderable() {

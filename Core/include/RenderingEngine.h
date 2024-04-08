@@ -24,7 +24,7 @@
 class RenderingEngine {
 public:
     explicit RenderingEngine(EntityManager& entityManager, Dispatcher& dispatcher) : entityManager(entityManager),
-                                                                                     dispatcher(dispatcher) {} ;
+                                                                                     dispatcher(dispatcher){} ;
 
     static void Initialize(SDL_Window* window);
     void setSprite(int entityUID, float x, float y, float w, float h);
@@ -35,6 +35,7 @@ public:
     SDL_Renderer* GetRenderer() { return renderer; };
     SDL_Texture* GetRenderTargetTexture() const { return renderTargetTexture; }
     void setRenderLayer(int entityUID, RenderLayer renderLayer);
+    bool hasCameraEntity() {return cameraEntity;}
     void Shutdown();
 
 private:
@@ -42,8 +43,7 @@ private:
     Dispatcher& dispatcher;
     static SDL_Renderer* renderer;
     static SDL_Texture* renderTargetTexture;
-
-
+    bool cameraEntity{false};
 
 };
 

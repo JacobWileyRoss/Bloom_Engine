@@ -14,6 +14,7 @@ public:
     }
 
     SDL_Texture* texture;
+    std::string filepath;
     int width;
     int height;
 };

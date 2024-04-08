@@ -8,7 +8,8 @@
 // to. The frame is then added into the appropriate vector to store all frames in an AnimationType
 void AnimationEngine::addFrame(int entityUID, AnimationType animationType, SDL_Texture* frame) {
     std::cout << "[DEBUG] AnimationEngine::addFrame() called successfully" << std::endl;
-    auto& animation = entityManager.getEntityComponent<Animation>(entityUID, ComponentTypes::Animation);
+    auto& animation = entityManager.getEntityComponent<Animation>
+            (entityUID, ComponentTypes::Animation);
     std::cout << "[DEBUG] AnimationEngine getEntityComponent called successfully" << std::endl;
 
     animation.animations[animationType].push_back(frame);
@@ -92,7 +93,8 @@ void AnimationEngine::handleInputEvent(const Event& event) {
 // This function is called by handleInputEvent() after determining what InputKeyDown was detected and is handed the
 // relevant AnimationType to start
 void AnimationEngine::startAnimation(int entityUID, AnimationType animationType) {
-    auto& animationComponent = entityManager.getEntityComponent<Animation>(entityUID, ComponentTypes::Animation);
+    auto& animationComponent = entityManager.getEntityComponent<Animation>(entityUID,
+                                                                           ComponentTypes::Animation);
 
     // Set the current animation type
     animationComponent.currentAnimationType = animationType;
@@ -104,19 +106,23 @@ void AnimationEngine::startAnimation(int entityUID, AnimationType animationType)
     // Set the animation to play
     animationComponent.isPlaying = true;
     std::cout << "[INFO] isPlaying is set to: " << animationComponent.isPlaying << std::endl;
-    std::cout << "[INFO] Starting animation for entity " << entityUID << " type: " << animationTypeToString(animationType) << std::endl;
+    std::cout << "[INFO] Starting animation for entity " << entityUID << " type: " <<
+    animationTypeToString(animationType) << std::endl;
 }
 
 // This function is called by handleInputEvent() after determining what InputKeyUp event was detected and stops the
 // appropriate AnimationType
 void AnimationEngine::stopAnimation(int entityUID, AnimationType animationType) {
-    auto& animationComponent = entityManager.getEntityComponent<Animation>(entityUID, ComponentTypes::Animation);
+    auto& animationComponent = entityManager.getEntityComponent<Animation>(entityUID,
+                                                                           ComponentTypes::Animation);
     if(animationComponent.currentAnimationType == animationType) {
         animationComponent.isPlaying = false;
         animationComponent.currentFrameIndex = 0; // Reset to the first frame
-        std::cout << "[INFO] Stopping animation for entity " << entityUID << " type: " << animationTypeToString(animationType) << std::endl;
+        std::cout << "[INFO] Stopping animation for entity " << entityUID << " type: " <<
+        animationTypeToString(animationType) << std::endl;
     } else {
-        std::cout << "[WARNING] Attempted to stop an animation that is not currently playing for entity " << entityUID << std::endl;
+        std::cout << "[WARNING] Attempted to stop an animation that is not currently playing for entity " <<
+        entityUID << std::endl;
     }
 }
 
@@ -126,21 +132,26 @@ void AnimationEngine::stopAnimation(int entityUID, AnimationType animationType) 
 void AnimationEngine::update(float deltaTime) {
     for (auto& [entityUID, entity] : entityManager.entities) {
         if (entityManager.hasComponent(entityUID, ComponentTypes::Animation)) {
-            auto& animation = entityManager.getEntityComponent<Animation>(entityUID, ComponentTypes::Animation);
+            auto& animation = entityManager.getEntityComponent<Animation>(entityUID,
+                                                                          ComponentTypes::Animation);
 
             // Ensure animation is playing and has a non-zero frameDuration
-            if (animation.isPlaying && animation.frameDuration > 0.0f && !animation.animations[animation.currentAnimationType].empty()) {
+            if (animation.isPlaying && animation.frameDuration > 0.0f &&
+            !animation.animations[animation.currentAnimationType].empty()) {
                 animation.elapsedTime += deltaTime;
 
                 // Calculate the number of frames to advance
                 int frameAdvances = static_cast<int>(animation.elapsedTime / animation.frameDuration);
                 animation.elapsedTime -= frameAdvances * animation.frameDuration;
-                animation.currentFrameIndex = (animation.currentFrameIndex + frameAdvances) % animation.animations[animation.currentAnimationType].size();
+                animation.currentFrameIndex = (animation.currentFrameIndex + frameAdvances) %
+                        animation.animations[animation.currentAnimationType].size();
 
                 // Update the texture component with the new frame
                 if (entityManager.hasComponent(entityUID, ComponentTypes::Texture)) {
-                    auto& textureComponent = entityManager.getEntityComponent<Texture>(entityUID, ComponentTypes::Texture);
-                    textureComponent.texture = animation.animations[animation.currentAnimationType][animation.currentFrameIndex];
+                    auto& textureComponent = entityManager.getEntityComponent<Texture>
+                            (entityUID, ComponentTypes::Texture);
+                    textureComponent.texture =
+                            animation.animations[animation.currentAnimationType][animation.currentFrameIndex];
                 }
             }
         }

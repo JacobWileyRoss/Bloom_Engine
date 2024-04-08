@@ -15,6 +15,7 @@ public:
     virtual void exit() = 0;  // Called when exiting the state
     virtual void update(float deltaTime) = 0; // Update the state logic
     virtual void render() = 0; // Render the state visuals
+    virtual std::string serialize() = 0; // Serialize game state for Lua script generation
 
 
     virtual ~GameState() = default;

@@ -20,15 +20,19 @@
 #include "../../Core/include/ScriptingEngine.h"
 #include "SDL_events.h"
 #include "../../vendor/ImGuiFileDialog-master/ImGuiFileDialog.h"
+#include "OperationsLog.h"
 
 
 class Editor {
 public:
-    Editor(SDL_Window* window, RenderingEngine& renderingEngine, EntityManager& entityManager, ScriptingEngine& scriptingEngine) : renderingEngine(renderingEngine), entityManager(entityManager),
-    scriptingEngine(scriptingEngine), window(window), consoleLogWindow(), consoleStreamBuffer(std::cout), fileTree(), codeEditor(){};
+    Editor(SDL_Window* window, RenderingEngine& renderingEngine, EntityManager& entityManager,
+           ScriptingEngine& scriptingEngine) : renderingEngine(renderingEngine), entityManager(entityManager),
+            scriptingEngine(scriptingEngine), window(window), consoleLogWindow(), consoleStreamBuffer(std::cout),
+            fileTree(), codeEditor(){};
     void Initialize();
     void Update(SDL_Event &event);
     void Render();
+    std::string Serialize(const std::string& filepath);
     void LoadLevel(std::string filepath);
     void ShutDown();
 
@@ -45,11 +49,8 @@ private:
     std::time_t lastModifiedTimeLevel{};
     std::stringstream consoleBuffer;
     ConsoleStreamBuffer consoleStreamBuffer;
-
-
-
-
-
+    OperationsLog operationsLog;
+    SDL_Texture* bloomEngineSplashScreen;
 };
 
 

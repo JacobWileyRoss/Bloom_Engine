@@ -7,13 +7,11 @@
 SDL_Renderer* RenderingEngine::renderer = nullptr;
 SDL_Texture* RenderingEngine::renderTargetTexture = nullptr;
 
-
 void RenderingEngine::Initialize(SDL_Window *window) {
     if (!window) {
         std::cerr << "[ERROR] Initialize called with null window." << std::endl;
         return;
     }
-
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!renderer) {
         std::cerr << "[ERROR] Create Renderer Error: " << SDL_GetError() << std::endl;
@@ -21,12 +19,11 @@ void RenderingEngine::Initialize(SDL_Window *window) {
     }
 
     // Initialize renderTargetTexture
-    renderTargetTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
+    renderTargetTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
+                                            1280, 720);
     if (!renderTargetTexture) {
         std::cerr << "[ERROR] Failed to create render target texture: " << SDL_GetError() << std::endl;
     }
-
-    std::cout << "[INFO] RenderingEngine initialized successfully." << std::endl;
 }
 
 // This function is used to define a Sprite Component's size and position. Used in entity composition
@@ -52,19 +49,15 @@ void RenderingEngine::setTexture(int entityUID, std::string filename) {
         std::cerr << "[ERROR] Renderer is not initialized, cannot set texture." << std::endl;
         return;
     }
-
     Entity& entity = entityManager.getEntity(entityUID);
     std::cout << "[INFO] setTexture() called for entity ID: " << entity.UID << " with filename: "
               << filename << std::endl;
-
     SDL_Surface* surface = IMG_Load(filename.c_str());
     if (!surface) {
         std::cerr << "[ERROR] Surface Error for " << filename << ": " << IMG_GetError() << std::endl;
         return;
     }
-
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-
     SDL_FreeSurface(surface); // Surface is no longer needed after texture creation
     if (!texture) {
         std::cerr << "[ERROR] Create Texture Error for " << filename << ": " << SDL_GetError() << std::endl;
@@ -72,8 +65,8 @@ void RenderingEngine::setTexture(int entityUID, std::string filename) {
     }
     auto& textureComponent = entityManager.getEntityComponent<Texture>
             (entity.UID, ComponentTypes::Texture);
-
     textureComponent.texture = texture;
+    textureComponent.filepath = filename;
     std::cout << "[INFO] Texture loaded and set successfully for entity ID: " << entity.UID << std::endl;
 }
 
@@ -88,15 +81,19 @@ void RenderingEngine::setCamera(int entityUID, int posX, int posY, int width, in
 }
 
 void RenderingEngine::update(std::unordered_map<int, Entity>& entities) {
+    static bool errorLogged = false; // This static variable retains its value across function calls
 
     // Find the camera entity
     auto cameraEntities = entityManager.getEntitiesWithComponent<Camera>
             (ComponentTypes::Camera);
     if (cameraEntities.empty()) {
-        std::cerr << "No camera entity found." << std::endl;
-        return;
+        if (cameraEntities.empty()) {
+            if (!errorLogged) {
+                std::cerr << "[ERROR] No camera entity found, cannot render." << std::endl;
+                errorLogged = true; // Ensure the error is logged only once
+            }        return;
+        }
     }
-
     int cameraEntityUID = cameraEntities[0]; // Assuming the first camera entity is the main camera
     auto& camera = entityManager.getEntityComponent<Camera>
             (cameraEntityUID, ComponentTypes::Camera);
@@ -105,10 +102,9 @@ void RenderingEngine::update(std::unordered_map<int, Entity>& entities) {
     auto playerEntities = entityManager.getEntitiesWithComponent<Player>
             (ComponentTypes::Player);
     if (playerEntities.empty()) {
-        std::cerr << "No player entity found." << std::endl;
+        //std::cerr << "No player entity found." << std::endl;
         return;
     }
-
     int playerEntityUID = playerEntities[0]; // Assuming the first player entity is the main player
     auto& playerTransform = entityManager.getEntityComponent<Transform>
             (playerEntityUID, ComponentTypes::Transform);
@@ -126,16 +122,23 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
         std::cerr << "[ERROR] Renderer not initialized, cannot render." << std::endl;
         return;
     }
-
     SDL_SetRenderTarget(renderer, renderTargetTexture);
 
     // First, find the camera entity UID
     auto cameraEntityUIDs = entityManager.getEntitiesWithComponent<Camera>
             (ComponentTypes::Camera);
-
+    cameraEntity = true;
+    static bool errorLogged = false; // This static variable retains its value across function calls
     if (cameraEntityUIDs.empty()) {
-        std::cerr << "[ERROR] No camera entity found, cannot render." << std::endl;
-        return;
+        if (!errorLogged) {
+            std::cerr << "[ERROR] No camera entity found, cannot render." << std::endl;
+            errorLogged = true; // Ensure the error is logged only once
+        }
+        cameraEntity = false;
+        SDL_SetRenderTarget(renderer, nullptr); // Set rendering target back to the main window
+        return; // Skip the rest of the rendering logic if no camera entity is found
+    } else {
+        errorLogged = false; // Reset the flag if a camera entity is found in subsequent frames
     }
 
     // Assuming the first camera entity is the one to be used
@@ -158,7 +161,6 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
               [](const std::pair<int, RenderLayer>& a, const std::pair<int, RenderLayer>& b) {
                   return a.second < b.second;
               });
-
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
 
