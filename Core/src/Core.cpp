@@ -120,7 +120,8 @@ void Core::MainLoop() {
 
         // FileSystem checks the Lua script for the date of last modification, if changed it reload the script this
         // Enables "Hot Reloading"
-        fileSystem.checkAndReloadScript(scriptingEngine.getLuaState(), scriptingEngine.getCurrentSelectedScript(), lastModifiedTimeLevel);
+        fileSystem.checkAndReloadScript(scriptingEngine.getLuaState(),
+                                        scriptingEngine.getCurrentSelectedScript(), lastModifiedTimeLevel);
 
         // All systems perform their own update() functions
         physicsEngine.update(deltaTime);

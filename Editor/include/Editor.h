@@ -25,8 +25,10 @@
 
 class Editor {
 public:
-    Editor(SDL_Window* window, RenderingEngine& renderingEngine, EntityManager& entityManager, ScriptingEngine& scriptingEngine) : renderingEngine(renderingEngine), entityManager(entityManager),
-    scriptingEngine(scriptingEngine), window(window), consoleLogWindow(), consoleStreamBuffer(std::cout), fileTree(), codeEditor(){};
+    Editor(SDL_Window* window, RenderingEngine& renderingEngine, EntityManager& entityManager,
+           ScriptingEngine& scriptingEngine) : renderingEngine(renderingEngine), entityManager(entityManager),
+            scriptingEngine(scriptingEngine), window(window), consoleLogWindow(), consoleStreamBuffer(std::cout),
+            fileTree(), codeEditor(){};
     void Initialize();
     void Update(SDL_Event &event);
     void Render();
@@ -49,11 +51,6 @@ private:
     ConsoleStreamBuffer consoleStreamBuffer;
     OperationsLog operationsLog;
     SDL_Texture* bloomEngineSplashScreen;
-
-
-
-
-
 };
 
 
