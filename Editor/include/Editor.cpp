@@ -271,22 +271,27 @@ void Editor::Render() {
                     }
                     case ComponentTypes::Sprite: {
                         auto& sprite = dynamic_cast<Sprite&>(*compPair.second);
-                        float oldX = sprite.rect.x, oldY = sprite.rect.y, oldW = sprite.rect.w, oldH = sprite.rect.h;
 
-                        ImGui::InputFloat("Position X", &sprite.rect.x);
-                        ImGui::InputFloat("Position Y", &sprite.rect.y);
-                        ImGui::InputFloat("Width", &sprite.rect.w);
-                        ImGui::InputFloat("Height", &sprite.rect.h);
-
-                        // Check if any value has changed
-                        if (oldX != sprite.rect.x || oldY != sprite.rect.y || oldW != sprite.rect.w ||
-                            oldH != sprite.rect.h) {
+                        // Assuming ImGui::InputFloat returns true when the field is edited and Enter key is pressed
+                        bool posXChanged = ImGui::InputFloat("Position X", &sprite.rect.x,
+                                                             0.0f, 0.0f, "%.3f",
+                                                             ImGuiInputTextFlags_EnterReturnsTrue);
+                        bool posYChanged = ImGui::InputFloat("Position Y", &sprite.rect.y,
+                                                             0.0f, 0.0f, "%.3f",
+                                                             ImGuiInputTextFlags_EnterReturnsTrue);
+                        bool widthChanged = ImGui::InputFloat("Width", &sprite.rect.w,
+                                                             0.0f, 0.0f, "%.3f",
+                                                             ImGuiInputTextFlags_EnterReturnsTrue);
+                        bool heightChanged = ImGui::InputFloat("Height", &sprite.rect.h,
+                                                             0.0f, 0.0f, "%.3f",
+                                                             ImGuiInputTextFlags_EnterReturnsTrue);
+                        if (posXChanged || posYChanged || widthChanged || heightChanged) {
                             // Log the operation here
-                            std::string operation = "setSprite(entity" + std::to_string(currentSelectedEntity)
-                                    + ", " + std::to_string(sprite.rect.x) + ", " +
-                                    std::to_string(sprite.rect.y) + ", " +
-                                    std::to_string(sprite.rect.w) + ", " +
-                                    std::to_string(sprite.rect.h) + ")\n";
+                            std::string operation = "setSprite(entity" + std::to_string(currentSelectedEntity) +
+                                                    ", " + std::to_string(sprite.rect.x) + ", "
+                                                    + std::to_string(sprite.rect.y) +
+                                                      ", " + std::to_string(sprite.rect.w) +
+                                                             ", " + std::to_string(sprite.rect.h) + ")\n";
                             operationsLog.logOperation(operation);
                             std::cout << "[INFO] LUA COMMAND LOGGED: " << operation << std::endl;
                         }
