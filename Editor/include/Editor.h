@@ -20,6 +20,7 @@
 #include "../../Core/include/ScriptingEngine.h"
 #include "SDL_events.h"
 #include "../../vendor/ImGuiFileDialog-master/ImGuiFileDialog.h"
+#include "OperationsLog.h"
 
 
 class Editor {
@@ -29,6 +30,7 @@ public:
     void Initialize();
     void Update(SDL_Event &event);
     void Render();
+    std::string Serialize(const std::string& filepath);
     void LoadLevel(std::string filepath);
     void ShutDown();
 
@@ -45,6 +47,8 @@ private:
     std::time_t lastModifiedTimeLevel{};
     std::stringstream consoleBuffer;
     ConsoleStreamBuffer consoleStreamBuffer;
+    OperationsLog operationsLog;
+    SDL_Texture* bloomEngineSplashScreen;
 
 
 

@@ -7,7 +7,6 @@
 SDL_Renderer* RenderingEngine::renderer = nullptr;
 SDL_Texture* RenderingEngine::renderTargetTexture = nullptr;
 
-
 void RenderingEngine::Initialize(SDL_Window *window) {
     if (!window) {
         std::cerr << "[ERROR] Initialize called with null window." << std::endl;
@@ -25,8 +24,6 @@ void RenderingEngine::Initialize(SDL_Window *window) {
     if (!renderTargetTexture) {
         std::cerr << "[ERROR] Failed to create render target texture: " << SDL_GetError() << std::endl;
     }
-
-    std::cout << "[INFO] RenderingEngine initialized successfully." << std::endl;
 }
 
 // This function is used to define a Sprite Component's size and position. Used in entity composition
@@ -74,6 +71,7 @@ void RenderingEngine::setTexture(int entityUID, std::string filename) {
             (entity.UID, ComponentTypes::Texture);
 
     textureComponent.texture = texture;
+    textureComponent.filepath = filename;
     std::cout << "[INFO] Texture loaded and set successfully for entity ID: " << entity.UID << std::endl;
 }
 
@@ -105,7 +103,7 @@ void RenderingEngine::update(std::unordered_map<int, Entity>& entities) {
     auto playerEntities = entityManager.getEntitiesWithComponent<Player>
             (ComponentTypes::Player);
     if (playerEntities.empty()) {
-        std::cerr << "No player entity found." << std::endl;
+        //std::cerr << "No player entity found." << std::endl;
         return;
     }
 
@@ -132,10 +130,13 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
     // First, find the camera entity UID
     auto cameraEntityUIDs = entityManager.getEntitiesWithComponent<Camera>
             (ComponentTypes::Camera);
+    cameraEntity = true;
 
     if (cameraEntityUIDs.empty()) {
         std::cerr << "[ERROR] No camera entity found, cannot render." << std::endl;
-        return;
+        cameraEntity = false;
+            SDL_SetRenderTarget(renderer, nullptr); // Set rendering target back to the main window
+        return; // Skip the rest of the rendering logic if no camera entity is found
     }
 
     // Assuming the first camera entity is the one to be used

@@ -81,7 +81,9 @@ add_executable(Bloom_Engine main.cpp
         Core/include/Camera.h
         Editor/include/Editor.cpp
         Editor/include/Editor.h
-        )
+        Editor/include/OperationsLog.cpp
+        Editor/include/OperationsLog.h
+)
 
 target_link_libraries(Bloom_Engine ${SDL2_LIBRARIES} "/usr/local/Cellar/sdl2_image/2.8.2_1/lib/libSDL2_image.dylib"
                                     ${LUA_LIBRARIES})

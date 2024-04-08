@@ -36,6 +36,10 @@ public:
         lua[stateName]["render"]();
     }
 
+    std::string serialize() override {
+
+    }
+
 };
 
 #endif //BLOOM_ENGINE_LUAGAMESTATE_H

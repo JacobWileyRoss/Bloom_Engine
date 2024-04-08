@@ -4,6 +4,8 @@
 
 #include "Editor.h"
 
+//SDL_Texture* bloomEngineSplashScreen = nullptr;
+
 void Editor::Initialize() {
     auto& style = ImGui::GetStyle();
     style.Alpha = 1.0;
@@ -16,7 +18,7 @@ void Editor::Initialize() {
     style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.00f, 0.40f, 0.41f, 1.00f);
     style.Colors[ImGuiCol_WindowBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
     style.Colors[ImGuiCol_ChildBg] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
-    style.Colors[ImGuiCol_Border] = ImVec4(255.0f, 0, 135.0f, 0.3f);
+    style.Colors[ImGuiCol_Border] = ImVec4(255.0f, 255.0f, 255.0f, 0.3f);
     style.Colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
     style.Colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.10f, 0.10f, 0.66f);
     style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(255.0f, 0, 135.0f, 255.0f);
@@ -37,6 +39,8 @@ void Editor::Initialize() {
     // Redirect cout and cerr to the custom stream buffer
     std::cout.rdbuf(&consoleStreamBuffer);
     std::cerr.rdbuf(&consoleStreamBuffer);
+
+    bloomEngineSplashScreen = IMG_LoadTexture(renderingEngine.GetRenderer(), "../Editor/assets/BloomEngine_Logo_002.png");
 }
 
 void Editor::Update(SDL_Event &event) {
@@ -61,18 +65,45 @@ void Editor::Render() {
     if (ImGui::BeginMainMenuBar()) {
         // File Menu
         if (ImGui::BeginMenu("File")) {
-            // Load Level Option
+            if (ImGui::MenuItem("New Level")) {
+                ImGuiFileDialog ::Instance()->OpenDialog("SaveLevelDlgKey", "Save New Level", ".lua");
+            }
             if (ImGui::MenuItem("Load Level")) {
                 // Open the file dialog when "Load Level" is clicked
-                ImGuiFileDialog::Instance()->OpenDialog("ChooseLevelDlgKey", "Choose Level", ".lua");
+                ImGuiFileDialog::Instance()->OpenDialog("LoadLevelDlgKey", "Load Level", ".lua");
             }
+            if (ImGui::MenuItem("Save Level")) {
+                Serialize(scriptingEngine.getCurrentSelectedScript());
+            }
+            ImGui::EndMenu();
+        }
+        // TODO About menu is botched idk what I'm doing lol
+        if (ImGui::BeginMenu("About")) {
+            ImGui::SetNextWindowSize(ImVec2(100, 75));
+            if(ImGui::BeginPopup("About", ImGuiWindowFlags_ChildWindow)) {
+                ImGui::LabelText("About Bloom Engine", nullptr);
+            }
+
             ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();
     }
 
+    // Check if the dialog needs to be displayed and handled
+    if (ImGuiFileDialog::Instance()->Display("SaveLevelDlgKey")) {
+        // If the user selects a save path and clicks OK, the dialog will return true
+        if (ImGuiFileDialog::Instance()->IsOk()) {
+            std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+            scriptingEngine.setCurrentSelectedScript(filePath);
+            // Save the new level to the selected file path
+            // TODO: Implement your function to save the level data to filePath
+            Serialize(filePath);
+        }
+        // Close the dialog after processing
+        ImGuiFileDialog::Instance()->Close();
+    }
     // Check if the dialog needs to be displayed
-    if (ImGuiFileDialog::Instance()->Display("ChooseLevelDlgKey")) {
+    if (ImGuiFileDialog::Instance()->Display("LoadLevelDlgKey")) {
         // If the user selects a file and clicks OK, the dialog will return true
         if (ImGuiFileDialog::Instance()->IsOk()) {
             auto filePath = ImGuiFileDialog::Instance()->GetFilePathName();
@@ -89,10 +120,20 @@ void Editor::Render() {
     ImGui::SetNextWindowSize(viewportResolution); // Set the width and height of the next window
     ImGui::SetNextWindowSizeConstraints(viewportResolution, viewportResolution);
     ImGui::Begin("Viewport");
-    ImGui::DockBuilderDockWindow("Viewport" , dockspace_id1);
-    ImTextureID texID = reinterpret_cast<ImTextureID>(renderingEngine.GetRenderTargetTexture());
-    ImVec2 imageSize = ImVec2(viewportResolution.x, viewportResolution.y);
-    ImGui::Image(texID, imageSize);
+
+    if (renderingEngine.hasCameraEntity()) {
+        // Usual game rendering logic
+        ImTextureID texID = reinterpret_cast<ImTextureID>(renderingEngine.GetRenderTargetTexture());
+        ImVec2 imageSize = ImVec2(viewportResolution.x, viewportResolution.y);
+        ImGui::Image(texID, imageSize);
+    } else {
+        // Render the PNG image since no camera entity is present
+        // Assuming splashTexture is your loaded SDL_Texture* for the PNG image
+        ImTextureID splashTexID = reinterpret_cast<ImTextureID>(bloomEngineSplashScreen);
+        // Adjust size as needed
+        ImGui::Image(splashTexID, ImVec2(viewportResolution.x, viewportResolution.y));
+    }
+
     ImGui::End();
 
     // Render FPS counter
@@ -133,6 +174,9 @@ void Editor::Render() {
     if (ImGui::Button("Create New Entity")) {
         currentSelectedEntity = entityManager.createEntity();
         scriptingEngine.addEntity(currentSelectedEntity);
+        std::string operation = "local entity" + std::to_string(currentSelectedEntity) + " = createEntity()\n";
+        operationsLog.logOperation(operation);
+        std::cout << "[INFO] LUA COMMAND LOGGED: " << operation  << std::endl;
     }
 
     // Column 2: Component Attachment
@@ -157,6 +201,10 @@ void Editor::Render() {
             // TODO attach will fail and crash if attaching Collider without a Physics component already attached
             // Other components were failing without a Transform, so I attach one by default during createEntity()
             entityManager.attachComponent(currentSelectedEntity, componentTypes[componentTypeIndex]);
+            std::string operation = "attachComponent(" + std::to_string(currentSelectedEntity) + ", ComponentTypes." + componentTypeNames[componentTypeIndex] + ")\n";
+
+            operationsLog.logOperation(operation);
+            std::cout << "[INFO] LUA COMMAND LOGGED: " << operation  << std::endl;
         }
     }
 
@@ -211,15 +259,33 @@ void Editor::Render() {
                                      IM_ARRAYSIZE(renderLayers));
                         if (ImGui::Button("Set Render Layer")) {
                             renderingEngine.setRenderLayer(currentSelectedEntity, renderLayers[renderLayerIndex]);
+                            std::string operation = "setRenderLayer(entity" + std::to_string(currentSelectedEntity) + ", " +
+                                    renderLayerToString(renderLayers[renderLayerIndex]) + ")\n";
+                            operationsLog.logOperation(operation);
+                            std::cout << "[INFO] LUA COMMAND LOGGED: " << operation  << std::endl;
                         }
                         break;
                     }
                     case ComponentTypes::Sprite: {
                         auto& sprite = dynamic_cast<Sprite&>(*compPair.second);
+                        float oldX = sprite.rect.x, oldY = sprite.rect.y, oldW = sprite.rect.w, oldH = sprite.rect.h;
+
                         ImGui::InputFloat("Position X", &sprite.rect.x);
                         ImGui::InputFloat("Position Y", &sprite.rect.y);
                         ImGui::InputFloat("Width", &sprite.rect.w);
                         ImGui::InputFloat("Height", &sprite.rect.h);
+
+                        // Check if any value has changed
+                        if (oldX != sprite.rect.x || oldY != sprite.rect.y || oldW != sprite.rect.w || oldH != sprite.rect.h) {
+                            // Log the operation here
+                            std::string operation = "setSprite(entity" + std::to_string(currentSelectedEntity) + ", " +
+                                                    std::to_string(sprite.rect.x) + ", " +
+                                                    std::to_string(sprite.rect.y) + ", " +
+                                                    std::to_string(sprite.rect.w) + ", " +
+                                                    std::to_string(sprite.rect.h) + ")\n";
+                            operationsLog.logOperation(operation);
+                            std::cout << "[INFO] LUA COMMAND LOGGED: " << operation << std::endl;
+                        }
                         break;
                     }
                     case ComponentTypes::Texture: {
@@ -237,21 +303,33 @@ void Editor::Render() {
                             if (ImGuiFileDialog::Instance()->IsOk()) {
                                 auto filePath = ImGuiFileDialog::Instance()->GetFilePathName();
                                 // Now you can load the texture from the selected file
-                                renderingEngine.setTexture(currentSelectedEntity, filePath);                            }
+                                renderingEngine.setTexture(currentSelectedEntity, filePath);
+                                std::string operation = "setTexture(entity" + std::to_string(currentSelectedEntity) + ", \"" + filePath + "\")\n";
+                                operationsLog.logOperation(operation);
+                                std::cout << "[INFO] LUA COMMAND LOGGED: " << operation  << std::endl;
+                            }
 
                             // Close the dialog after processing (or if cancelled)
                             ImGuiFileDialog::Instance()->Close();
                         }
-
-//                        if (ImGui::Button("Load Texture##Texture")) {
-//                            renderingEngine.setTexture(currentSelectedEntity, filePath);
-//                        }
                         break;
                     }
                     case ComponentTypes::Transform: {
                         auto& transform = dynamic_cast<Transform&>(*compPair.second);
-                        ImGui::InputFloat("Position X", &transform.posX);
-                        ImGui::InputFloat("Position Y", &transform.posY);
+                        // Assuming ImGui::InputFloat returns true when the field is edited and Enter key is pressed
+                        bool posXChanged = ImGui::InputFloat("Position X", &transform.posX,
+                                                             0.0f, 0.0f, "%.3f",
+                                                             ImGuiInputTextFlags_EnterReturnsTrue);
+                        bool posYChanged = ImGui::InputFloat("Position Y", &transform.posY,
+                                                             0.0f, 0.0f, "%.3f",
+                                                             ImGuiInputTextFlags_EnterReturnsTrue);
+                        if (posXChanged || posYChanged) {
+                            // Log the operation here
+                            std::string operation = "setTransform(entity" + std::to_string(currentSelectedEntity) + ", " +
+                                                    std::to_string(transform.posX) + ", " + std::to_string(transform.posY) + ")\n";
+                            operationsLog.logOperation(operation);
+                            std::cout << "[INFO] LUA COMMAND LOGGED: " << operation << std::endl;
+                        }
                         break;
                     }
                 }
@@ -293,7 +371,78 @@ void Editor::ShutDown() {
     ImGui::DestroyContext();
 }
 
+std::string Editor::Serialize(const std::string& filepath) {
+    // Default Lua scripts for game states
+    std::string defaultGameStates = R"(
+MainMenuState = {}
+
+function MainMenuState.enter()
+    print("[INFO] Entering MainMenuState")
+end
+
+function MainMenuState.exit()
+    print("Exiting MainMenuState")
+end
+
+function MainMenuState.update(deltaTime)
+    -- Update logic here
+end
+
+function MainMenuState.render()
+    -- Rendering logic here
+end
+
+GameplayState = {}
+
+function GameplayState.enter()
+    print("[INFO] Entering GameplayState")
+end
+
+function GameplayState.exit()
+    print("Exiting GameplayStateState")
+end
+
+function GameplayState.update(deltaTime)
+    -- Update logic here
+end
+
+function GameplayState.render()
+    -- Rendering logic here
+end
+
+-- Register the state with a global or a specific Lua registry for states
+GameStateRegistry = GameStateRegistry or {}
+GameStateRegistry["MainMenuState"] = MainMenuState
+GameStateRegistry["GameplayState"] = GameplayState
+)";
+
+    // Fetch all logged operations
+    std::string loggedOperations = operationsLog.getLoggedOperations(); // Ensure this method combines all operation strings
+
+    // Encapsulate entity construction and component operations in a function
+    std::string luaCodeForEntities = "function constructLevel()\n" + loggedOperations + "end\n";
+
+    // Combine default game states with the constructLevel function
+    std::string finalLuaScript = defaultGameStates + "\n" + luaCodeForEntities;
+
+    // Write to file
+    std::ofstream outFile(filepath);
+    if (!outFile.is_open()) {
+        std::cerr << "Failed to open file for writing: " << filepath << std::endl;
+        return ""; // Or handle the error in a way that suits your application
+    }
+    outFile << finalLuaScript;
+    outFile.close();
+
+    return finalLuaScript; // Return the final Lua script for further use or verification
+}
+
+
+
 void Editor::LoadLevel(std::string filepath) {
+    std::cout << "[INFO] LoadLevel() called" << std::endl;
+//    entityManager.entities.clear();
+//    std::cout << "[INFO] Entities cleared" << std::endl;
     scriptingEngine.setCurrentSelectedScript(filepath);
     scriptingEngine.loadScript(filepath);
 }

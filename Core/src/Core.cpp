@@ -68,7 +68,6 @@ void Core::Initialize() {
 
     // Load Lua script for current Level
     scriptingEngine.setCurrentSelectedScript("../Editor/include/default.lua") ;
-    //scriptingEngine.setCurrentSelectedScript("../Game/src/levels/level1.lua");
     scriptingEngine.loadScript(scriptingEngine.getCurrentSelectedScript());
 
 
