@@ -7,7 +7,7 @@
 
 #include <array>
 #include "Component.h"
-#include "SDL.h"
+#include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
 
 // TODO determine if this is the best place to define EventTypes
 // Define possible EventTypes

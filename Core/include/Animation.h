@@ -8,8 +8,8 @@
 #include "Component.h"
 #include <vector>
 #include <map>
-#include <SDL.h>
-#include <SDL_image.h>
+#include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
+#include "../../../vendor/sdl2_image/2.8.2_1/include/SDL2/SDL_image.h"
 
 enum class AnimationType {
     WalkCycleUP,

@@ -18,7 +18,7 @@
 #include "FileTree.h"
 #include "CodeEditor.h"
 #include "../../Core/include/ScriptingEngine.h"
-#include "SDL_events.h"
+#include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL_events.h"
 #include "../../vendor/ImGuiFileDialog-master/ImGuiFileDialog.h"
 #include "OperationsLog.h"
 

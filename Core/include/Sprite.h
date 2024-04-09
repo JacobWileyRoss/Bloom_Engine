@@ -5,8 +5,7 @@
 #ifndef BLOOM_ENGINE_SPRITE_H
 #define BLOOM_ENGINE_SPRITE_H
 
-#include <SDL.h>
-
+#include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
 
 class Sprite : public Component {
 public:

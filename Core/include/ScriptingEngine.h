@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <sol/sol.hpp>
+#include <../../../vendor/sol2/include/sol/sol.hpp>
 #include "FileSystem.h"
 #include "EntityManager.h"
 #include "PhysicsEngine.h"
