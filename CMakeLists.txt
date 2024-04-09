@@ -20,7 +20,6 @@ set(SDL2_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2/2.30.1/lib/") # Adjust
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 link_directories(${SDL2_LIBRARY})
 
-
 # Include SDL2_image
 set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2_image")
 set(SDL2_IMAGE_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2_image/2.8.2_1/lib/") # Adjust extension as necessary
