@@ -10,6 +10,10 @@ set(LUA_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/lua/5.4.6/lib/liblua5.4.dyli
 include_directories(${LUA_INCLUDE_DIR})
 link_libraries(${LUA_LIBRARY})
 
+# Add the Sol2 include directory
+set(SOL2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sol2/include/")
+include_directories(${SOL2_INCLUDE_DIR})
+
 # Include SDL2
 set(SDL2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2")
 set(SDL2_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2/2.30.1/lib/") # Adjust extension as necessary
@@ -35,12 +39,6 @@ include_directories(
         "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-dockingr"
         "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-docking/backends"
 )
-
-
-# Add the Sol2 include directory
-set(SOL2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sol2/include/")
-include_directories(${SOL2_INCLUDE_DIR})
-
 
 add_executable(Bloom_Engine main.cpp
         ${IMGUI_SOURCES}
@@ -91,6 +89,4 @@ add_executable(Bloom_Engine main.cpp
 )
 
 target_link_libraries(Bloom_Engine SDL2 SDL2_image ${LUA_LIBRARY})
-
-# Include Lua headers
 target_include_directories(Bloom_Engine PRIVATE LUA)
