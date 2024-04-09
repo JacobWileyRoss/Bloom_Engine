@@ -6,7 +6,7 @@
 #define BLOOM_ENGINE_STATEMACHINE_H
 
 #include <stack>
-#include <sol/sol.hpp>
+#include <../../../vendor/sol2/include/sol/sol.hpp>
 #include "GameState.h"
 #include "LuaGameState.h"
 

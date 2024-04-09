@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <filesystem>
-#include <sol/sol.hpp>
+#include <../../../vendor/sol2/include/sol/sol.hpp>
 
 
 class FileSystem {

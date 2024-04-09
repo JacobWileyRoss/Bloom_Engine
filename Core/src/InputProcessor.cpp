@@ -3,7 +3,7 @@
 //
 
 #include "../include/InputProcessor.h"
-#include "SDL.h"
+#include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
 
 // ProcessInput is called in the Core MainLoop() function if the SDL Event is detected as a SDL_Key event
 void InputProcessor::ProcessInput(SDL_Event& event) { // Accept SDL_Event as parameter

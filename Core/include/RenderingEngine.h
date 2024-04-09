@@ -8,8 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <SDL.h>
-
+#include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
 #include "EntityManager.h"
 #include "Dispatcher.h"
 #include "Transform.h"

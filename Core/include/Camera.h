@@ -6,7 +6,7 @@
 #define BLOOM_ENGINE_CAMERA_H
 
 
-#include <SDL.h>
+#include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
 #include "Component.h"
 
 class Camera : public Component {

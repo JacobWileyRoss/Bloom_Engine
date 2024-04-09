@@ -5,18 +5,23 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${BLOOM_ENGINE_SOURCE_DIR}/cmake/modules")
 
 # Include Lua
-find_package(Lua REQUIRED)
+set(LUA_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/lua/5.4.6/include/lua5.4")
+set(LUA_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/lua/5.4.6/lib/liblua5.4.dylib")
+include_directories(${LUA_INCLUDE_DIR})
+link_libraries(${LUA_LIBRARY})
 
 # Include SDL2
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+set(SDL2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2")
+set(SDL2_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2/2.30.1/lib/") # Adjust extension as necessary
+include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+link_directories(${SDL2_LIBRARY})
+
 
 # Include SDL2_image
-set(SDL2_IMAGE_INCLUDE_DIR "/usr/local/Cellar/sdl2_image/2.8.2_1/include/SDL2")
-find_package(SDL2_image REQUIRED)
-message("SDL2_image include dirs: ${SDL2_IMAGE_INCLUDE_DIRS}")
-message("SDL2_image libraries: ${SDL2_IMAGE_LIBRARIES}")
+set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2_image")
+set(SDL2_IMAGE_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2_image/2.8.2_1/lib/") # Adjust extension as necessary
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+link_directories(${SDL2_IMAGE_LIBRARY})
 
 # ImGui source files
 file(GLOB IMGUI_SOURCES
@@ -31,10 +36,10 @@ include_directories(
         "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-docking/backends"
 )
 
-# ImGui
 
 # Add the Sol2 include directory
-include_directories(/usr/local/lib/sol2-develop/include)
+set(SOL2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sol2/include/")
+include_directories(${SOL2_INCLUDE_DIR})
 
 
 add_executable(Bloom_Engine main.cpp
@@ -85,8 +90,7 @@ add_executable(Bloom_Engine main.cpp
         Editor/include/OperationsLog.h
 )
 
-target_link_libraries(Bloom_Engine ${SDL2_LIBRARIES} "/usr/local/Cellar/sdl2_image/2.8.2_1/lib/libSDL2_image.dylib"
-                                    ${LUA_LIBRARIES})
+target_link_libraries(Bloom_Engine SDL2 SDL2_image ${LUA_LIBRARY})
 
 # Include Lua headers
-target_include_directories(Bloom_Engine PRIVATE ${LUA_INCLUDE_DIR})
+target_include_directories(Bloom_Engine PRIVATE LUA)

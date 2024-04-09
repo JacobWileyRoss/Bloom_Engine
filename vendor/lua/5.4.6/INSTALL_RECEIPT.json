@@ -1,0 +1,47 @@
+{
+  "homebrew_version": "4.0.17-93-gb0dc84b",
+  "used_options": [
+
+  ],
+  "unused_options": [
+
+  ],
+  "built_as_bottle": true,
+  "poured_from_bottle": true,
+  "loaded_from_api": true,
+  "installed_as_dependency": true,
+  "installed_on_request": true,
+  "changed_files": [
+    "include/lua/luaconf.h",
+    "lib/pkgconfig/lua.pc"
+  ],
+  "time": 1684883891,
+  "source_modified_time": 1683058324,
+  "compiler": "clang",
+  "aliases": [
+    "lua@5.4"
+  ],
+  "runtime_dependencies": [
+
+  ],
+  "source": {
+    "spec": "stable",
+    "versions": {
+      "stable": "5.4.6",
+      "head": null,
+      "version_scheme": 0
+    },
+    "path": "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/lua.rb",
+    "tap_git_head": "d082310378496bf65749903822cc09690887fcbf",
+    "tap": "homebrew/core"
+  },
+  "arch": "x86_64",
+  "built_on": {
+    "os": "Macintosh",
+    "os_version": "macOS 13.3",
+    "cpu_family": "penryn",
+    "xcode": "14.3",
+    "clt": "14.3.0.0.1.1679647830",
+    "preferred_perl": "5.30"
+  }
+}

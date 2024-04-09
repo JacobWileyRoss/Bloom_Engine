@@ -7,7 +7,7 @@
 
 
 #include <vector>
-#include <SDL.h>
+#include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
 #include "../../vendor/imgui-docking/imgui.h"
 #include "../../vendor/imgui-docking/imgui_internal.h"
 #include "imgui_impl_sdl2.h"

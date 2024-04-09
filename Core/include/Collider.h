@@ -7,7 +7,7 @@
 
 // Collider.h
 #pragma once
-#include <SDL.h>
+#include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
 #include "Component.h"
 
 class Collider : public Component {

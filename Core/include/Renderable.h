@@ -7,7 +7,7 @@
 
 #include "Component.h"
 
-#include <SDL.h>
+#include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
 
 enum class RenderLayer {
     background,
