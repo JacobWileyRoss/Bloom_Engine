@@ -15,7 +15,7 @@ Core::Core() : window(nullptr), isRunning(false), fileSystem(), stateMachine(ent
                animationEngine(entityManager, dispatcher, deltaTime),
                collisionEngine(entityManager, dispatcher),
                scriptingEngine(lua, entityManager, dispatcher, renderingEngine, animationEngine,
-                               physicsEngine, collisionEngine){}
+                               physicsEngine, collisionEngine, audioEngine){}
 
 void Core::Initialize() {
     // Initialize SDL2 using SDL_INIT_EVERYTHING
@@ -47,11 +47,15 @@ void Core::Initialize() {
     // Initialize RenderingEngine and pass the SDL window
     RenderingEngine::Initialize(window);
 
+    // Initialize AudioEngine
+    audioEngine.Initialize();
+
     // PhysicsEngine and AnimationEngine registering to the dispatcher for Input and Collision events
     dispatcher.addEventListener(EventType::InputKeyDown, [this](const Event& inputEvent) {
         std::cout << "[INFO] Handling EventType::InputKeyDown" << std::endl;
         physicsEngine.handleInputEvent(inputEvent);
         animationEngine.handleInputEvent(inputEvent);
+        audioEngine.HandleInputEvent(event);
     });
 
     dispatcher.addEventListener(EventType::InputKeyUp, [this](const Event& inputEvent) {
@@ -130,6 +134,7 @@ void Core::MainLoop() {
         renderingEngine.update(entityManager.entities);
         renderingEngine.Render(entityManager.entities);
         scriptingEngine.update(deltaTime);
+        audioEngine.Update();
 
         //Lock to 60 FPS
         //SDL_Delay((uint32_t)(1000 / 60));

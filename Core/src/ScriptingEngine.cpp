@@ -128,4 +128,8 @@ void ScriptingEngine::bindToLua() {
         std::cout << "[DEBUG] ScriptingEngine frame loaded successfully" << std::endl;
         animationEngine.addFrame(entityUID, animationType, frame);
     });
-}
+
+    lua.set_function("play", [this](const char* filepath) {
+        audioEngine.Play(filepath);
+    });
+    }

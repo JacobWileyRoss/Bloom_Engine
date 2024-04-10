@@ -39,6 +39,12 @@ include_directories(
         "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-docking/backends"
 )
 
+set(FMOD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/core/inc")
+set(FMOD_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/core/lib")
+include_directories(${FMOD_INCLUDE_DIR})
+link_directories(${FMOD_LIBRARY})
+
+
 add_executable(Bloom_Engine main.cpp
         ${IMGUI_SOURCES}
         vendor/ImGuiFileDialog-master/ImGuiFileDialog.cpp
@@ -85,7 +91,18 @@ add_executable(Bloom_Engine main.cpp
         Editor/include/Editor.h
         Editor/include/OperationsLog.cpp
         Editor/include/OperationsLog.h
+        Core/src/AudioEngine.cpp
+        Core/include/AudioEngine.h
 )
 
-target_link_libraries(Bloom_Engine SDL2 SDL2_image ${LUA_LIBRARY})
-target_include_directories(Bloom_Engine PRIVATE LUA)
+
+target_link_libraries(Bloom_Engine
+        SDL2
+        SDL2_image
+        fmod
+        ${LUA_LIBRARY}
+)
+
+target_include_directories(Bloom_Engine
+        PRIVATE LUA
+)

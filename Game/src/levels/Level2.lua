@@ -148,6 +148,8 @@ function constructLevel()
     createBackgroundPainting();
     createBoundaryBox(430, -30, 60, 40);
     createPlayerEntity(615, 600, 96, 128);
+    play("../Editor/assets/startup.mp3");
+    play("../Editor/assets/enki.wav");
 
 end
 

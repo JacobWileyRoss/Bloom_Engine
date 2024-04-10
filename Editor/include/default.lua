@@ -64,7 +64,7 @@ end
 -- updates all entities
 function constructLevel()
     createDefaultEntity(0, 0, 32, 32);
-    --createPlayerEntity(0, 0, 96, 128);
+    play("../Editor/assets/startup.mp3");
 end
 
 

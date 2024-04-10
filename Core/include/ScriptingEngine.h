@@ -9,6 +9,7 @@
 #include <fstream>
 #include <../../../vendor/sol2/include/sol/sol.hpp>
 #include "FileSystem.h"
+#include "AudioEngine.h"
 #include "EntityManager.h"
 #include "PhysicsEngine.h"
 #include "RenderingEngine.h"
@@ -22,14 +23,16 @@ public:
                              RenderingEngine& renderingEngine,
                              AnimationEngine& animationEngine,
                              PhysicsEngine& physicsEngine,
-                             CollisionEngine& collisionEngine) :
+                             CollisionEngine& collisionEngine,
+                             AudioEngine& audioEngine) :
                              lua(lua),
                              entityManager(entityManager),
                              dispatcher(dispatcher),
                              renderingEngine(renderingEngine),
                              animationEngine(animationEngine),
                              physicsEngine(physicsEngine),
-                             collisionEngine(collisionEngine){
+                             collisionEngine(collisionEngine),
+                             audioEngine(audioEngine){
         lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::table);
         bindToLua();
     }
@@ -60,6 +63,7 @@ private:
     CollisionEngine& collisionEngine;
     std::vector<int> createdEntities;
     std::string currentSelectedScript;
+    AudioEngine& audioEngine;
 
 };
 
