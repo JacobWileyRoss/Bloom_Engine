@@ -23,24 +23,6 @@ bool AudioEngine::Initialize() {
     return true;
 }
 
-void AudioEngine::Play(const char* filepath) {
-    std::cout << "[INFO] Preparing to play sound." << std::endl;
-
-    FMOD_RESULT result = system->createSound(filepath, FMOD_DEFAULT, 0, &sound);
-    if (result != FMOD_OK) {
-        std::cerr << "Failed to create sound: " << FMOD_ErrorString(result) << std::endl;
-        return;
-    }
-
-    result = system->playSound(sound, nullptr, false, &channel);
-    if (result != FMOD_OK) {
-        std::cerr << "Failed to play sound: " << FMOD_ErrorString(result) << std::endl;
-        return;
-    }
-
-    std::cout << "[INFO] Sound is playing." << std::endl;
-}
-
 void AudioEngine::Update() {
     system->update(); // Just update the FMOD system
 }

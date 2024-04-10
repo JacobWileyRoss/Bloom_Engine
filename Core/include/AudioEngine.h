@@ -21,7 +21,6 @@ class AudioEngine {
 public:
     AudioEngine();
     bool Initialize();
-    void Play(const char* filepath);
     void StartSound(const char* filepath);
     void StopSound();
     void Update();
