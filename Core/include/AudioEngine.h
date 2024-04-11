@@ -12,6 +12,12 @@
 #include <../../../vendor/fmod/api/core/inc/fmod_codec.h>
 #include <../../../vendor/fmod/api/core/inc/fmod_common.h>
 #include <../../../vendor/fmod/api/core/inc/fmod_errors.h>
+#include "../../../vendor/fmod/api/studio/inc/fmod_studio.h"
+#include "../../../vendor/fmod/api/studio/inc/fmod_studio.hpp"
+#include "../../../vendor/fmod/api/studio/inc/fmod_studio_common.h"
+#include "../../../vendor/fmod/api/fsbank/inc/fsbank.h"
+#include "../../../vendor/fmod/api/fsbank/inc/fsbank_errors.h"
+
 
 #include <../../../vendor/sdl2/2.30.1/include/SDL2/SDL_events.h>
 
@@ -21,18 +27,19 @@ class AudioEngine {
 public:
     AudioEngine();
     bool Initialize();
-    void StartSound(const char* filepath);
-    void StopSound();
+    void LoadBank(const std::string& bankPath);
+    void PlayEvent(const std::string& eventPath);
     void Update();
     void HandleInputEvent(const SDL_Event& event);
-    bool isChannelPlaying();
+
     ~AudioEngine();
 
 private:
-    FMOD::System* system = nullptr;
+    FMOD::Studio::System* system = nullptr;
+    FMOD::System* coreSystem;
     FMOD::Sound* sound = nullptr;
     FMOD::Channel* channel = nullptr;
-    bool isPlaying;
+    FMOD::Studio::Bank* masterBank = nullptr;
 
 };
 

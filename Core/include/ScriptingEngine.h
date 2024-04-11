@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <../../../vendor/sol2/include/sol/sol.hpp>
 #include "FileSystem.h"
 #include "AudioEngine.h"

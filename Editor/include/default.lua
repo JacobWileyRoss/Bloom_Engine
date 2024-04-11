@@ -64,7 +64,8 @@ end
 -- updates all entities
 function constructLevel()
     createDefaultEntity(0, 0, 32, 32);
-    startSound("../Editor/assets/Startup.wav");
+    playEvent("event:/Startup");
+
 end
 
 

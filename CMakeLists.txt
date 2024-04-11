@@ -39,10 +39,20 @@ include_directories(
         "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-docking/backends"
 )
 
-set(FMOD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/core/inc")
-set(FMOD_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/core/lib")
-include_directories(${FMOD_INCLUDE_DIR})
-link_directories(${FMOD_LIBRARY})
+set(FMOD_CORE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/core/inc")
+set(FMOD_CORE_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/core/lib")
+include_directories(${FMOD_CORE_INCLUDE_DIR})
+link_directories(${FMOD_CORE_LIBRARY})
+
+set(FMOD_FSBANK_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/fsbank/inc")
+set(FMOD_FSBANK_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/fsbank/lib")
+include_directories(${FMOD_FSBANK_INCLUDE_DIR})
+link_directories(${FMOD_FSBANK_LIBRARY})
+
+set(FMOD_STUDIO_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/studio/inc")
+set(FMOD_STUDIO_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/studio/lib")
+include_directories(${FMOD_STUDIO_INCLUDE_DIR})
+link_directories(${FMOD_STUDIO_LIBRARY})
 
 
 add_executable(Bloom_Engine main.cpp
@@ -97,9 +107,11 @@ add_executable(Bloom_Engine main.cpp
 
 
 target_link_libraries(Bloom_Engine
-        SDL2
-        SDL2_image
-        fmod
+        ${SDL2_LIBRARY}/libSDL2.dylib
+        ${SDL2_IMAGE_LIBRARY}/libSDL2_image.dylib
+        ${FMOD_CORE_LIBRARY}/libfmod.dylib
+        ${FMOD_FSBANK_LIBRARY}/libfsbank.dylib
+        ${FMOD_STUDIO_LIBRARY}/libfmodstudio.dylib
         ${LUA_LIBRARY}
 )
 

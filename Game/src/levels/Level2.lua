@@ -148,8 +148,9 @@ function constructLevel()
     createBackgroundPainting();
     createBoundaryBox(430, -30, 60, 40);
     createPlayerEntity(615, 600, 96, 128);
-    play("../Editor/assets/startup.mp3");
-    play("../Editor/assets/enki.wav");
+    loadBank("../Game/assets/audio/Desktop/PlayerCharacter.bank");
+    loadBank("../vendor/fmod/api/studio/examples/media/SFX.bank");
+
 
 end
 

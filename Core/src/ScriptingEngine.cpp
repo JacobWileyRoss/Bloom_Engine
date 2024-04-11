@@ -129,7 +129,11 @@ void ScriptingEngine::bindToLua() {
         animationEngine.addFrame(entityUID, animationType, frame);
     });
 
-    lua.set_function("startSound", [this](const char* filepath) {
-        audioEngine.StartSound(filepath);
+    lua.set_function("loadBank", [this](std::string filepath) {
+        audioEngine.LoadBank(filepath);
+    });
+
+    lua.set_function("playEvent", [this](std::string eventPath) {
+        audioEngine.PlayEvent(eventPath);
     });
 }

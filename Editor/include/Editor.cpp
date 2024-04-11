@@ -37,8 +37,8 @@ void Editor::Initialize() {
     style.Colors[ImGuiCol_ButtonHovered] = ImVec4(255.0f, 0, 200.0f, 0.5f);
 
     // Redirect cout and cerr to the custom stream buffer
-    std::cout.rdbuf(&consoleStreamBuffer);
-    std::cerr.rdbuf(&consoleStreamBuffer);
+//    std::cout.rdbuf(&consoleStreamBuffer);
+//    std::cerr.rdbuf(&consoleStreamBuffer);
 
     // Load Bloom Engine logo for Viewport splash screen (when no camera component found)
     bloomEngineSplashScreen = IMG_LoadTexture(renderingEngine.GetRenderer(),
