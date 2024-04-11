@@ -40,8 +40,10 @@ private:
     FMOD::Sound* sound = nullptr;
     FMOD::Channel* channel = nullptr;
     FMOD::Studio::Bank* masterBank = nullptr;
+    FMOD::Studio::Bank* stringsBank = nullptr;
 
-};
+
+    };
 
 
 #endif //BLOOM_ENGINE_AUDIOENGINE_H
