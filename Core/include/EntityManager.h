@@ -11,6 +11,7 @@
 #include "Entity.h"
 
 #include "Animation.h"
+#include "Audio.h"
 #include "Camera.h"
 #include "Collider.h"
 #include "Component.h"

@@ -53,7 +53,7 @@ GameStateRegistry["GameplayState"] = GameplayState
 --Function to create backgroundPainting
 function createBackgroundPainting()
     -- Create background painting entity
-    local backgroundPainting = createEntity()
+    backgroundPainting = createEntity()
     logMessage("[INFO] Lua created Entity: " .. backgroundPainting);
 
     -- Attach components to the entity
@@ -61,6 +61,10 @@ function createBackgroundPainting()
     attachComponent(backgroundPainting, ComponentTypes.Renderable)
     attachComponent(backgroundPainting, ComponentTypes.Sprite)
     attachComponent(backgroundPainting, ComponentTypes.Texture)
+    attachComponent(backgroundPainting, ComponentTypes.Audio);
+    setBank(backgroundPainting, "../Game/assets/audio/Desktop/World.bank")
+
+
 
     -- Set sprite, texture, render layer, and initial transform
     setSprite(backgroundPainting, 0, 0, 1280, 720)
@@ -89,7 +93,7 @@ end
 -- Function to create and setup a new entity
 function createPlayerEntity(posX, posY, width, height)
     -- Create Player Object
-    local player = createEntity()
+    player = createEntity()
     logMessage("[INFO] Lua created Entity: " .. player);
     attachComponent(player, ComponentTypes.Player)
     attachComponent(player, ComponentTypes.Transform)
@@ -100,12 +104,14 @@ function createPlayerEntity(posX, posY, width, height)
     attachComponent(player, ComponentTypes.Texture)
     attachComponent(player, ComponentTypes.Animation)
     attachComponent(player, ComponentTypes.Camera)
+    attachComponent(player, ComponentTypes.Audio)
     setSprite(player, posX, posY, width, height)
     setTexture(player, "../Game/assets/hero_WalkCycleDown1.png")
     setRenderLayer(player, RenderLayer.character)
     setTransform(player, posX, posY)
     setCamera(player, posX, posY, 1280, 720);
     setBoundaryBox(player, posX, posY, 32, 32)
+    setBank(player, "../Game/assets/audio/Desktop/Player.bank");
 
     -- Load WalkCycleDown
     addFrame(player, AnimationType.WalkCycleDown, "../Game/assets/hero_WalkCycleDown1.png")
@@ -144,12 +150,23 @@ end
 -- constructLevel is called from Core. All level design should go in constructLevel so hot reloading the Lua script
 -- updates all entities
 function constructLevel()
+    logMessage("[INFO] Contructing level");
+
+
+    --loadBank("../Game/assets/audio/Desktop/World.bank");
+
+    logMessage("[INFO] World Constructed");
+
 
     createBackgroundPainting();
+    loadEntityBank(backgroundPainting);
+    playEvent("event:/world_music_background");
     createBoundaryBox(430, -30, 60, 40);
     createPlayerEntity(615, 600, 96, 128);
-    loadBank("../Game/assets/audio/Desktop/PlayerCharacter.bank");
-    loadBank("../vendor/fmod/api/studio/examples/media/SFX.bank");
+    loadEntityBank(player);
+    logMessage("[INFO] Level Constructed");
+
+
 
 
 end

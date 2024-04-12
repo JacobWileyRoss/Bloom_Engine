@@ -7,6 +7,10 @@
 
 #include <iostream>
 
+#include "EntityManager.h"
+#include "Event.h"
+#include "Audio.h"
+
 #include <../../../vendor/fmod/api/core/inc/fmod.h>
 #include <../../../vendor/fmod/api/core/inc/fmod.hpp>
 #include <../../../vendor/fmod/api/core/inc/fmod_codec.h>
@@ -18,23 +22,26 @@
 #include "../../../vendor/fmod/api/fsbank/inc/fsbank.h"
 #include "../../../vendor/fmod/api/fsbank/inc/fsbank_errors.h"
 
-
 #include <../../../vendor/sdl2/2.30.1/include/SDL2/SDL_events.h>
 
 
 
 class AudioEngine {
 public:
-    AudioEngine();
+    AudioEngine(EntityManager& entityManager);
     bool Initialize();
+    void SetBank(int entityUID, std::string bankPath);
     void LoadBank(const std::string& bankPath);
+    void LoadEntityBank(int entityUID);
     void PlayEvent(const std::string& eventPath);
+    void PlayEvent(int entityUID, const std::string& eventPath);
     void Update();
-    void HandleInputEvent(const SDL_Event& event);
+    void HandleInputEvent(const Event& event);
 
     ~AudioEngine();
 
 private:
+    EntityManager& entityManager;
     FMOD::Studio::System* system = nullptr;
     FMOD::System* coreSystem;
     FMOD::Sound* sound = nullptr;

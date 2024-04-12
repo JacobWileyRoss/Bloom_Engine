@@ -103,6 +103,7 @@ add_executable(Bloom_Engine main.cpp
         Editor/include/OperationsLog.h
         Core/src/AudioEngine.cpp
         Core/include/AudioEngine.h
+        Core/include/Audio.h
 )
 
 

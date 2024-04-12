@@ -14,8 +14,9 @@ Core::Core() : window(nullptr), isRunning(false), fileSystem(), stateMachine(ent
                inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),
                animationEngine(entityManager, dispatcher, deltaTime),
                collisionEngine(entityManager, dispatcher),
+               audioEngine(entityManager),
                scriptingEngine(lua, entityManager, dispatcher, renderingEngine, animationEngine,
-                               physicsEngine, collisionEngine, audioEngine){}
+                               physicsEngine, collisionEngine, audioEngine) {}
 
 void Core::Initialize() {
     // Initialize SDL2 using SDL_INIT_EVERYTHING
@@ -55,7 +56,7 @@ void Core::Initialize() {
         std::cout << "[INFO] Handling EventType::InputKeyDown" << std::endl;
         physicsEngine.handleInputEvent(inputEvent);
         animationEngine.handleInputEvent(inputEvent);
-        audioEngine.HandleInputEvent(event);
+        audioEngine.HandleInputEvent(inputEvent);
     });
 
     dispatcher.addEventListener(EventType::InputKeyUp, [this](const Event& inputEvent) {
