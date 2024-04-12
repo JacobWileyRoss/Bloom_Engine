@@ -1,0 +1,47 @@
+\doxysection{Entity\+Manager Class Reference}
+\hypertarget{class_entity_manager}{}\label{class_entity_manager}\index{EntityManager@{EntityManager}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_entity_manager_a3d24f65904bf586af690504f24cc3339}\label{class_entity_manager_a3d24f65904bf586af690504f24cc3339} 
+int {\bfseries create\+Entity} ()
+\item 
+\Hypertarget{class_entity_manager_a0ac37667880dc6fc985b2e03a9a68f04}\label{class_entity_manager_a0ac37667880dc6fc985b2e03a9a68f04} 
+\mbox{\hyperlink{class_entity}{Entity}} \& {\bfseries get\+Entity} (int entity\+UID)
+\item 
+\Hypertarget{class_entity_manager_a77b2944b1031c77267e632dd5da11b6e}\label{class_entity_manager_a77b2944b1031c77267e632dd5da11b6e} 
+void {\bfseries destroy\+Entity} (int entity\+UID)
+\item 
+\Hypertarget{class_entity_manager_a162bf3f347388cf95fd3959fc6eb4bb3}\label{class_entity_manager_a162bf3f347388cf95fd3959fc6eb4bb3} 
+bool {\bfseries has\+Component} (int entity\+UID, const Component\+Types \&component\+Type)
+\item 
+\Hypertarget{class_entity_manager_a59b80ee4bbd9c025bddd9b2102ced02d}\label{class_entity_manager_a59b80ee4bbd9c025bddd9b2102ced02d} 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ int $>$ {\bfseries get\+Entities\+With\+Component} (Component\+Types component\+Type)
+\item 
+\Hypertarget{class_entity_manager_ad51d83be494b03388a5a4c86594b0985}\label{class_entity_manager_ad51d83be494b03388a5a4c86594b0985} 
+{\footnotesize template$<$typename T $>$ }\\T \& {\bfseries get\+Entity\+Component} (int entity\+UID, const Component\+Types component\+Type)
+\item 
+\Hypertarget{class_entity_manager_a0c7ad13ccfb9379e2ee290b4047b3a98}\label{class_entity_manager_a0c7ad13ccfb9379e2ee290b4047b3a98} 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_component}{Component}} $>$ {\bfseries create\+Component} (Component\+Types component\+Type)
+\item 
+\Hypertarget{class_entity_manager_acc16db2928de30bdb01ae7e22a2d3954}\label{class_entity_manager_acc16db2928de30bdb01ae7e22a2d3954} 
+void {\bfseries attach\+Component} (int entity\+UID, Component\+Types)
+\item 
+\Hypertarget{class_entity_manager_ae4964e0e1adc2b77b8d597d2c13f024c}\label{class_entity_manager_ae4964e0e1adc2b77b8d597d2c13f024c} 
+void {\bfseries remove\+Component} (int entity\+UID, Component\+Types component\+Type)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_entity_manager_a9caf2cf2718741d27b5b29c232153cf5}\label{class_entity_manager_a9caf2cf2718741d27b5b29c232153cf5} 
+int {\bfseries next\+UID} = 1
+\item 
+\Hypertarget{class_entity_manager_adb0d4ec64911055ce478814fbd8fafc8}\label{class_entity_manager_adb0d4ec64911055ce478814fbd8fafc8} 
+std\+::unordered\+\_\+map$<$ int, \mbox{\hyperlink{class_entity}{Entity}} $>$ {\bfseries entities}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Core/include/Entity\+Manager.\+h\item 
+Core/src/Entity\+Manager.\+cpp\end{DoxyCompactItemize}

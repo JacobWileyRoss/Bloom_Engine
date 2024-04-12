@@ -1,0 +1,93 @@
+\doxysection{Code\+Editor.\+h}
+\hypertarget{_code_editor_8h_source}{}\label{_code_editor_8h_source}\index{Editor/include/CodeEditor.h@{Editor/include/CodeEditor.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 4/4/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINEPROJECT\_CODEEDITOR\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINEPROJECT\_CODEEDITOR\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../../vendor/imgui-\/docking/imgui.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_code_editor}{CodeEditor}}\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_code_editor}{CodeEditor}}()\ :\ filename(\textcolor{stringliteral}{"{}"{}}),\ buffer(\textcolor{stringliteral}{"{}"{}})\ \{\}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ LoadFile(\textcolor{keyword}{const}\ std::string\&\ filepath)\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ std::ifstream\ file(filepath);}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file.is\_open())\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ buffer.clear();}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ line;}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (std::getline(file,\ line))\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buffer.append(line\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ file.close();}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ filename\ =\ filepath;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00027\ \ \ \ \ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ SaveFile()\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!filename.empty())\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ std::ofstream\ file(filename);}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file.is\_open())\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\ <<\ buffer;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file.close();}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ Render()\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ background\ color\ to\ black}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ ImGui::PushStyleColor(ImGuiCol\_Text,\ ImVec4(1.0f,\ 1.0f,\ 1.0f,\ 1.0f));\ \textcolor{comment}{//\ Text\ color\ to\ white}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ ImGui::PushStyleColor(ImGuiCol\_WindowBg,\ ImVec4(0.0f,\ 0.0f,\ 0.0f,\ 1.0f));\ \textcolor{comment}{//\ Window\ background\ color\ to\ black}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Begin\ the\ CodeEditor\ window\ with\ ImGuiWindowFlags\_NoBackground\ flag\ to\ set\ the\ background\ color\ to\ black}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ ImGui::Begin(\textcolor{stringliteral}{"{}Code\ Editor"{}},\ \textcolor{keyword}{nullptr},\ ImGuiWindowFlags\_NoBackground);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ InputTextMultiline\ function\ to\ display\ the\ text\ editor}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ ImGui::InputTextMultiline(\textcolor{stringliteral}{"{}\#\#Editor"{}},\ buffer.data(),\ buffer.size()\ +\ 1,\ ImVec2(-\/1,\ -\/1));}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ End\ the\ CodeEditor\ window}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ ImGui::End();}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Restore\ the\ default\ style\ colors}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ ImGui::PopStyleColor(2);\ \textcolor{comment}{//\ Pop\ the\ pushed\ style\ colors\ outside\ the\ Render\ function}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ std::string::data()\ to\ get\ a\ pointer\ to\ the\ underlying\ character\ array}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::Button(\textcolor{stringliteral}{"{}Open"{}}))\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Show\ file\ dialog\ when\ "{}Open"{}\ button\ is\ clicked}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::OpenPopup(\textcolor{stringliteral}{"{}Open\ Source\ File"{}});}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::BeginPopup(\textcolor{stringliteral}{"{}Open\ Lua\ Script"{}}))\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Iterate\ over\ files\ in\ the\ directory\ and\ display\ them\ as\ selectable\ options}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ entry\ :\ std::filesystem::directory\_iterator(\textcolor{stringliteral}{"{}../../editor/Game/src"{}}))\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entry.is\_directory())\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::Selectable(entry.path().filename().string().c\_str()))\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Load\ the\ selected\ file}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LoadFile(entry.path().string());}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::EndPopup();}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ ImGui::SameLine();}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::Button(\textcolor{stringliteral}{"{}Save"{}}))\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ SaveFile();}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00083\ \ \ \ \ std::string\ filename;}
+\DoxyCodeLine{00084\ \ \ \ \ std::string\ buffer;}
+\DoxyCodeLine{00085\ \};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINEPROJECT\_CODEEDITOR\_H}}
+
+\end{DoxyCode}

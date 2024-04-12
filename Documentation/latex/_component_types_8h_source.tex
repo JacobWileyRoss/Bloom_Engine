@@ -1,0 +1,45 @@
+\doxysection{Component\+Types.\+h}
+\hypertarget{_component_types_8h_source}{}\label{_component_types_8h_source}\index{Core/include/ComponentTypes.h@{Core/include/ComponentTypes.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 3/25/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINE\_COMPONENTTYPES\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINE\_COMPONENTTYPES\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{enum\ class}\ ComponentTypes\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{class_animation}{Animation}},}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{class_audio}{Audio}},}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{class_camera}{Camera}},}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{class_collider}{Collider}},}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{class_event}{Event}},}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_physics}{Physics}},}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{class_player}{Player}},}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{class_renderable}{Renderable}},}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{class_sprite}{Sprite}},}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{class_texture}{Texture}},}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{class_transform}{Transform}},}
+\DoxyCodeLine{00020\ \};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{inline}\ std::string\ componentTypeToString(ComponentTypes\ type)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordflow}{switch}\ (type)\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Animation:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Animation"{}};}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Audio:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Audio"{}};}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Camera:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Camera"{}};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Collider:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Collider"{}};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Event:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Event"{}};}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Physics:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Physics"{}};}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Player:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Player"{}};}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Renderable:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Renderable"{}};}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Sprite:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Sprite"{}};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Texture:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Texture"{}};}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ComponentTypes::Transform:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Transform"{}};}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Unknown"{}};}
+\DoxyCodeLine{00036\ \ \ \ \ \}}
+\DoxyCodeLine{00037\ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINE\_COMPONENTTYPES\_H}}
+
+\end{DoxyCode}

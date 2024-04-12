@@ -1,0 +1,78 @@
+\doxysection{Scripting\+Engine.\+h}
+\hypertarget{_scripting_engine_8h_source}{}\label{_scripting_engine_8h_source}\index{Core/include/ScriptingEngine.h@{Core/include/ScriptingEngine.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 3/28/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINE\_SCRIPTINGENGINE\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINE\_SCRIPTINGENGINE\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <../../../vendor/sol2/include/sol/sol.hpp>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}FileSystem.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}AudioEngine.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}EntityManager.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}PhysicsEngine.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rendering_engine_8h}{RenderingEngine.h}}"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}AnimationEngine.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}CollisionEngine.h"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}Animation.h"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_scripting_engine}{ScriptingEngine}}\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_scripting_engine}{ScriptingEngine}}(sol::state\&\ lua,\ \mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager,\ \mbox{\hyperlink{class_dispatcher}{Dispatcher}}\&\ dispatcher,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_rendering_engine}{RenderingEngine}}\&\ renderingEngine,}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_animation_engine}{AnimationEngine}}\&\ animationEngine,}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_physics_engine}{PhysicsEngine}}\&\ physicsEngine,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_collision_engine}{CollisionEngine}}\&\ collisionEngine,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_audio_engine}{AudioEngine}}\&\ audioEngine)\ :}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lua(lua),}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityManager(entityManager),}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dispatcher(dispatcher),}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ renderingEngine(renderingEngine),}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ animationEngine(animationEngine),}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ physicsEngine(physicsEngine),}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ collisionEngine(collisionEngine),}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioEngine(audioEngine)\{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ lua.open\_libraries(sol::lib::base,\ sol::lib::math,\ sol::lib::table);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ bindToLua();}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ initialize();}
+\DoxyCodeLine{00042\ \ \ \ \ sol::state\&\ getLuaState();}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime);}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ loadScript(\textcolor{keyword}{const}\ std::string\&\ filePath);}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ saveScript(\textcolor{keyword}{const}\ std::string\&\ filePath,\ \textcolor{keyword}{const}\ std::string\&\ data);}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{void}\ bindToLua();}
+\DoxyCodeLine{00047\ \ \ \ \ std::string\ getCurrentSelectedScript()\ \{\textcolor{keywordflow}{return}\ currentSelectedScript;\};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ setCurrentSelectedScript(std::string\ filepath)\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ currentSelectedScript\ =\ filepath;}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ addEntity(\textcolor{keywordtype}{int}\ entityUID);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{class_scripting_engine}{\string~ScriptingEngine}}()\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}[INFO]\ ScriptingEngine\ destructor\ called"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ createdEntities.clear();}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00058\ \ \ \ \ sol::state\&\ lua;}
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager;}
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{class_dispatcher}{Dispatcher}}\&\ dispatcher;}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{class_rendering_engine}{RenderingEngine}}\&\ renderingEngine;}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{class_animation_engine}{AnimationEngine}}\&\ animationEngine;}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{class_physics_engine}{PhysicsEngine}}\&\ physicsEngine;}
+\DoxyCodeLine{00064\ \ \ \ \ \mbox{\hyperlink{class_collision_engine}{CollisionEngine}}\&\ collisionEngine;}
+\DoxyCodeLine{00065\ \ \ \ \ std::vector<int>\ createdEntities;}
+\DoxyCodeLine{00066\ \ \ \ \ std::string\ currentSelectedScript;}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{class_audio_engine}{AudioEngine}}\&\ audioEngine;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINE\_SCRIPTINGENGINE\_H}}
+
+\end{DoxyCode}

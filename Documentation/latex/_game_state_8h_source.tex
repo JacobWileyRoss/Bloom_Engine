@@ -1,0 +1,34 @@
+\doxysection{Game\+State.\+h}
+\hypertarget{_game_state_8h_source}{}\label{_game_state_8h_source}\index{Core/include/GameState.h@{Core/include/GameState.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 3/29/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINE\_GAMESTATE\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINE\_GAMESTATE\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}EntityManager.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game_state}{GameState}}\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{class_game_state}{GameState}}(\mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager)\ :\ entityManager(entityManager)\{\};}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ enter()\ =\ 0;\ \textcolor{comment}{//\ Called\ when\ entering\ the\ state}}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ exit()\ =\ 0;\ \ \textcolor{comment}{//\ Called\ when\ exiting\ the\ state}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime)\ =\ 0;\ \textcolor{comment}{//\ Update\ the\ state\ logic}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ render()\ =\ 0;\ \textcolor{comment}{//\ Render\ the\ state\ visuals}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{virtual}\ std::string\ serialize()\ =\ 0;\ \textcolor{comment}{//\ Serialize\ game\ state\ for\ Lua\ script\ generation}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_game_state}{\string~GameState}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINE\_GAMESTATE\_H}}
+
+\end{DoxyCode}

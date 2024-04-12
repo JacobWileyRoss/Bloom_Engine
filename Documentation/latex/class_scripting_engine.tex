@@ -1,0 +1,41 @@
+\doxysection{Scripting\+Engine Class Reference}
+\hypertarget{class_scripting_engine}{}\label{class_scripting_engine}\index{ScriptingEngine@{ScriptingEngine}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_scripting_engine_a167fbe03f0a46045cadc04a5a488248d}\label{class_scripting_engine_a167fbe03f0a46045cadc04a5a488248d} 
+{\bfseries Scripting\+Engine} (sol\+::state \&lua, \mbox{\hyperlink{class_entity_manager}{Entity\+Manager}} \&entity\+Manager, \mbox{\hyperlink{class_dispatcher}{Dispatcher}} \&dispatcher, \mbox{\hyperlink{class_rendering_engine}{Rendering\+Engine}} \&rendering\+Engine, \mbox{\hyperlink{class_animation_engine}{Animation\+Engine}} \&animation\+Engine, \mbox{\hyperlink{class_physics_engine}{Physics\+Engine}} \&physics\+Engine, \mbox{\hyperlink{class_collision_engine}{Collision\+Engine}} \&collision\+Engine, \mbox{\hyperlink{class_audio_engine}{Audio\+Engine}} \&audio\+Engine)
+\item 
+\Hypertarget{class_scripting_engine_ad03565a5efbb75ad92f76ce3f0ce45f5}\label{class_scripting_engine_ad03565a5efbb75ad92f76ce3f0ce45f5} 
+void {\bfseries initialize} ()
+\item 
+\Hypertarget{class_scripting_engine_aedbe04c6dc7ccfbb2b659b941d5d7ddd}\label{class_scripting_engine_aedbe04c6dc7ccfbb2b659b941d5d7ddd} 
+sol\+::state \& {\bfseries get\+Lua\+State} ()
+\item 
+\Hypertarget{class_scripting_engine_a629c5ade1c0976ce8ef0c4fe13ece946}\label{class_scripting_engine_a629c5ade1c0976ce8ef0c4fe13ece946} 
+void {\bfseries update} (float delta\+Time)
+\item 
+\Hypertarget{class_scripting_engine_adab032c17afe999d934e6fbf2cdf4247}\label{class_scripting_engine_adab032c17afe999d934e6fbf2cdf4247} 
+void {\bfseries load\+Script} (const std\+::string \&file\+Path)
+\item 
+\Hypertarget{class_scripting_engine_af2cf9a0237b11410b6eac8ed86484704}\label{class_scripting_engine_af2cf9a0237b11410b6eac8ed86484704} 
+void {\bfseries save\+Script} (const std\+::string \&file\+Path, const std\+::string \&data)
+\item 
+\Hypertarget{class_scripting_engine_a1101e10e81f8e385c18310930f65ecbc}\label{class_scripting_engine_a1101e10e81f8e385c18310930f65ecbc} 
+void {\bfseries bind\+To\+Lua} ()
+\item 
+\Hypertarget{class_scripting_engine_a074a67821228350e5a63daab981d0112}\label{class_scripting_engine_a074a67821228350e5a63daab981d0112} 
+std\+::string {\bfseries get\+Current\+Selected\+Script} ()
+\item 
+\Hypertarget{class_scripting_engine_af2641dad43fa1ceaf33f906486c0f67f}\label{class_scripting_engine_af2641dad43fa1ceaf33f906486c0f67f} 
+void {\bfseries set\+Current\+Selected\+Script} (std\+::string filepath)
+\item 
+\Hypertarget{class_scripting_engine_a286be73da3c637ac2e48da93e7343662}\label{class_scripting_engine_a286be73da3c637ac2e48da93e7343662} 
+void {\bfseries add\+Entity} (int entity\+UID)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Core/include/Scripting\+Engine.\+h\item 
+Core/src/Scripting\+Engine.\+cpp\end{DoxyCompactItemize}

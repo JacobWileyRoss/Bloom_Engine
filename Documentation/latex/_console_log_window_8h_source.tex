@@ -1,0 +1,54 @@
+\doxysection{Console\+Log\+Window.\+h}
+\hypertarget{_console_log_window_8h_source}{}\label{_console_log_window_8h_source}\index{Editor/include/ConsoleLogWindow.h@{Editor/include/ConsoleLogWindow.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 4/4/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINEPROJECT\_CONSOLELOGWINDOW\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINEPROJECT\_CONSOLELOGWINDOW\_H}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../../vendor/imgui-\/docking/imgui.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_console_log_window}{ConsoleLogWindow}}\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{comment}{//\ Custom\ output\ window\ with\ auto-\/scrolling}}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ ShowConsoleLogWindow(\textcolor{keyword}{const}\ std::vector<std::string>\&\ lines)\ \{}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{comment}{//ImGui::PushStyleColor(ImGuiCol\_Text,\ ImVec4(255.0f,\ 0,\ 135.0f,\ 0.3f));}}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ ImGui::PushStyleColor(ImGuiCol\_Text,\ ImVec4(255.0f,\ 255.0f,\ 255.0f,\ 255.0f));}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ ImGui::PushStyleColor(ImGuiCol\_ChildBg,\ ImVec4(0,\ 0,\ 0,\ 1));}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ ImGui::PushStyleColor(ImGuiCol\_TableRowBg,\ ImVec4(0,\ 0,\ 0,\ 0));}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ ImGui::PushStyleVar(ImGuiStyleVar\_ItemSpacing,\ ImVec2(0,1));}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ ImGui::PushStyleColor(ImGuiCol\_TabUnfocusedActive,\ ImVec4(255.0f,\ 0,\ 135.0f,\ 0.6f));}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ ImGui::Begin(\textcolor{stringliteral}{"{}Console\ Log"{}});}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ ImGui::BeginChild(\textcolor{stringliteral}{"{}ScrollingRegion"{}},\ ImVec2(0,0),\ \textcolor{keyword}{false},\ ImGuiWindowFlags\_HorizontalScrollbar);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Iterate\ through\ lines\ and\ display\ them}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ line\ :\ lines)\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::TextUnformatted(line.c\_str());}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Automatically\ scroll\ to\ the\ bottom}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui::GetScrollY()\ >=\ ImGui::GetScrollMaxY())\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui::SetScrollHereY(1.0f);}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ ImGui::PopStyleColor();}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ ImGui::PopStyleColor();}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ ImGui::PopStyleColor();}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ ImGui::PopStyleColor();}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ ImGui::PopStyleVar();}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ ImGui::EndChild();}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ ImGui::End();}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINEPROJECT\_CONSOLELOGWINDOW\_H}}
+
+\end{DoxyCode}

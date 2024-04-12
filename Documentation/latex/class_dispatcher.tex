@@ -1,0 +1,26 @@
+\doxysection{Dispatcher Class Reference}
+\hypertarget{class_dispatcher}{}\label{class_dispatcher}\index{Dispatcher@{Dispatcher}}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_dispatcher_a578aba2cbabdadc7b1f5f3e67e2a16d9}\label{class_dispatcher_a578aba2cbabdadc7b1f5f3e67e2a16d9} 
+using {\bfseries Event\+Callback} = std\+::function$<$void(const \mbox{\hyperlink{class_event}{Event}}\&)$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_dispatcher_a01a4f9478eee9f99d0c9a57f2781d821}\label{class_dispatcher_a01a4f9478eee9f99d0c9a57f2781d821} 
+{\bfseries Dispatcher} (\mbox{\hyperlink{class_entity_manager}{Entity\+Manager}} \&entity\+Manager)
+\item 
+\Hypertarget{class_dispatcher_a02ef654509ce0279d6db50b86065c1b1}\label{class_dispatcher_a02ef654509ce0279d6db50b86065c1b1} 
+void {\bfseries add\+Event\+Listener} (Event\+Type event\+Type, const Event\+Callback \&callback)
+\item 
+\Hypertarget{class_dispatcher_a7cda76a0ec89cc49fb5ad4db5773e79a}\label{class_dispatcher_a7cda76a0ec89cc49fb5ad4db5773e79a} 
+void {\bfseries dispatch\+Event} (const \mbox{\hyperlink{class_event}{Event}} \&event)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Core/include/Dispatcher.\+h\item 
+Core/src/Dispatcher.\+cpp\end{DoxyCompactItemize}

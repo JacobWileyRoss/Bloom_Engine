@@ -1,0 +1,59 @@
+\doxysection{Input\+Processor Class Reference}
+\hypertarget{class_input_processor}{}\label{class_input_processor}\index{InputProcessor@{InputProcessor}}
+
+
+Processes user input and dispatches engine events.  
+
+
+
+
+{\ttfamily \#include $<$Input\+Processor.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_input_processor_ac944ea190ffc10d4153bb18fcd69b559}{Input\+Processor}} (\mbox{\hyperlink{class_entity_manager}{Entity\+Manager}} \&entity\+Manager, \mbox{\hyperlink{class_dispatcher}{Dispatcher}} \&dispatcher)
+\item 
+void \mbox{\hyperlink{class_input_processor_a149e022ceb5dd4278c789edc9d784134}{Process\+Input}} (SDL\+\_\+\+Event \&event)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Processes user input and dispatches engine events. 
+
+The \doxylink{class_input_processor}{Input\+Processor} is a key component of the Bloom Engine that listens for SDL input events, interprets them, and then creates and dispatches corresponding engine events to influence the game state or behavior of entities. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_input_processor_ac944ea190ffc10d4153bb18fcd69b559}\label{class_input_processor_ac944ea190ffc10d4153bb18fcd69b559} 
+\index{InputProcessor@{InputProcessor}!InputProcessor@{InputProcessor}}
+\index{InputProcessor@{InputProcessor}!InputProcessor@{InputProcessor}}
+\doxysubsubsection{\texorpdfstring{InputProcessor()}{InputProcessor()}}
+{\footnotesize\ttfamily Input\+Processor\+::\+Input\+Processor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_entity_manager}{Entity\+Manager}} \&}]{entity\+Manager,  }\item[{\mbox{\hyperlink{class_dispatcher}{Dispatcher}} \&}]{dispatcher }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+Constructs an \doxylink{class_input_processor}{Input\+Processor} with references to the \doxylink{class_entity_manager}{Entity\+Manager} and \doxylink{class_dispatcher}{Dispatcher}. 
+\begin{DoxyParams}{Parameters}
+{\em entity\+Manager} & A reference to the engine\textquotesingle{}s \doxylink{class_entity_manager}{Entity\+Manager} to access and manipulate entities. \\
+\hline
+{\em dispatcher} & A reference to the \doxylink{class_dispatcher}{Dispatcher} to dispatch interpreted input events. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_input_processor_a149e022ceb5dd4278c789edc9d784134}\label{class_input_processor_a149e022ceb5dd4278c789edc9d784134} 
+\index{InputProcessor@{InputProcessor}!ProcessInput@{ProcessInput}}
+\index{ProcessInput@{ProcessInput}!InputProcessor@{InputProcessor}}
+\doxysubsubsection{\texorpdfstring{ProcessInput()}{ProcessInput()}}
+{\footnotesize\ttfamily void Input\+Processor\+::\+Process\+Input (\begin{DoxyParamCaption}\item[{SDL\+\_\+\+Event \&}]{event }\end{DoxyParamCaption})}
+
+Processes SDL input events and dispatches corresponding engine events. This function is called within the engine\textquotesingle{}s main loop to handle events such as keyboard presses, mouse movements, etc., and translate them into actions within the game. 
+\begin{DoxyParams}{Parameters}
+{\em event} & A reference to the current SDL\+\_\+\+Event to be processed. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Core/include/\mbox{\hyperlink{_input_processor_8h}{Input\+Processor.\+h}}\item 
+Core/src/Input\+Processor.\+cpp\end{DoxyCompactItemize}

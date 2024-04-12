@@ -1,0 +1,45 @@
+\doxysection{Camera.\+h}
+\hypertarget{_camera_8h_source}{}\label{_camera_8h_source}\index{Core/include/Camera.h@{Core/include/Camera.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Wiley\ Ross\ on\ 3/30/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINE\_CAMERA\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINE\_CAMERA\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}Component.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_camera}{Camera}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_component}{Component}}\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_camera}{Camera}}()\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ type\ =\ \textcolor{stringliteral}{"{}Camera"{}};}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ viewPort.x\ =\ 0;}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ viewPort.y\ =\ 0;}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ viewPort.w\ =\ 32;}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ viewPort.h\ =\ 32;}
+\DoxyCodeLine{00020\ \ \ \ \ \}}
+\DoxyCodeLine{00021\ \ \ \ \ SDL\_Rect\ viewPort;\ \textcolor{comment}{//\ Defines\ the\ part\ of\ the\ world\ the\ camera\ is\ looking\ at.}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{float}\ zoomLevel\ =\ 1.0f;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//\ Add\ more\ properties\ as\ needed,\ such\ as\ rotation\ for\ more\ advanced\ camera\ systems.}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{class_camera}{Camera}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height)\ :\ viewPort(\{x,\ y,\ width,\ height\})\ \{\}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{comment}{//\ Methods\ to\ move,\ zoom,\ and\ rotate\ the\ camera\ as\ needed.}}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ move(\textcolor{keywordtype}{int}\ deltaX,\ \textcolor{keywordtype}{int}\ deltaY)\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ viewPort.x\ +=\ deltaX;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ viewPort.y\ +=\ deltaY;}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ setZoom(\textcolor{keywordtype}{float}\ zoom)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ zoomLevel\ =\ zoom;}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINE\_CAMERA\_H}}
+
+\end{DoxyCode}

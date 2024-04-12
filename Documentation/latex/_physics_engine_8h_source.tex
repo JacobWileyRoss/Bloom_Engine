@@ -1,0 +1,41 @@
+\doxysection{Physics\+Engine.\+h}
+\hypertarget{_physics_engine_8h_source}{}\label{_physics_engine_8h_source}\index{Core/include/PhysicsEngine.h@{Core/include/PhysicsEngine.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 3/24/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINE\_PHYSICSENGINE\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINE\_PHYSICSENGINE\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}Dispatcher.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}Entity.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}Physics.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}Collider.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_physics_engine}{PhysicsEngine}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_physics_engine}{PhysicsEngine}}(\mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager,\ \mbox{\hyperlink{class_dispatcher}{Dispatcher}}\&\ dispatcher,\ \textcolor{keywordtype}{float}\&\ deltaTime)\ :}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityManager(entityManager),\ dispatcher(dispatcher),\ deltaTime(deltaTime)}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{std::cout\ <<\textcolor{stringliteral}{"{}[INFO]\ Physics\ Engine\ initialized\ successfully"{}}\ <<\ std::endl;\};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime);}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ handleInputEvent(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_event}{Event}}\&\ event);}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ handleCollisionEvent(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_event}{Event}}\&\ event);}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ applyForce(\mbox{\hyperlink{class_entity}{Entity}}\&\ entity,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y);}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ setTransform(\textcolor{keywordtype}{int}\ entityUID,\ \textcolor{keywordtype}{float}\ posX,\ \textcolor{keywordtype}{float}\ posY);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{class_dispatcher}{Dispatcher}}\&\ dispatcher;}
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager;}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{float}\&\ deltaTime;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{float}\ speedMultipler;}
+\DoxyCodeLine{00031\ \};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINE\_PHYSICSENGINE\_H}}
+
+\end{DoxyCode}

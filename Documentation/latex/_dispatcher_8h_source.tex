@@ -1,0 +1,35 @@
+\doxysection{Dispatcher.\+h}
+\hypertarget{_dispatcher_8h_source}{}\label{_dispatcher_8h_source}\index{Core/include/Dispatcher.h@{Core/include/Dispatcher.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 3/24/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINE\_DISPATCHER\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINE\_DISPATCHER\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}Event.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}EntityManager.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dispatcher}{Dispatcher}}\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{class_dispatcher}{Dispatcher}}(\mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager)\ :\ entityManager(entityManager)\ \{\};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{using\ }EventCallback\ =\ std::function<void(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_event}{Event}}\&)>;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{void}\ addEventListener(EventType\ eventType,\ \textcolor{keyword}{const}\ EventCallback\&\ callback);}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ dispatchEvent(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_event}{Event}}\&\ event);}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{class_entity_manager}{EntityManager}}\ entityManager;}
+\DoxyCodeLine{00025\ \ \ \ \ std::unordered\_map<EventType,\ std::vector<EventCallback>>\ listeners;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINE\_DISPATCHER\_H}}
+
+\end{DoxyCode}

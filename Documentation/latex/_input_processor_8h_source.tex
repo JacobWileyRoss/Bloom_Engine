@@ -1,0 +1,38 @@
+\doxysection{Input\+Processor.\+h}
+\hypertarget{_input_processor_8h_source}{}\label{_input_processor_8h_source}\index{Core/include/InputProcessor.h@{Core/include/InputProcessor.h}}
+\mbox{\hyperlink{_input_processor_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 3/24/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINE\_INPUTPROCESSOR\_H}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINE\_INPUTPROCESSOR\_H}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}Entity.h"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}EntityManager.h"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}Dispatcher.h"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}ComponentTypes.h"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}Event.h"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}Player.h"{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}Transform.h"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}Physics.h"{}}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_input_processor}{InputProcessor}}\ \{}
+\DoxyCodeLine{00035\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_input_processor_ac944ea190ffc10d4153bb18fcd69b559}{InputProcessor}}(\mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager,\ \mbox{\hyperlink{class_dispatcher}{Dispatcher}}\&\ dispatcher)}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ :\ entityManager(entityManager),\ dispatcher(dispatcher)\ \{\};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_input_processor_a149e022ceb5dd4278c789edc9d784134}{ProcessInput}}(SDL\_Event\&\ event);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager;\ }
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{class_dispatcher}{Dispatcher}}\&\ dispatcher;\ }
+\DoxyCodeLine{00055\ \ \ \ \ EventData\ eventData;\ }
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINE\_INPUTPROCESSOR\_H}}
+
+\end{DoxyCode}

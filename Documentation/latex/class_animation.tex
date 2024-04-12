@@ -1,0 +1,51 @@
+\doxysection{Animation Class Reference}
+\hypertarget{class_animation}{}\label{class_animation}\index{Animation@{Animation}}
+Inheritance diagram for Animation\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_animation}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_animation_a5942383e011cb102a6420a738a9d92cf}\label{class_animation_a5942383e011cb102a6420a738a9d92cf} 
+std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ {\bfseries walk\+Cycle\+UP}
+\item 
+\Hypertarget{class_animation_a50a88b6ade038564e8b19036ab2fec64}\label{class_animation_a50a88b6ade038564e8b19036ab2fec64} 
+std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ {\bfseries walk\+Cycle\+DOWN}
+\item 
+\Hypertarget{class_animation_a3766bc9a71529ad8dd492fc786a75b8f}\label{class_animation_a3766bc9a71529ad8dd492fc786a75b8f} 
+std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ {\bfseries walk\+Cycle\+LEFT}
+\item 
+\Hypertarget{class_animation_a4f53706f1bfbe72fa2176b6c6299e094}\label{class_animation_a4f53706f1bfbe72fa2176b6c6299e094} 
+std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ {\bfseries walk\+Cycle\+RIGHT}
+\item 
+\Hypertarget{class_animation_a8603064b4e177cce04046071e8d2bff4}\label{class_animation_a8603064b4e177cce04046071e8d2bff4} 
+std\+::map$<$ Animation\+Type, std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ $>$ {\bfseries animations}
+\item 
+\Hypertarget{class_animation_a0b7e0d39ac1071d1389114b56db46544}\label{class_animation_a0b7e0d39ac1071d1389114b56db46544} 
+bool {\bfseries is\+Playing} = false
+\item 
+\Hypertarget{class_animation_a7614c410ce6fa9a32c0111e6a3758e48}\label{class_animation_a7614c410ce6fa9a32c0111e6a3758e48} 
+Animation\+Type {\bfseries current\+Animation\+Type} = Animation\+Type\+::\+Walk\+Cycle\+DOWN
+\item 
+\Hypertarget{class_animation_a92e9b486565f490c578ad4fd42695aae}\label{class_animation_a92e9b486565f490c578ad4fd42695aae} 
+int {\bfseries current\+Frame\+Index} = 0
+\item 
+\Hypertarget{class_animation_af788e0be911294832335d1010609ab93}\label{class_animation_af788e0be911294832335d1010609ab93} 
+float {\bfseries frame\+Duration} = 0.\+06
+\item 
+\Hypertarget{class_animation_a3be1931ff56b23ed13d2a3588049c773}\label{class_animation_a3be1931ff56b23ed13d2a3588049c773} 
+float {\bfseries elapsed\+Time} = 0
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{class_component}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries type}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Core/include/Animation.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,57 @@
+\doxysection{Animation.\+h}
+\hypertarget{_animation_8h_source}{}\label{_animation_8h_source}\index{Core/include/Animation.h@{Core/include/Animation.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 3/25/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINE\_ANIMATION\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINE\_ANIMATION\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}Component.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}../../../vendor/sdl2\_image/2.8.2\_1/include/SDL2/SDL\_image.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{enum\ class}\ AnimationType\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ WalkCycleUP,}
+\DoxyCodeLine{00016\ \ \ \ \ WalkCycleDOWN,}
+\DoxyCodeLine{00017\ \ \ \ \ WalkCycleLEFT,}
+\DoxyCodeLine{00018\ \ \ \ \ WalkCycleRIGHT}
+\DoxyCodeLine{00019\ \};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ Converts\ the\ AnimationType\ enum\ to\ a\ string\ output\ (mainly\ for\ debugging)}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{inline}\ std::string\ animationTypeToString(AnimationType\ type)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordflow}{switch}\ (type)\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AnimationType::WalkCycleUP:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}WalkCycleUp"{}};}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AnimationType::WalkCycleDOWN:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}WalkCycleDOWN"{}};}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AnimationType::WalkCycleLEFT:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}WalkCycleLEFT"{}};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AnimationType::WalkCycleRIGHT:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}WalkCycleRIGHT"{}};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Unknown"{}};}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ \}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_animation}{Animation}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_component}{Component}}\ \{}
+\DoxyCodeLine{00033\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{comment}{//\ Animation\ cycles\ are\ stored\ as\ individual\ frames\ in\ a\ vector\ per\ animation\ cycle\ type}}
+\DoxyCodeLine{00035\ \ \ \ \ std::vector<SDL\_Texture*>\ walkCycleUP;}
+\DoxyCodeLine{00036\ \ \ \ \ std::vector<SDL\_Texture*>\ walkCycleDOWN;}
+\DoxyCodeLine{00037\ \ \ \ \ std::vector<SDL\_Texture*>\ walkCycleLEFT;}
+\DoxyCodeLine{00038\ \ \ \ \ std::vector<SDL\_Texture*>\ walkCycleRIGHT;}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{comment}{//\ Map\ of\ animations\ by\ type,\ each\ with\ their\ vector\ of\ frames}}
+\DoxyCodeLine{00040\ \ \ \ \ std::map<AnimationType,\ std::vector<SDL\_Texture*>>\ animations;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{bool}\ isPlaying\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Add\ a\ flag\ to\ indicate\ if\ the\ animation\ is\ playing}}
+\DoxyCodeLine{00042\ \ \ \ \ AnimationType\ currentAnimationType\ =\ AnimationType::WalkCycleDOWN;\ \textcolor{comment}{//\ Default\ or\ initial\ animation}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{int}\ currentFrameIndex\ =\ 0;\ \textcolor{comment}{//\ The\ index\ of\ the\ current\ frame\ to\ be\ displayed}}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{//\ TODO\ frameDuration\ should\ be\ set\ by\ Lua\ script\ and\ not\ hard\ coded\ here}}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{float}\ frameDuration\ =\ 0.06;\ \textcolor{comment}{//\ Duration\ each\ frame\ is\ displayed}}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{float}\ elapsedTime\ =\ 0;\ \textcolor{comment}{//\ Time\ elapsed\ since\ the\ current\ frame\ was\ shown}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINE\_ANIMATION\_H}}
+
+\end{DoxyCode}
