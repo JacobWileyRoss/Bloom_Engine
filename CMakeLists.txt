@@ -10,12 +10,15 @@ set(LUA_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/lua/5.4.6/lib/liblua5.4.dyli
 include_directories(${LUA_INCLUDE_DIR})
 link_libraries(${LUA_LIBRARY})
 
+# Add the Sol2 include directory
+set(SOL2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sol2/include/")
+include_directories(${SOL2_INCLUDE_DIR})
+
 # Include SDL2
 set(SDL2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2")
 set(SDL2_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2/2.30.1/lib/") # Adjust extension as necessary
 include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 link_directories(${SDL2_LIBRARY})
-
 
 # Include SDL2_image
 set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sdl2_image")
@@ -36,10 +39,20 @@ include_directories(
         "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui-docking/backends"
 )
 
+set(FMOD_CORE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/core/inc")
+set(FMOD_CORE_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/core/lib")
+include_directories(${FMOD_CORE_INCLUDE_DIR})
+link_directories(${FMOD_CORE_LIBRARY})
 
-# Add the Sol2 include directory
-set(SOL2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/sol2/include/")
-include_directories(${SOL2_INCLUDE_DIR})
+set(FMOD_FSBANK_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/fsbank/inc")
+set(FMOD_FSBANK_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/fsbank/lib")
+include_directories(${FMOD_FSBANK_INCLUDE_DIR})
+link_directories(${FMOD_FSBANK_LIBRARY})
+
+set(FMOD_STUDIO_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/studio/inc")
+set(FMOD_STUDIO_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/vendor/fmod/api/studio/lib")
+include_directories(${FMOD_STUDIO_INCLUDE_DIR})
+link_directories(${FMOD_STUDIO_LIBRARY})
 
 
 add_executable(Bloom_Engine main.cpp
@@ -88,9 +101,21 @@ add_executable(Bloom_Engine main.cpp
         Editor/include/Editor.h
         Editor/include/OperationsLog.cpp
         Editor/include/OperationsLog.h
+        Core/src/AudioEngine.cpp
+        Core/include/AudioEngine.h
+        Core/include/Audio.h
 )
 
-target_link_libraries(Bloom_Engine SDL2 SDL2_image ${LUA_LIBRARY})
 
-# Include Lua headers
-target_include_directories(Bloom_Engine PRIVATE LUA)
+target_link_libraries(Bloom_Engine
+        ${SDL2_LIBRARY}/libSDL2.dylib
+        ${SDL2_IMAGE_LIBRARY}/libSDL2_image.dylib
+        ${FMOD_CORE_LIBRARY}/libfmod.dylib
+        ${FMOD_FSBANK_LIBRARY}/libfsbank.dylib
+        ${FMOD_STUDIO_LIBRARY}/libfmodstudio.dylib
+        ${LUA_LIBRARY}
+)
+
+target_include_directories(Bloom_Engine
+        PRIVATE LUA
+)

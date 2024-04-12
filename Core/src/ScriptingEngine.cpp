@@ -43,6 +43,7 @@ void ScriptingEngine::bindToLua() {
     // Expose the ComponentTypes to Lua
     lua["ComponentTypes"] = lua.create_table_with(
             "Animation", ComponentTypes::Animation,
+            "Audio", ComponentTypes::Audio,
             "Camera", ComponentTypes::Camera,
             "Collider", ComponentTypes::Collider,
             "Event", ComponentTypes::Event,
@@ -127,5 +128,25 @@ void ScriptingEngine::bindToLua() {
         SDL_Texture* frame = IMG_LoadTexture(renderingEngine.GetRenderer(), filename);
         std::cout << "[DEBUG] ScriptingEngine frame loaded successfully" << std::endl;
         animationEngine.addFrame(entityUID, animationType, frame);
+    });
+
+    lua.set_function("setBank", [this](int entityUID, std::string bankPath) {
+        std::cout << "[DEBUG] Lua called setBank(" << entityUID << ", " << bankPath << ")" << std::endl;
+        audioEngine.SetBank(entityUID, bankPath);
+    });
+
+    lua.set_function("loadBank", [this](std::string filepath) {
+        audioEngine.LoadBank(filepath);
+    });
+
+    lua.set_function("loadEntityBank", [this](int entityUID) {
+        audioEngine.LoadEntityBank(entityUID);
+    });
+    lua.set_function("playEvent", [this](std::string eventPath) {
+        audioEngine.PlayEvent(eventPath);
+    });
+
+    lua.set_function("playEntityEvent", [this](int entityUID, std::string eventPath) {
+        audioEngine.PlayEvent(entityUID, eventPath);
     });
 }

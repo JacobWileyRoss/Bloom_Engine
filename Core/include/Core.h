@@ -23,6 +23,7 @@
 #include "PhysicsEngine.h"
 #include "CollisionEngine.h"
 #include "InputProcessor.h"
+#include "AudioEngine.h"
 
 #include "Player.h"
 #include "Transform.h"
@@ -61,6 +62,7 @@ private:
     RenderingEngine renderingEngine;
     AnimationEngine animationEngine;
     CollisionEngine collisionEngine;
+    AudioEngine audioEngine;
 
     SDL_Window* window;
     SDL_Event event{};
