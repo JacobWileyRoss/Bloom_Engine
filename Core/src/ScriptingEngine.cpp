@@ -146,7 +146,7 @@ void ScriptingEngine::bindToLua() {
         audioEngine.PlayEvent(eventPath);
     });
 
-    lua.set_function("playEntityEvent", [this](int entityUID, std::string eventPath) {
-        audioEngine.PlayEvent(entityUID, eventPath);
+    lua.set_function("playEntityEvent", [this](int entityUID, const std::string& eventName, const std::string& eventPath) {
+        audioEngine.PlayEvent(entityUID, eventName, eventPath);
     });
 }
