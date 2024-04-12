@@ -60,7 +60,6 @@ void AudioEngine::LoadBank(const std::string& bankName) {
         std::cerr << "Failed to load bank: " << FMOD_ErrorString(result) << std::endl;
     }
     std::cout << "Bank loaded successfully" << std::endl;
-
 }
 
 void AudioEngine::LoadEntityBank(int entityUID) {
@@ -71,7 +70,6 @@ void AudioEngine::LoadEntityBank(int entityUID) {
         std::cerr << "[ERROR] Failed to load bank: " << FMOD_ErrorString(result) << std::endl;
     }
     std::cout << "[INFO] Bank loaded successfully" << std::endl;
-
 }
 
 void AudioEngine::PlayEvent(const std::string& eventPath) {
