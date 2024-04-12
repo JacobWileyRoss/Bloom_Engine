@@ -88,7 +88,7 @@
 	</object>
 	<object class="EventMixerMaster" id="{29c64a77-94ab-49e4-8295-456b95f32f7b}">
 		<property name="volume">
-			<value>-12</value>
+			<value>-15</value>
 		</property>
 		<relationship name="automators">
 			<destination>{308e9e71-e69f-4992-bcb4-efecdf79593f}</destination>
@@ -192,7 +192,7 @@
 	</object>
 	<object class="SFXReverbEffect" id="{5198fd57-ba08-4f3e-afff-d4fa67311664}">
 		<property name="decayTime">
-			<value>260</value>
+			<value>150</value>
 		</property>
 		<property name="earlyLateMix">
 			<value>100</value>

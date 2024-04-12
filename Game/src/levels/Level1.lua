@@ -106,7 +106,7 @@ end
 -- Function to create and setup a new entity
 function createPlayerEntity(posX, posY, width, height)
     -- Create Player Object
-    local player = createEntity()
+    player = createEntity()
     logMessage("[INFO] Lua created Entity: " .. player);
     attachComponent(player, ComponentTypes.Player)
     attachComponent(player, ComponentTypes.Transform)
@@ -117,12 +117,14 @@ function createPlayerEntity(posX, posY, width, height)
     attachComponent(player, ComponentTypes.Texture)
     attachComponent(player, ComponentTypes.Animation)
     attachComponent(player, ComponentTypes.Camera)
+    attachComponent(player, ComponentTypes.Audio)
     setSprite(player, posX, posY, width, height)
     setTexture(player, "../Game/assets/hero_WalkCycleDown1.png")
     setRenderLayer(player, RenderLayer.character)
     setTransform(player, posX, posY)
     setCamera(player, posX, posY, 1280, 720);
     setBoundaryBox(player, posX, posY, 32, 32)
+    setBank(player, "../Game/assets/audio/Desktop/Player.bank");
 
     -- Load WalkCycleDown
     addFrame(player, AnimationType.WalkCycleDown, "../Game/assets/hero_WalkCycleDown1.png")
@@ -166,6 +168,8 @@ function constructLevel()
     createBackgroundPainting2();
     createBoundaryBox(430, -30, 60, 40);
     createPlayerEntity(615, 600, 96, 128);
+    loadEntityBank(player);
+
 
 end
 
