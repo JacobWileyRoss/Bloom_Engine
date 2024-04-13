@@ -1,0 +1,32 @@
+\doxysection{Core/include/\+Entity\+Manager.h File Reference}
+\hypertarget{_entity_manager_8h}{}\label{_entity_manager_8h}\index{Core/include/EntityManager.h@{Core/include/EntityManager.h}}
+
+
+\doxylink{class_core}{Core} system that orchestrates all entity management The \doxylink{class_entity_manager}{Entity\+Manager} system is responsible for entity creation, composition, and destruction. Each entity is stored in a map by a unique identifier (entity\+UID). \doxylink{class_entity_manager}{Entity\+Manager} can attach and remove specified \doxylink{class_component_type}{Component\+Type}, check is an entity has a specified \doxylink{class_component_type}{Component\+Type} attached.  
+
+
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include "{}Entity.\+h"{}}\newline
+{\ttfamily \#include "{}Animation.\+h"{}}\newline
+{\ttfamily \#include "{}Audio.\+h"{}}\newline
+{\ttfamily \#include "{}Camera.\+h"{}}\newline
+{\ttfamily \#include "{}Collider.\+h"{}}\newline
+{\ttfamily \#include "{}Component.\+h"{}}\newline
+{\ttfamily \#include "{}Event.\+h"{}}\newline
+{\ttfamily \#include "{}Physics.\+h"{}}\newline
+{\ttfamily \#include "{}Player.\+h"{}}\newline
+{\ttfamily \#include "{}Renderable.\+h"{}}\newline
+{\ttfamily \#include "{}Sprite.\+h"{}}\newline
+{\ttfamily \#include "{}Texture.\+h"{}}\newline
+{\ttfamily \#include "{}Transform.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_entity_manager}{Entity\+Manager}}
+\begin{DoxyCompactList}\small\item\em System class that orchestrates all \doxylink{class_entity}{Entity} handling. The \doxylink{class_entity_manager}{Entity\+Manager} system manages \doxylink{class_entity}{Entity} creation, composition, and destruction. Each entity created by the \doxylink{class_entity_manager}{Entity\+Manager} is stored in an unordered map by it\textquotesingle{}s assigned unique identifier (entity\+UID). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_core}{Core} system that orchestrates all entity management The \doxylink{class_entity_manager}{Entity\+Manager} system is responsible for entity creation, composition, and destruction. Each entity is stored in a map by a unique identifier (entity\+UID). \doxylink{class_entity_manager}{Entity\+Manager} can attach and remove specified \doxylink{class_component_type}{Component\+Type}, check is an entity has a specified \doxylink{class_component_type}{Component\+Type} attached. 
+

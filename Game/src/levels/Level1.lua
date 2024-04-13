@@ -57,10 +57,10 @@ function createBackgroundPainting()
     logMessage("[INFO] Lua created Entity: " .. backgroundPainting);
 
     -- Attach components to the entity
-    attachComponent(backgroundPainting, ComponentTypes.Transform)
-    attachComponent(backgroundPainting, ComponentTypes.Renderable)
-    attachComponent(backgroundPainting, ComponentTypes.Sprite)
-    attachComponent(backgroundPainting, ComponentTypes.Texture)
+    attachComponent(backgroundPainting, ComponentType.Transform)
+    attachComponent(backgroundPainting, ComponentType.Renderable)
+    attachComponent(backgroundPainting, ComponentType.Sprite)
+    attachComponent(backgroundPainting, ComponentType.Texture)
 
     -- Set sprite, texture, render layer, and initial transform
     setSprite(backgroundPainting, 0, 0, 1280, 720)
@@ -75,10 +75,10 @@ function createBackgroundPainting2()
     logMessage("[INFO] Lua created Entity: " .. backgroundPainting);
 
     -- Attach components to the entity
-    attachComponent(backgroundPainting, ComponentTypes.Transform)
-    attachComponent(backgroundPainting, ComponentTypes.Renderable)
-    attachComponent(backgroundPainting, ComponentTypes.Sprite)
-    attachComponent(backgroundPainting, ComponentTypes.Texture)
+    attachComponent(backgroundPainting, ComponentType.Transform)
+    attachComponent(backgroundPainting, ComponentType.Renderable)
+    attachComponent(backgroundPainting, ComponentType.Sprite)
+    attachComponent(backgroundPainting, ComponentType.Texture)
 
     -- Set sprite, texture, render layer, and initial transform
     setSprite(backgroundPainting, 0, 0, 1280, 720)
@@ -91,10 +91,10 @@ end
 -- Function to create collision boxes
 function createBoundaryBox(posX, posY, width, height)
     local boundaryBox = createEntity();
-    attachComponent(boundaryBox, ComponentTypes.Transform);
-    attachComponent(boundaryBox, ComponentTypes.Physics);
-    attachComponent(boundaryBox, ComponentTypes.Collider);
-    attachComponent(boundaryBox, ComponentTypes.Sprite);
+    attachComponent(boundaryBox, ComponentType.Transform);
+    attachComponent(boundaryBox, ComponentType.Physics);
+    attachComponent(boundaryBox, ComponentType.Collider);
+    attachComponent(boundaryBox, ComponentType.Sprite);
     setTransform(boundaryBox, posX, posY);
     setBoundaryBox(boundaryBox, posX, -posY, width, height );
     setSprite(boundaryBox, posX, posY, 32, 32)
@@ -108,16 +108,16 @@ function createPlayerEntity(posX, posY, width, height)
     -- Create Player Object
     player = createEntity()
     logMessage("[INFO] Lua created Entity: " .. player);
-    attachComponent(player, ComponentTypes.Player)
-    attachComponent(player, ComponentTypes.Transform)
-    attachComponent(player, ComponentTypes.Physics)
-    attachComponent(player, ComponentTypes.Collider)
-    attachComponent(player, ComponentTypes.Renderable)
-    attachComponent(player, ComponentTypes.Sprite)
-    attachComponent(player, ComponentTypes.Texture)
-    attachComponent(player, ComponentTypes.Animation)
-    attachComponent(player, ComponentTypes.Camera)
-    attachComponent(player, ComponentTypes.Audio)
+    attachComponent(player, ComponentType.Player)
+    attachComponent(player, ComponentType.Transform)
+    attachComponent(player, ComponentType.Physics)
+    attachComponent(player, ComponentType.Collider)
+    attachComponent(player, ComponentType.Renderable)
+    attachComponent(player, ComponentType.Sprite)
+    attachComponent(player, ComponentType.Texture)
+    attachComponent(player, ComponentType.Animation)
+    attachComponent(player, ComponentType.Camera)
+    attachComponent(player, ComponentType.Audio)
     setSprite(player, posX, posY, width, height)
     setTexture(player, "../Game/assets/hero_WalkCycleDown1.png")
     setRenderLayer(player, RenderLayer.character)

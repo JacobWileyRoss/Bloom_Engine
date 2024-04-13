@@ -40,19 +40,19 @@ void ScriptingEngine::addEntity(int entityUID) {
 void ScriptingEngine::bindToLua() {
     /* Essential System's functionality exposed to Lua */
 
-    // Expose the ComponentTypes to Lua
-    lua["ComponentTypes"] = lua.create_table_with(
-            "Animation", ComponentTypes::Animation,
-            "Audio", ComponentTypes::Audio,
-            "Camera", ComponentTypes::Camera,
-            "Collider", ComponentTypes::Collider,
-            "Event", ComponentTypes::Event,
-            "Physics", ComponentTypes::Physics,
-            "Player", ComponentTypes::Player,
-            "Renderable", ComponentTypes::Renderable,
-            "Sprite", ComponentTypes::Sprite,
-            "Texture", ComponentTypes::Texture,
-            "Transform", ComponentTypes::Transform
+    // Expose the ComponentType to Lua
+    lua["ComponentType"] = lua.create_table_with(
+            "Animation", ComponentType::Animation,
+            "Audio", ComponentType::Audio,
+            "Camera", ComponentType::Camera,
+            "Collider", ComponentType::Collider,
+            "Event", ComponentType::Event,
+            "Physics", ComponentType::Physics,
+            "Player", ComponentType::Player,
+            "Renderable", ComponentType::Renderable,
+            "Sprite", ComponentType::Sprite,
+            "Texture", ComponentType::Texture,
+            "Transform", ComponentType::Transform
     );
 
     // Expose the AnimationTypes to Lua
@@ -95,7 +95,7 @@ void ScriptingEngine::bindToLua() {
         createdEntities.clear();
     });
 
-    lua.set_function("attachComponent", [this](int entityUID, ComponentTypes componentType) {
+    lua.set_function("attachComponent", [this](int entityUID, ComponentType componentType) {
         entityManager.attachComponent(entityUID, componentType);
     });
 

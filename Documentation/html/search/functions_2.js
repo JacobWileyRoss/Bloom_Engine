@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['initialize_0',['Initialize',['../class_core.html#a8606c1098d51cb8260540e0d37a6bf23',1,'Core']]],
-  ['inputprocessor_1',['InputProcessor',['../class_input_processor.html#ac944ea190ffc10d4153bb18fcd69b559',1,'InputProcessor']]]
+  ['destroyentity_0',['destroyEntity',['../class_entity_manager.html#a77b2944b1031c77267e632dd5da11b6e',1,'EntityManager']]]
 ];

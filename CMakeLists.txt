@@ -83,7 +83,6 @@ add_executable(Bloom_Engine main.cpp
         Core/include/Collider.h
         Core/src/CollisionEngine.cpp
         Core/include/CollisionEngine.h
-        Core/include/ComponentTypes.h
         Core/include/Animation.h
         Core/src/AnimationEngine.cpp
         Core/include/AnimationEngine.h

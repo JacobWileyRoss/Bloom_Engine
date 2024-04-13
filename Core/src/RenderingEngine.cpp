@@ -34,7 +34,7 @@ void RenderingEngine::setSprite(int entityUID, float posX, float posY, float wid
     }
     std::cout << "[INFO] setSprite() called for entity ID: " << entityUID << std::endl;
     auto& spriteComponent = entityManager.getEntityComponent<Sprite>
-            (entityUID, ComponentTypes::Sprite);
+            (entityUID, ComponentType::Sprite);
     spriteComponent.rect.x = posX;
     spriteComponent.rect.y = posY;
     spriteComponent.rect.w = width;
@@ -64,7 +64,7 @@ void RenderingEngine::setTexture(int entityUID, std::string filename) {
         return;
     }
     auto& textureComponent = entityManager.getEntityComponent<Texture>
-            (entity.UID, ComponentTypes::Texture);
+            (entity.UID, ComponentType::Texture);
     textureComponent.texture = texture;
     textureComponent.filepath = filename;
     std::cout << "[INFO] Texture loaded and set successfully for entity ID: " << entity.UID << std::endl;
@@ -73,7 +73,7 @@ void RenderingEngine::setTexture(int entityUID, std::string filename) {
 // This function defines a Camera Component's position and viewport size
 void RenderingEngine::setCamera(int entityUID, int posX, int posY, int width, int height) {
     auto& camera = entityManager.getEntityComponent<Camera>
-            (entityUID, ComponentTypes::Camera);
+            (entityUID, ComponentType::Camera);
     camera.viewPort.x = posX;
     camera.viewPort.y = posY;
     camera.viewPort.w = width;
@@ -85,7 +85,7 @@ void RenderingEngine::update(std::unordered_map<int, Entity>& entities) {
 
     // Find the camera entity
     auto cameraEntities = entityManager.getEntitiesWithComponent<Camera>
-            (ComponentTypes::Camera);
+            (ComponentType::Camera);
     if (cameraEntities.empty()) {
         if (cameraEntities.empty()) {
             if (!errorLogged) {
@@ -96,18 +96,18 @@ void RenderingEngine::update(std::unordered_map<int, Entity>& entities) {
     }
     int cameraEntityUID = cameraEntities[0]; // Assuming the first camera entity is the main camera
     auto& camera = entityManager.getEntityComponent<Camera>
-            (cameraEntityUID, ComponentTypes::Camera);
+            (cameraEntityUID, ComponentType::Camera);
 
     // Find the player entity
     auto playerEntities = entityManager.getEntitiesWithComponent<Player>
-            (ComponentTypes::Player);
+            (ComponentType::Player);
     if (playerEntities.empty()) {
         //std::cerr << "No player entity found." << std::endl;
         return;
     }
     int playerEntityUID = playerEntities[0]; // Assuming the first player entity is the main player
     auto& playerTransform = entityManager.getEntityComponent<Transform>
-            (playerEntityUID, ComponentTypes::Transform);
+            (playerEntityUID, ComponentType::Transform);
 
     // Center the camera on the player
     camera.viewPort.x = playerTransform.posX - (camera.viewPort.w / 2);
@@ -126,7 +126,7 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
 
     // First, find the camera entity UID
     auto cameraEntityUIDs = entityManager.getEntitiesWithComponent<Camera>
-            (ComponentTypes::Camera);
+            (ComponentType::Camera);
     cameraEntity = true;
     static bool errorLogged = false; // This static variable retains its value across function calls
     if (cameraEntityUIDs.empty()) {
@@ -144,14 +144,14 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
     // Assuming the first camera entity is the one to be used
     int cameraEntityUID = cameraEntityUIDs.front();
     auto& cameraComponent = entityManager.getEntityComponent<Camera>
-            (cameraEntityUID, ComponentTypes::Camera);
+            (cameraEntityUID, ComponentType::Camera);
 
     // Gather all renderable entities
     std::vector<std::pair<int, RenderLayer>> renderableEntities;
     for (const auto& [entityUID, entity] : entities) {
-        if (entityManager.hasComponent(entityUID, ComponentTypes::Renderable)) {
+        if (entityManager.hasComponent(entityUID, ComponentType::Renderable)) {
             auto& renderable = entityManager.getEntityComponent<Renderable>
-                    (entityUID, ComponentTypes::Renderable);
+                    (entityUID, ComponentType::Renderable);
             renderableEntities.push_back({entityUID, renderable.renderLayer});
         }
     }
@@ -166,14 +166,14 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
 
     // Render entities in sorted order according to the camera's viewport and zoom
     for (const auto& [entityUID, renderLayer] : renderableEntities) {
-        if (entityManager.hasComponent(entityUID, ComponentTypes::Texture) &&
-            entityManager.hasComponent(entityUID, ComponentTypes::Sprite)) {
+        if (entityManager.hasComponent(entityUID, ComponentType::Texture) &&
+            entityManager.hasComponent(entityUID, ComponentType::Sprite)) {
             auto& textureComponent = entityManager.getEntityComponent<Texture>
-                    (entityUID, ComponentTypes::Texture);
+                    (entityUID, ComponentType::Texture);
             auto& spriteComponent = entityManager.getEntityComponent<Sprite>
-                    (entityUID, ComponentTypes::Sprite);
+                    (entityUID, ComponentType::Sprite);
             auto& transformComponent = entityManager.getEntityComponent<Transform>
-                    (entityUID, ComponentTypes::Transform);
+                    (entityUID, ComponentType::Transform);
             if (textureComponent.texture) {
                 SDL_Rect renderQuad = {
                         static_cast<int>((transformComponent.posX - cameraComponent.viewPort.x) *
@@ -197,7 +197,7 @@ void RenderingEngine::Render(std::unordered_map<int, Entity>& entities) {
 // character, foreground, etc
 void RenderingEngine::setRenderLayer(int entityUID, RenderLayer renderLayer) {
     auto& renderable = entityManager.getEntityComponent<Renderable>
-            (entityUID, ComponentTypes::Renderable);
+            (entityUID, ComponentType::Renderable);
     renderable.renderLayer = renderLayer;
 }
 

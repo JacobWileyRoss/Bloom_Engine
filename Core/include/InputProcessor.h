@@ -17,7 +17,6 @@
 #include "Entity.h"
 #include "EntityManager.h"
 #include "Dispatcher.h"
-#include "ComponentTypes.h"
 #include "Event.h"
 #include "Player.h"
 #include "Transform.h"

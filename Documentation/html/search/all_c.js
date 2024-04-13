@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['scriptingengine_0',['ScriptingEngine',['../class_scripting_engine.html',1,'']]],
-  ['shutdown_1',['Shutdown',['../class_core.html#a435d4ce5ae27d85ac427873396ff7e1c',1,'Core']]],
-  ['sprite_2',['Sprite',['../class_sprite.html',1,'']]],
-  ['statemachine_3',['StateMachine',['../class_state_machine.html',1,'']]]
+  ['removecomponent_0',['removeComponent',['../class_entity_manager.html#ac833c8cf1cdaf728bfcb09c0cc130ae5',1,'EntityManager']]],
+  ['renderable_1',['Renderable',['../class_renderable.html',1,'']]],
+  ['renderingengine_2',['RenderingEngine',['../class_rendering_engine.html',1,'']]],
+  ['renderingengine_2eh_3',['RenderingEngine.h',['../_rendering_engine_8h.html',1,'']]]
 ];

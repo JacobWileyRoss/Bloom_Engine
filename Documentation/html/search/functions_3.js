@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mainloop_0',['MainLoop',['../class_core.html#ab504f850bc0441410601f3709545662b',1,'Core']]]
+  ['entitymanager_0',['EntityManager',['../class_entity_manager.html#a7555637657d090171be6ceee8451de0a',1,'EntityManager']]]
 ];

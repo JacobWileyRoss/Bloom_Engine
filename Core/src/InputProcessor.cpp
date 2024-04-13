@@ -11,7 +11,7 @@ void InputProcessor::ProcessInput(SDL_Event& event) { // Accept SDL_Event as par
         // Gets the entity with a Player component as that should be the only entity that processes user input
         // from the keyboard or mouse
         // TODO update ProcessInput so that it detects and supports mouse events
-        std::vector<int> playerEntities = entityManager.getEntitiesWithComponent<Player>(ComponentTypes::Player);
+        std::vector<int> playerEntities = entityManager.getEntitiesWithComponent<Player>(ComponentType::Player);
         for (auto entityUID : playerEntities) {
             switch (event.type) {
                 case SDL_KEYDOWN:
@@ -35,7 +35,7 @@ void InputProcessor::ProcessInput(SDL_Event& event) { // Accept SDL_Event as par
     const Uint8* state = SDL_GetKeyboardState(NULL);
     for (auto entityUID : playerEntities) {
         Entity& currentEntity = entityManager.getEntity(entityUID);
-        Physics& physics = entityManager.getEntityComponent<Physics>(entityUID, ComponentTypes::Physics);
+        Physics& physics = entityManager.getEntityComponent<Physics>(entityUID, ComponentType::Physics);
 
         // Reset direction at the start of every frame to handle the current key state.
         physics.dirX = 0;

@@ -79,48 +79,329 @@ $(function() {
   <div class="headertitle"><div class="title">EntityManager Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>System class that orchestrates all <a class="el" href="class_entity.html">Entity</a> handling. The <a class="el" href="class_entity_manager.html" title="System class that orchestrates all Entity handling. The EntityManager system manages Entity creation,...">EntityManager</a> system manages <a class="el" href="class_entity.html">Entity</a> creation, composition, and destruction. Each entity created by the <a class="el" href="class_entity_manager.html" title="System class that orchestrates all Entity handling. The EntityManager system manages Entity creation,...">EntityManager</a> is stored in an unordered map by it's assigned unique identifier (entityUID).  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_entity_manager_8h_source.html">EntityManager.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3d24f65904bf586af690504f24cc3339" id="r_a3d24f65904bf586af690504f24cc3339"><td class="memItemLeft" align="right" valign="top"><a id="a3d24f65904bf586af690504f24cc3339" name="a3d24f65904bf586af690504f24cc3339"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>createEntity</b> ()</td></tr>
+<tr class="memitem:a7555637657d090171be6ceee8451de0a" id="r_a7555637657d090171be6ceee8451de0a"><td class="memItemLeft" align="right" valign="top"><a id="a7555637657d090171be6ceee8451de0a" name="a7555637657d090171be6ceee8451de0a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>EntityManager</b> ()</td></tr>
+<tr class="memdesc:a7555637657d090171be6ceee8451de0a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_entity_manager.html" title="System class that orchestrates all Entity handling. The EntityManager system manages Entity creation,...">EntityManager</a>'s constructor. <br /></td></tr>
+<tr class="separator:a7555637657d090171be6ceee8451de0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d24f65904bf586af690504f24cc3339" id="r_a3d24f65904bf586af690504f24cc3339"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d24f65904bf586af690504f24cc3339">createEntity</a> ()</td></tr>
 <tr class="separator:a3d24f65904bf586af690504f24cc3339"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ac37667880dc6fc985b2e03a9a68f04" id="r_a0ac37667880dc6fc985b2e03a9a68f04"><td class="memItemLeft" align="right" valign="top"><a id="a0ac37667880dc6fc985b2e03a9a68f04" name="a0ac37667880dc6fc985b2e03a9a68f04"></a>
-<a class="el" href="class_entity.html">Entity</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getEntity</b> (int entityUID)</td></tr>
+<tr class="memitem:a0ac37667880dc6fc985b2e03a9a68f04" id="r_a0ac37667880dc6fc985b2e03a9a68f04"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_entity.html">Entity</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ac37667880dc6fc985b2e03a9a68f04">getEntity</a> (int entityUID)</td></tr>
 <tr class="separator:a0ac37667880dc6fc985b2e03a9a68f04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77b2944b1031c77267e632dd5da11b6e" id="r_a77b2944b1031c77267e632dd5da11b6e"><td class="memItemLeft" align="right" valign="top"><a id="a77b2944b1031c77267e632dd5da11b6e" name="a77b2944b1031c77267e632dd5da11b6e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>destroyEntity</b> (int entityUID)</td></tr>
+<tr class="memitem:a77b2944b1031c77267e632dd5da11b6e" id="r_a77b2944b1031c77267e632dd5da11b6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77b2944b1031c77267e632dd5da11b6e">destroyEntity</a> (int entityUID)</td></tr>
+<tr class="memdesc:a77b2944b1031c77267e632dd5da11b6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys <a class="el" href="class_entity.html">Entity</a> object specified by an entityUID.  <br /></td></tr>
 <tr class="separator:a77b2944b1031c77267e632dd5da11b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a162bf3f347388cf95fd3959fc6eb4bb3" id="r_a162bf3f347388cf95fd3959fc6eb4bb3"><td class="memItemLeft" align="right" valign="top"><a id="a162bf3f347388cf95fd3959fc6eb4bb3" name="a162bf3f347388cf95fd3959fc6eb4bb3"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasComponent</b> (int entityUID, const ComponentTypes &amp;componentType)</td></tr>
-<tr class="separator:a162bf3f347388cf95fd3959fc6eb4bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59b80ee4bbd9c025bddd9b2102ced02d" id="r_a59b80ee4bbd9c025bddd9b2102ced02d"><td class="memTemplParams" colspan="2"><a id="a59b80ee4bbd9c025bddd9b2102ced02d" name="a59b80ee4bbd9c025bddd9b2102ced02d"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a59b80ee4bbd9c025bddd9b2102ced02d"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getEntitiesWithComponent</b> (ComponentTypes componentType)</td></tr>
-<tr class="separator:a59b80ee4bbd9c025bddd9b2102ced02d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad51d83be494b03388a5a4c86594b0985" id="r_ad51d83be494b03388a5a4c86594b0985"><td class="memTemplParams" colspan="2"><a id="ad51d83be494b03388a5a4c86594b0985" name="ad51d83be494b03388a5a4c86594b0985"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ad51d83be494b03388a5a4c86594b0985"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getEntityComponent</b> (int entityUID, const ComponentTypes componentType)</td></tr>
-<tr class="separator:ad51d83be494b03388a5a4c86594b0985"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c7ad13ccfb9379e2ee290b4047b3a98" id="r_a0c7ad13ccfb9379e2ee290b4047b3a98"><td class="memItemLeft" align="right" valign="top"><a id="a0c7ad13ccfb9379e2ee290b4047b3a98" name="a0c7ad13ccfb9379e2ee290b4047b3a98"></a>
-std::unique_ptr&lt; <a class="el" href="class_component.html">Component</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>createComponent</b> (ComponentTypes componentType)</td></tr>
-<tr class="separator:a0c7ad13ccfb9379e2ee290b4047b3a98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc16db2928de30bdb01ae7e22a2d3954" id="r_acc16db2928de30bdb01ae7e22a2d3954"><td class="memItemLeft" align="right" valign="top"><a id="acc16db2928de30bdb01ae7e22a2d3954" name="acc16db2928de30bdb01ae7e22a2d3954"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>attachComponent</b> (int entityUID, ComponentTypes)</td></tr>
-<tr class="separator:acc16db2928de30bdb01ae7e22a2d3954"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4964e0e1adc2b77b8d597d2c13f024c" id="r_ae4964e0e1adc2b77b8d597d2c13f024c"><td class="memItemLeft" align="right" valign="top"><a id="ae4964e0e1adc2b77b8d597d2c13f024c" name="ae4964e0e1adc2b77b8d597d2c13f024c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>removeComponent</b> (int entityUID, ComponentTypes componentType)</td></tr>
-<tr class="separator:ae4964e0e1adc2b77b8d597d2c13f024c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fb0a1abbc5301d7bdfef8f157e10b8c" id="r_a8fb0a1abbc5301d7bdfef8f157e10b8c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fb0a1abbc5301d7bdfef8f157e10b8c">hasComponent</a> (int entityUID, const <a class="el" href="class_component_type.html">ComponentType</a> &amp;componentType)</td></tr>
+<tr class="memdesc:a8fb0a1abbc5301d7bdfef8f157e10b8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if an <a class="el" href="class_entity.html">Entity</a> has a specified <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a> attached. Accepts an entityUID and <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>, does a search on the entities container for the entityUID, then checks if the <a class="el" href="class_entity.html">Entity</a> has the <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> type attached. If the <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a> is attached it returns True.  <br /></td></tr>
+<tr class="separator:a8fb0a1abbc5301d7bdfef8f157e10b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16eb864802d47025c7892e0e1454a237" id="r_a16eb864802d47025c7892e0e1454a237"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a16eb864802d47025c7892e0e1454a237"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a16eb864802d47025c7892e0e1454a237">getEntitiesWithComponent</a> (<a class="el" href="class_component_type.html">ComponentType</a> componentType)</td></tr>
+<tr class="memdesc:a16eb864802d47025c7892e0e1454a237"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all entities that contain the specified <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>. Iterates through the entities container, then for each <a class="el" href="class_entity.html">Entity</a> it iterates through the attached components and checks if the <a class="el" href="class_entity.html">Entity</a> contains the specified <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a>. If it does, the entityUID is stored in a vector and the vector is returned once all entities are checked.  <br /></td></tr>
+<tr class="separator:a16eb864802d47025c7892e0e1454a237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1b3cd0b6983e14413232fd4d7b0b100" id="r_af1b3cd0b6983e14413232fd4d7b0b100"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:af1b3cd0b6983e14413232fd4d7b0b100"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af1b3cd0b6983e14413232fd4d7b0b100">getEntityComponent</a> (int entityUID, const <a class="el" href="class_component_type.html">ComponentType</a> componentType)</td></tr>
+<tr class="memdesc:af1b3cd0b6983e14413232fd4d7b0b100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> object of specified <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>. Takes an entityUID and <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>, gets the <a class="el" href="class_entity.html">Entity</a> object and searches for the <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>. If <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a> is found, the <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> object is returned by reference.  <br /></td></tr>
+<tr class="separator:af1b3cd0b6983e14413232fd4d7b0b100"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f71b17240bc29d2fa9f74888991e99b" id="r_a8f71b17240bc29d2fa9f74888991e99b"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_component.html">Component</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f71b17240bc29d2fa9f74888991e99b">createComponent</a> (<a class="el" href="class_component_type.html">ComponentType</a> componentType)</td></tr>
+<tr class="memdesc:a8f71b17240bc29d2fa9f74888991e99b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> object of specified <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>.  <br /></td></tr>
+<tr class="separator:a8f71b17240bc29d2fa9f74888991e99b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a471df097dab9835519e564daec1dd4dc" id="r_a471df097dab9835519e564daec1dd4dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a471df097dab9835519e564daec1dd4dc">attachComponent</a> (int entityUID, <a class="el" href="class_component_type.html">ComponentType</a> componentType)</td></tr>
+<tr class="memdesc:a471df097dab9835519e564daec1dd4dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <a class="el" href="#a8f71b17240bc29d2fa9f74888991e99b" title="Creates Component object of specified ComponentType.">createComponent()</a> to create <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> object and attach it to specified <a class="el" href="class_entity.html">Entity</a>.  <br /></td></tr>
+<tr class="separator:a471df097dab9835519e564daec1dd4dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac833c8cf1cdaf728bfcb09c0cc130ae5" id="r_ac833c8cf1cdaf728bfcb09c0cc130ae5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac833c8cf1cdaf728bfcb09c0cc130ae5">removeComponent</a> (int entityUID, <a class="el" href="class_component_type.html">ComponentType</a> componentType)</td></tr>
+<tr class="memdesc:ac833c8cf1cdaf728bfcb09c0cc130ae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys component object from <a class="el" href="class_entity.html">Entity</a>'s attached components.  <br /></td></tr>
+<tr class="separator:ac833c8cf1cdaf728bfcb09c0cc130ae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a9caf2cf2718741d27b5b29c232153cf5" id="r_a9caf2cf2718741d27b5b29c232153cf5"><td class="memItemLeft" align="right" valign="top"><a id="a9caf2cf2718741d27b5b29c232153cf5" name="a9caf2cf2718741d27b5b29c232153cf5"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nextUID</b> = 1</td></tr>
-<tr class="separator:a9caf2cf2718741d27b5b29c232153cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb0d4ec64911055ce478814fbd8fafc8" id="r_adb0d4ec64911055ce478814fbd8fafc8"><td class="memItemLeft" align="right" valign="top"><a id="adb0d4ec64911055ce478814fbd8fafc8" name="adb0d4ec64911055ce478814fbd8fafc8"></a>
 std::unordered_map&lt; int, <a class="el" href="class_entity.html">Entity</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>entities</b></td></tr>
+<tr class="memdesc:adb0d4ec64911055ce478814fbd8fafc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores all entity objects by their unique identifier (entityUID). entities is an unordered_map that stores every <a class="el" href="class_entity.html">Entity</a> created by the <a class="el" href="class_entity_manager.html" title="System class that orchestrates all Entity handling. The EntityManager system manages Entity creation,...">EntityManager</a>. Storing each <a class="el" href="class_entity.html">Entity</a> by it's entityUID allows for fast <a class="el" href="class_entity.html">Entity</a> lookup by other Systems in the engine. <br /></td></tr>
 <tr class="separator:adb0d4ec64911055ce478814fbd8fafc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>System class that orchestrates all <a class="el" href="class_entity.html">Entity</a> handling. The <a class="el" href="class_entity_manager.html" title="System class that orchestrates all Entity handling. The EntityManager system manages Entity creation,...">EntityManager</a> system manages <a class="el" href="class_entity.html">Entity</a> creation, composition, and destruction. Each entity created by the <a class="el" href="class_entity_manager.html" title="System class that orchestrates all Entity handling. The EntityManager system manages Entity creation,...">EntityManager</a> is stored in an unordered map by it's assigned unique identifier (entityUID). </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a471df097dab9835519e564daec1dd4dc" name="a471df097dab9835519e564daec1dd4dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a471df097dab9835519e564daec1dd4dc">&#9670;&#160;</a></span>attachComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EntityManager::attachComponent </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>entityUID</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_component_type.html">ComponentType</a></td>          <td class="paramname"><span class="paramname"><em>componentType</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calls <a class="el" href="#a8f71b17240bc29d2fa9f74888991e99b" title="Creates Component object of specified ComponentType.">createComponent()</a> to create <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> object and attach it to specified <a class="el" href="class_entity.html">Entity</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entityUID</td><td></td></tr>
+    <tr><td class="paramname">componentType</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8f71b17240bc29d2fa9f74888991e99b" name="a8f71b17240bc29d2fa9f74888991e99b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f71b17240bc29d2fa9f74888991e99b">&#9670;&#160;</a></span>createComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_component.html">Component</a> &gt; EntityManager::createComponent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_component_type.html">ComponentType</a></td>          <td class="paramname"><span class="paramname"><em>componentType</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> object of specified <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentType</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>unique_ptr to created <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> object </dd></dl>
+
+</div>
+</div>
+<a id="a3d24f65904bf586af690504f24cc3339" name="a3d24f65904bf586af690504f24cc3339"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d24f65904bf586af690504f24cc3339">&#9670;&#160;</a></span>createEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EntityManager::createEntity </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Creates a new <a class="el" href="class_entity.html">Entity</a> object and assigns it an entityUID, the <a class="el" href="class_entity.html">Entity</a> is then stored in the entities unordered map. A <a class="el" href="class_transform.html">Transform</a> <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> is attached to the <a class="el" href="class_entity.html">Entity</a> by default. </p><dl class="section return"><dt>Returns</dt><dd>Returns the created <a class="el" href="class_entity.html">Entity</a>'s (entityUID) </dd></dl>
+
+</div>
+</div>
+<a id="a77b2944b1031c77267e632dd5da11b6e" name="a77b2944b1031c77267e632dd5da11b6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77b2944b1031c77267e632dd5da11b6e">&#9670;&#160;</a></span>destroyEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EntityManager::destroyEntity </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>entityUID</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroys <a class="el" href="class_entity.html">Entity</a> object specified by an entityUID. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entityUID</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a16eb864802d47025c7892e0e1454a237" name="a16eb864802d47025c7892e0e1454a237"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16eb864802d47025c7892e0e1454a237">&#9670;&#160;</a></span>getEntitiesWithComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int &gt; EntityManager::getEntitiesWithComponent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_component_type.html">ComponentType</a></td>          <td class="paramname"><span class="paramname"><em>componentType</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns all entities that contain the specified <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>. Iterates through the entities container, then for each <a class="el" href="class_entity.html">Entity</a> it iterates through the attached components and checks if the <a class="el" href="class_entity.html">Entity</a> contains the specified <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a>. If it does, the entityUID is stored in a vector and the vector is returned once all entities are checked. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentType</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Vector of entityUID's that contain specified component </dd></dl>
+
+</div>
+</div>
+<a id="a0ac37667880dc6fc985b2e03a9a68f04" name="a0ac37667880dc6fc985b2e03a9a68f04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ac37667880dc6fc985b2e03a9a68f04">&#9670;&#160;</a></span>getEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_entity.html">Entity</a> &amp; EntityManager::getEntity </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>entityUID</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Takes the provided entityUID and does a search on the entities container. If an <a class="el" href="class_entity.html">Entity</a> was found, the <a class="el" href="class_entity.html">Entity</a> object is returned by reference. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entityUID</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_entity.html">Entity</a> object is returned by reference </dd></dl>
+
+</div>
+</div>
+<a id="af1b3cd0b6983e14413232fd4d7b0b100" name="af1b3cd0b6983e14413232fd4d7b0b100"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1b3cd0b6983e14413232fd4d7b0b100">&#9670;&#160;</a></span>getEntityComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; EntityManager::getEntityComponent </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>entityUID</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_component_type.html">ComponentType</a></td>          <td class="paramname"><span class="paramname"><em>componentType</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> object of specified <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>. Takes an entityUID and <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>, gets the <a class="el" href="class_entity.html">Entity</a> object and searches for the <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>. If <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a> is found, the <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> object is returned by reference. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entityUID</td><td></td></tr>
+    <tr><td class="paramname">componentType</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a8fb0a1abbc5301d7bdfef8f157e10b8c" name="a8fb0a1abbc5301d7bdfef8f157e10b8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fb0a1abbc5301d7bdfef8f157e10b8c">&#9670;&#160;</a></span>hasComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EntityManager::hasComponent </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>entityUID</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_component_type.html">ComponentType</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>componentType</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if an <a class="el" href="class_entity.html">Entity</a> has a specified <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a> attached. Accepts an entityUID and <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a>, does a search on the entities container for the entityUID, then checks if the <a class="el" href="class_entity.html">Entity</a> has the <a class="el" href="class_component.html" title="Base class for all components The Component class serves as the base class for all available componen...">Component</a> type attached. If the <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a> is attached it returns True. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entityUID</td><td></td></tr>
+    <tr><td class="paramname">componentType</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Boolean value True if <a class="el" href="class_component_type.html" title="The ComponentType enum class stores all available Component types.">ComponentType</a> was attached, False if not. </dd></dl>
+
+</div>
+</div>
+<a id="ac833c8cf1cdaf728bfcb09c0cc130ae5" name="ac833c8cf1cdaf728bfcb09c0cc130ae5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac833c8cf1cdaf728bfcb09c0cc130ae5">&#9670;&#160;</a></span>removeComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EntityManager::removeComponent </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>entityUID</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_component_type.html">ComponentType</a></td>          <td class="paramname"><span class="paramname"><em>componentType</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroys component object from <a class="el" href="class_entity.html">Entity</a>'s attached components. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entityUID</td><td></td></tr>
+    <tr><td class="paramname">componentType</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>Core/include/<a class="el" href="_entity_manager_8h_source.html">EntityManager.h</a></li>
 <li>Core/src/<b>EntityManager.cpp</b></li>

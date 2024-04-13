@@ -9,15 +9,15 @@
 // Gets all entities with a Physics component and updates their position accordingly
 void PhysicsEngine::update(float deltaTime) {
     for (auto& [entityUID, entity] : entityManager.entities) {
-        if (entityManager.hasComponent(entityUID, ComponentTypes::Physics)) {
+        if (entityManager.hasComponent(entityUID, ComponentType::Physics)) {
 
             // Get the entity's Physics component
             Physics& physics = entityManager.getEntityComponent<Physics>
-                    (entityUID, ComponentTypes::Physics);
+                    (entityUID, ComponentType::Physics);
 
             // Get the entity's Transform component
             auto& transform = entityManager.getEntityComponent<Transform>
-                    (entityUID, ComponentTypes::Transform);
+                    (entityUID, ComponentType::Transform);
 
             // Adjust the X and Y position according to direction, speed, and deltaTime
             transform.posX += physics.dirX * physics.speed * deltaTime;
@@ -25,9 +25,9 @@ void PhysicsEngine::update(float deltaTime) {
 
             // Check if the entity has a Collider component, if true updates Collider rect position used for
             // collision detection
-            if (entityManager.hasComponent(entityUID, ComponentTypes::Collider)) {
+            if (entityManager.hasComponent(entityUID, ComponentType::Collider)) {
                 auto& collider = entityManager.getEntityComponent<Collider>
-                        (entityUID, ComponentTypes::Collider);
+                        (entityUID, ComponentType::Collider);
                 collider.rect.x = transform.posX;
                 collider.rect.y = transform.posY;
             }
@@ -50,14 +50,14 @@ void PhysicsEngine::handleInputEvent(const Event& event) {
     Entity& entity = entityManager.getEntity(entityUID);
 
     // Ensure the entity has a Physics component before proceeding
-    if (entity.components.find(ComponentTypes::Physics) == entity.components.end()) {
+    if (entity.components.find(ComponentType::Physics) == entity.components.end()) {
         std::cerr << "[ERROR] PhysicsEngine::handleInputEvent - No Physics component found for Entity UID "
                     << entityUID << "." << std::endl;
         return;
     }
 
     auto& physics = entityManager.getEntityComponent<Physics>
-            (entityUID, ComponentTypes::Physics);
+            (entityUID, ComponentType::Physics);
 
     float velX = physics.velX * physics.speed;
     float velY = physics.velY * physics.speed;
@@ -74,14 +74,14 @@ void PhysicsEngine::handleInputEvent(const Event& event) {
 // can push them back by bumping into them even if that entity was stationary
 void PhysicsEngine::handleCollisionEvent(const Event &event) {
     auto collisionData = std::get<CollisionData>(event.eventData);
-    bool isEntityAPlayer = entityManager.hasComponent(collisionData.entity1UID, ComponentTypes::Player);
-    bool isEntityBPlayer = entityManager.hasComponent(collisionData.entity2UID, ComponentTypes::Player);
-    auto& spriteA = entityManager.getEntityComponent<Sprite>(collisionData.entity1UID, ComponentTypes::Sprite);
-    auto& spriteB = entityManager.getEntityComponent<Sprite>(collisionData.entity2UID, ComponentTypes::Sprite);
-    auto& physicsA = entityManager.getEntityComponent<Physics>(collisionData.entity1UID, ComponentTypes::Physics);
-    auto& physicsB = entityManager.getEntityComponent<Physics>(collisionData.entity2UID, ComponentTypes::Physics);
-    auto& transformA = entityManager.getEntityComponent<Transform>(collisionData.entity1UID, ComponentTypes::Transform);
-    auto& transformB = entityManager.getEntityComponent<Transform>(collisionData.entity2UID, ComponentTypes::Transform);
+    bool isEntityAPlayer = entityManager.hasComponent(collisionData.entity1UID, ComponentType::Player);
+    bool isEntityBPlayer = entityManager.hasComponent(collisionData.entity2UID, ComponentType::Player);
+    auto& spriteA = entityManager.getEntityComponent<Sprite>(collisionData.entity1UID, ComponentType::Sprite);
+    auto& spriteB = entityManager.getEntityComponent<Sprite>(collisionData.entity2UID, ComponentType::Sprite);
+    auto& physicsA = entityManager.getEntityComponent<Physics>(collisionData.entity1UID, ComponentType::Physics);
+    auto& physicsB = entityManager.getEntityComponent<Physics>(collisionData.entity2UID, ComponentType::Physics);
+    auto& transformA = entityManager.getEntityComponent<Transform>(collisionData.entity1UID, ComponentType::Transform);
+    auto& transformB = entityManager.getEntityComponent<Transform>(collisionData.entity2UID, ComponentType::Transform);
 
     // Calculate penetration depth and resolve collision based on it
     float penetrationDepthX = std::min(transformA.posX + spriteA.rect.w - transformB.posX, transformB.posX + spriteB.rect.w - transformA.posX);
@@ -129,14 +129,14 @@ void PhysicsEngine::handleCollisionEvent(const Event &event) {
 // Applies force to Entity by modifying the transform component by the vel * delta time
 void PhysicsEngine::applyForce(Entity& entity, float velX, float velY) {
     // Ensure the entity has a Transform component before proceeding
-    if (entity.components.find(ComponentTypes::Transform) == entity.components.end()) {
+    if (entity.components.find(ComponentType::Transform) == entity.components.end()) {
         std::cerr << "[ERROR] PhysicsEngine::applyForce - No Transform component found for Entity UID "
                         << entity.UID << "." << std::endl;
         return;
     }
 
     auto& transform = entityManager.getEntityComponent<Transform>
-            (entity.UID, ComponentTypes::Transform);
+            (entity.UID, ComponentType::Transform);
     transform.posX += velX * deltaTime;
     transform.posY += velY * deltaTime;
 
@@ -147,7 +147,7 @@ void PhysicsEngine::applyForce(Entity& entity, float velX, float velY) {
 // This function can set a Transform Component's X and Y coordinate position to the specified coordinates
 void PhysicsEngine::setTransform(int entityUID, float posX, float posY) {
     auto& transform = entityManager.getEntityComponent<Transform>
-                                    (entityUID, ComponentTypes::Transform);
+                                    (entityUID, ComponentType::Transform);
     transform.posX = posX;
     transform.posY = posY;
     std::cout << "[INFO] setTransform() called for entityUID: " << entityUID << std::endl;

@@ -9,7 +9,6 @@
 #include <memory>
 #include <unordered_map>
 #include "Component.h"
-#include "ComponentTypes.h"
 
 
 
@@ -19,6 +18,6 @@ public:
         UID = newUID;
     }
     int UID;
-    std::unordered_map<ComponentTypes, std::shared_ptr<Component> > components;
+    std::unordered_map<ComponentType, std::shared_ptr<Component> > components;
 };
 #endif //BLOOM_ENGINE_ENTITY_H

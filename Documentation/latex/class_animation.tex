@@ -1,5 +1,14 @@
 \doxysection{Animation Class Reference}
 \hypertarget{class_animation}{}\label{class_animation}\index{Animation@{Animation}}
+
+
+\doxylink{class_animation}{Animation} component class that inherits from the \doxylink{class_component}{Component} base class.  
+
+
+
+
+{\ttfamily \#include $<$Animation.\+h$>$}
+
 Inheritance diagram for Animation\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,41 +20,50 @@ Inheritance diagram for Animation\+:\begin{figure}[H]
 \item 
 \Hypertarget{class_animation_a5942383e011cb102a6420a738a9d92cf}\label{class_animation_a5942383e011cb102a6420a738a9d92cf} 
 std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ {\bfseries walk\+Cycle\+UP}
-\item 
+\begin{DoxyCompactList}\small\item\em Vector that contains SDL\+\_\+\+Texture\texorpdfstring{$\ast$}{*}\textquotesingle{}s for the walk cycle up. \end{DoxyCompactList}\item 
 \Hypertarget{class_animation_a50a88b6ade038564e8b19036ab2fec64}\label{class_animation_a50a88b6ade038564e8b19036ab2fec64} 
 std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ {\bfseries walk\+Cycle\+DOWN}
-\item 
+\begin{DoxyCompactList}\small\item\em Vector that contains SDL\+\_\+\+Texture\texorpdfstring{$\ast$}{*}\textquotesingle{}s for the walk cycle down. \end{DoxyCompactList}\item 
 \Hypertarget{class_animation_a3766bc9a71529ad8dd492fc786a75b8f}\label{class_animation_a3766bc9a71529ad8dd492fc786a75b8f} 
 std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ {\bfseries walk\+Cycle\+LEFT}
-\item 
+\begin{DoxyCompactList}\small\item\em Vector that contains SDL\+\_\+\+Texture\texorpdfstring{$\ast$}{*}\textquotesingle{}s for the walk cycle left. \end{DoxyCompactList}\item 
 \Hypertarget{class_animation_a4f53706f1bfbe72fa2176b6c6299e094}\label{class_animation_a4f53706f1bfbe72fa2176b6c6299e094} 
 std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ {\bfseries walk\+Cycle\+RIGHT}
-\item 
+\begin{DoxyCompactList}\small\item\em Vector that contains SDL\+\_\+\+Texture\texorpdfstring{$\ast$}{*}\textquotesingle{}s for the walk cycle right. \end{DoxyCompactList}\item 
 \Hypertarget{class_animation_a8603064b4e177cce04046071e8d2bff4}\label{class_animation_a8603064b4e177cce04046071e8d2bff4} 
-std\+::map$<$ Animation\+Type, std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ $>$ {\bfseries animations}
-\item 
+std\+::map$<$ \mbox{\hyperlink{_animation_8h_affb455e5ea72d01e065758c70f810a95}{Animation\+Type}}, std\+::vector$<$ SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} $>$ $>$ {\bfseries animations}
+\begin{DoxyCompactList}\small\item\em Map that stores the animation cycle vector associated with the Animation\+Type key. \end{DoxyCompactList}\item 
 \Hypertarget{class_animation_a0b7e0d39ac1071d1389114b56db46544}\label{class_animation_a0b7e0d39ac1071d1389114b56db46544} 
 bool {\bfseries is\+Playing} = false
-\item 
+\begin{DoxyCompactList}\small\item\em Boolean value set to whether an animation is playing or not. \end{DoxyCompactList}\item 
 \Hypertarget{class_animation_a7614c410ce6fa9a32c0111e6a3758e48}\label{class_animation_a7614c410ce6fa9a32c0111e6a3758e48} 
-Animation\+Type {\bfseries current\+Animation\+Type} = Animation\+Type\+::\+Walk\+Cycle\+DOWN
-\item 
+\mbox{\hyperlink{_animation_8h_affb455e5ea72d01e065758c70f810a95}{Animation\+Type}} {\bfseries current\+Animation\+Type} = Animation\+Type\+::\+Walk\+Cycle\+DOWN
+\begin{DoxyCompactList}\small\item\em Stores the currently selected/playing Animation\+Type. Default set to walk down. \end{DoxyCompactList}\item 
 \Hypertarget{class_animation_a92e9b486565f490c578ad4fd42695aae}\label{class_animation_a92e9b486565f490c578ad4fd42695aae} 
 int {\bfseries current\+Frame\+Index} = 0
-\item 
+\begin{DoxyCompactList}\small\item\em Stores the current animation frame index position. \end{DoxyCompactList}\item 
 \Hypertarget{class_animation_af788e0be911294832335d1010609ab93}\label{class_animation_af788e0be911294832335d1010609ab93} 
 float {\bfseries frame\+Duration} = 0.\+06
-\item 
+\begin{DoxyCompactList}\small\item\em Duration each frame is displayed. \end{DoxyCompactList}\item 
 \Hypertarget{class_animation_a3be1931ff56b23ed13d2a3588049c773}\label{class_animation_a3be1931ff56b23ed13d2a3588049c773} 
 float {\bfseries elapsed\+Time} = 0
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Time elapsed since the current frame was shown. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{class_component}{Component}}}
 \begin{DoxyCompactItemize}
 \item 
-std\+::string {\bfseries type}
-\end{DoxyCompactItemize}
+std\+::string \mbox{\hyperlink{class_component_a98f4fc628f5f4fcf0294097e7a26aa29}{type}}
+\begin{DoxyCompactList}\small\item\em \doxylink{class_component}{Component} constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_component}{Component}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Component} ()=default
+\begin{DoxyCompactList}\small\item\em \doxylink{class_component}{Component} virtual Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+\doxylink{class_animation}{Animation} component class that inherits from the \doxylink{class_component}{Component} base class. 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-Core/include/Animation.\+h\end{DoxyCompactItemize}
+Core/include/\mbox{\hyperlink{_animation_8h}{Animation.\+h}}\end{DoxyCompactItemize}

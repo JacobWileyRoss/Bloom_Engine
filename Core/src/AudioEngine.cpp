@@ -44,8 +44,8 @@ bool AudioEngine::Initialize() {
 
 void AudioEngine::SetBank(int entityUID, std::string bankPath) {
 
-    if (entityManager.hasComponent(entityUID, ComponentTypes::Audio)) {
-        auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentTypes::Audio);
+    if (entityManager.hasComponent(entityUID, ComponentType::Audio)) {
+        auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
         audio.bankPath = bankPath;
         std::cout << "[INFO] Bank set successfully for Entity: " << entityUID << std::endl;
     } else {
@@ -64,7 +64,7 @@ void AudioEngine::LoadBank(const std::string& bankName) {
 
 void AudioEngine::LoadEntityBank(int entityUID) {
     std::cout << "[INFO] Loading Bank for Entity: " << entityUID << std::endl;
-    auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentTypes::Audio);
+    auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
     FMOD_RESULT result = system->loadBankFile(audio.bankPath.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
     if (result != FMOD_OK) {
         std::cerr << "[ERROR] Failed to load bank: " << FMOD_ErrorString(result) << std::endl;
@@ -98,7 +98,7 @@ void AudioEngine::PlayEvent(const std::string& eventPath) {
 }
 
 FMOD::Studio::EventInstance* AudioEngine::PlayEvent(int entityUID, const std::string& eventName, const std::string& eventPath) {
-    auto& audioComponent = entityManager.getEntityComponent<Audio>(entityUID, ComponentTypes::Audio);
+    auto& audioComponent = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
 
     FMOD::Studio::EventDescription* eventDescription = nullptr;
     FMOD_RESULT result = system->getEvent(eventPath.c_str(), &eventDescription);
@@ -147,7 +147,7 @@ void AudioEngine::HandleInputEvent(const Event& event) {
     }
     if(event.eventType == EventType::InputKeyUp) {
         std::cout << "[DEBUG] HandleInputEvent() InputKeyUp called" << std::endl;
-        auto& audioComponent = entityManager.getEntityComponent<Audio>(event.entityUID, ComponentTypes::Audio);
+        auto& audioComponent = entityManager.getEntityComponent<Audio>(event.entityUID, ComponentType::Audio);
         if (audioComponent.eventInstances.count("walking") > 0) {
             FMOD::Studio::EventInstance* eventInstance = audioComponent.eventInstances["walking"];
             eventInstance->stop(FMOD_STUDIO_STOP_IMMEDIATE);

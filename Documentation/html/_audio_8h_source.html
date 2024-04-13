@@ -97,13 +97,15 @@ $(function() { codefold.init(0); });
 <div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="class_audio.html">   11</a></span><span class="keyword">class </span><a class="code hl_class" href="class_audio.html">Audio</a> : <span class="keyword">public</span> <a class="code hl_class" href="class_component.html">Component</a> {</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    std::string bankPath{<span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>};</div>
-</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>std::string bankPath{<span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>std::unordered_map&lt;std::string, FMOD::Studio::EventInstance*&gt; eventInstances;</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#endif </span><span class="comment">//BLOOM_ENGINE_AUDIO_H</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>};</div>
+</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#endif </span><span class="comment">//BLOOM_ENGINE_AUDIO_H</span></div>
 <div class="ttc" id="aclass_audio_html"><div class="ttname"><a href="class_audio.html">Audio</a></div><div class="ttdef"><b>Definition</b> Audio.h:11</div></div>
-<div class="ttc" id="aclass_component_html"><div class="ttname"><a href="class_component.html">Component</a></div><div class="ttdef"><b>Definition</b> Component.h:11</div></div>
+<div class="ttc" id="aclass_component_html"><div class="ttname"><a href="class_component.html">Component</a></div><div class="ttdoc">Base class for all components The Component class serves as the base class for all available componen...</div><div class="ttdef"><b>Definition</b> Component.h:62</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

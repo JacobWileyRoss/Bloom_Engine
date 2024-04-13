@@ -134,20 +134,20 @@ $(function() { codefold.init(0); });
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="class_event.html">   45</a></span><span class="keyword">class </span><a class="code hl_class" href="class_event.html">Event</a> : <span class="keyword">public</span> <a class="code hl_class" href="class_component.html">Component</a> {</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <a class="code hl_class" href="class_event.html">Event</a>() {</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        type = <span class="stringliteral">&quot;Event&quot;</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <a class="code hl_variable" href="class_component.html#a98f4fc628f5f4fcf0294097e7a26aa29">type</a> = <span class="stringliteral">&quot;Event&quot;</span>;</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        entityUID = {};</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        eventType = EventType::Undefined;</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        eventData = {};</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <a class="code hl_class" href="class_event.html">Event</a>(EventType newEventType, <span class="keyword">const</span> EventData&amp; payload) {</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        type = <span class="stringliteral">&quot;Event&quot;</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <a class="code hl_variable" href="class_component.html#a98f4fc628f5f4fcf0294097e7a26aa29">type</a> = <span class="stringliteral">&quot;Event&quot;</span>;</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        entityUID={};</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        eventType = newEventType;</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        eventData = payload;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    }</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <a class="code hl_class" href="class_event.html">Event</a>(<span class="keywordtype">int</span> UID, EventType newEventType, <span class="keyword">const</span> EventData&amp; payload) {</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        type = <span class="stringliteral">&quot;Event&quot;</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <a class="code hl_variable" href="class_component.html#a98f4fc628f5f4fcf0294097e7a26aa29">type</a> = <span class="stringliteral">&quot;Event&quot;</span>;</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        entityUID = UID;</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        eventType = newEventType;</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        eventData = payload;</div>
@@ -165,7 +165,8 @@ $(function() { codefold.init(0); });
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#endif </span><span class="comment">//BLOOM_ENGINE_EVENT_H</span></div>
 <div class="ttc" id="aclass_collision_data_html"><div class="ttname"><a href="class_collision_data.html">CollisionData</a></div><div class="ttdef"><b>Definition</b> Event.h:25</div></div>
-<div class="ttc" id="aclass_component_html"><div class="ttname"><a href="class_component.html">Component</a></div><div class="ttdef"><b>Definition</b> Component.h:11</div></div>
+<div class="ttc" id="aclass_component_html"><div class="ttname"><a href="class_component.html">Component</a></div><div class="ttdoc">Base class for all components The Component class serves as the base class for all available componen...</div><div class="ttdef"><b>Definition</b> Component.h:62</div></div>
+<div class="ttc" id="aclass_component_html_a98f4fc628f5f4fcf0294097e7a26aa29"><div class="ttname"><a href="class_component.html#a98f4fc628f5f4fcf0294097e7a26aa29">Component::type</a></div><div class="ttdeci">std::string type</div><div class="ttdoc">Component constructor.</div><div class="ttdef"><b>Definition</b> Component.h:67</div></div>
 <div class="ttc" id="aclass_event_html"><div class="ttname"><a href="class_event.html">Event</a></div><div class="ttdef"><b>Definition</b> Event.h:45</div></div>
 <div class="ttc" id="aclass_physics_html"><div class="ttname"><a href="class_physics.html">Physics</a></div><div class="ttdef"><b>Definition</b> Physics.h:9</div></div>
 </div><!-- fragment --></div><!-- contents -->

@@ -16,6 +16,7 @@
 
 
 #include <vector>
+
 #include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
 #include "../../vendor/imgui-docking/imgui.h"
 #include "../../vendor/imgui-docking/imgui_internal.h"
@@ -50,7 +51,7 @@
 
 /**
  * @class Core
- * @brief Central class of the Bloom Engine
+ * @brief Central class of the Bloom Engine.
  *
  * The Core class is responsible for orchestrating the engine's subsystems,
  * managing the main loop, and handling initialization and shutdown processes.
