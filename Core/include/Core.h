@@ -103,26 +103,25 @@ public:
     SDL_Window* GetWindow();
 
 private:
-    Editor editor; ///< The engine's editor system, handling UI and in-engine editing.
-    FileSystem fileSystem;
-    sol::state lua;
-    ScriptingEngine scriptingEngine;
-    StateMachine stateMachine;
-    EntityManager entityManager;
-    Dispatcher dispatcher;
-    InputProcessor inputProcessor;
-    PhysicsEngine physicsEngine;
-    RenderingEngine renderingEngine;
-    AnimationEngine animationEngine;
-    CollisionEngine collisionEngine;
-    AudioEngine audioEngine;
+    Editor editor; ///< The engine's editor system. Handles UI and in-engine editing.
+    FileSystem fileSystem; ///< Engine's file system. Allows for opening/closing and reading/writing of files.
+    sol::state lua; ///< Lua state for ScriptingEngine
+    ScriptingEngine scriptingEngine; ///< Engine's scripting system. Used for gameplay and level design.
+    StateMachine stateMachine; ///< Engine's state machine. Handles loading, updating, and deleting GameStates.
+    EntityManager entityManager; ///< Engine's entity management system. Handles entity creation, composition, and destruction.
+    Dispatcher dispatcher; ///< Engine's event dispatcher system. Used by other isolated systems to communicate with each other.
+    InputProcessor inputProcessor; ///< Engine's input capturing system. Captures user input and sends the events to relevant systems.
+    PhysicsEngine physicsEngine; ///< Engine's physics system. Tracks entity inputs and applies forces accordingly.
+    RenderingEngine renderingEngine; ///< Engine's rendering system. Responsible for rendering all drawable objects on screen.
+    AnimationEngine animationEngine; ///< Engine's animation system. Handles loading and playing of animation cycles and frame data
+    CollisionEngine collisionEngine; ///< Engine's collision system. Tracks entity positions and checks for collisions and notifies relevant systems
+    AudioEngine audioEngine; ///< Engine's audio system. Responsible for managing and playing back all audio events
 
     SDL_Window* window; ///< Main SDL window for the application.
     SDL_Event event{};
     bool isRunning;
-    float deltaTime{};
-    std::time_t lastModifiedTimeLevel{};
-    int currentSelectedEntity = -1; // Initialized to -1 to indicate no entity selected
+    float deltaTime{}; ///< DeltaTime tracks time between each frame, allowing for smooth gameplay decoupled from framerate
+    std::time_t lastModifiedTimeLevel{}; ///< Time stamp used to track modifications for .lua scripts allowing for hot reloading when editing
 };
 
 
