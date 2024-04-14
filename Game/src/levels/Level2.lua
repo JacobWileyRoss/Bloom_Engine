@@ -31,6 +31,8 @@ end
 
 function GameplayState.exit()
     print("Exiting GameplayStateState")
+    stopAllActiveAudioEvents();
+
 end
 
 function GameplayState.update(deltaTime)
@@ -40,6 +42,8 @@ end
 function GameplayState.render()
     -- Rendering logic here
 end
+
+
 
 -- Register the state with a global or a specific Lua registry for states
 -- This ensures GameStateRegistry is created if it doesn't exist
@@ -151,13 +155,8 @@ end
 -- updates all entities
 function constructLevel()
     logMessage("[INFO] Contructing level");
-
-
-    --loadBank("../Game/assets/audio/Desktop/World.bank");
-
-    logMessage("[INFO] World Constructed");
-
-
+    loadBank("../Game/assets/audio/Desktop/Master.bank");
+    loadBank("../Game/assets/audio/Desktop/Master.strings.bank");
     createBackgroundPainting();
     loadEntityBank(backgroundPainting);
     playEvent("event:/world_music_background");
@@ -165,9 +164,6 @@ function constructLevel()
     createPlayerEntity(615, 600, 96, 128);
     loadEntityBank(player);
     logMessage("[INFO] Level Constructed");
-
-
-
 end
 
 

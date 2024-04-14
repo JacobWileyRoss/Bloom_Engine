@@ -8,7 +8,7 @@
 
 // Engine Core's constructor which initializes the individual required systems
 Core::Core() : window(nullptr), isRunning(false), fileSystem(), stateMachine(entityManager, lua),
-               editor(window, renderingEngine, entityManager, scriptingEngine),
+               editor(window, audioEngine, renderingEngine, entityManager, scriptingEngine, stateMachine),
                dispatcher(entityManager),
                physicsEngine(entityManager, dispatcher, deltaTime),
                inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),

@@ -99,7 +99,6 @@ void Editor::Render() {
             std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
             scriptingEngine.setCurrentSelectedScript(filePath);
             // Save the new level to the selected file path
-            // TODO: Implement your function to save the level data to filePath
             Serialize(filePath);
         }
         // Close the dialog after processing
@@ -385,6 +384,7 @@ void Editor::ShutDown() {
 
 std::string Editor::Serialize(const std::string& filepath) {
     // Default Lua scripts for game states
+    // TODO game state defaults need to be generated once then only updated with the rest of the script
     std::string defaultGameStates = R"(
 MainMenuState = {}
 
@@ -453,8 +453,11 @@ GameStateRegistry["GameplayState"] = GameplayState
 
 void Editor::LoadLevel(std::string filepath) {
     std::cout << "[INFO] LoadLevel() called" << std::endl;
+    audioEngine.StopAllActiveEvents();
+    audioEngine.UnloadAllBanks();
 //    entityManager.entities.clear();
 //    std::cout << "[INFO] Entities cleared" << std::endl;
     scriptingEngine.setCurrentSelectedScript(filepath);
     scriptingEngine.loadScript(filepath);
+    stateMachine.changeState("GameplayState");
 }

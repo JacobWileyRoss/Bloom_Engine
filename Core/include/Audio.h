@@ -13,6 +13,10 @@ public:
 std::string bankPath{""};
 std::unordered_map<std::string, FMOD::Studio::EventInstance*> eventInstances;
 
+~Audio() {
+    eventInstances.clear();
+}
+
 
 };
 #endif //BLOOM_ENGINE_AUDIO_H

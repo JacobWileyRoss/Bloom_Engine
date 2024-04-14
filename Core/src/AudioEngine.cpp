@@ -30,6 +30,7 @@ bool AudioEngine::Initialize() {
         std::cerr << "Failed to load master bank: " << FMOD_ErrorString(result) << std::endl;
         return false;
     }
+    loadedBanks.push_back(masterBank);
     std::cout << "[INFO] MasterBank loaded from file successfully" << std::endl;
 
     // Load the strings bank
@@ -39,6 +40,7 @@ bool AudioEngine::Initialize() {
     return false;
     }
     std::cout << "[INFO] Master.Strings.Bank loaded from file successfully" << std::endl;
+    loadedBanks.push_back(stringsBank);
     return true;
 }
 
@@ -53,23 +55,39 @@ void AudioEngine::SetBank(int entityUID, std::string bankPath) {
     }
 }
 
-void AudioEngine::LoadBank(const std::string& bankName) {
-    std::cout << "Loading Bank: " << bankName << std::endl;
-    FMOD_RESULT result = system->loadBankFile(bankName.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
+bool AudioEngine::LoadBank(const std::string& bankPath) {
+    std::cout << "Loading Bank: " << bankPath << std::endl;
+    FMOD::Studio::Bank* bank = nullptr;
+    FMOD_RESULT result = system->loadBankFile(bankPath.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &bank);
     if (result != FMOD_OK) {
         std::cerr << "Failed to load bank: " << FMOD_ErrorString(result) << std::endl;
+        return false;
     }
+    loadedBanks.push_back(bank);
     std::cout << "Bank loaded successfully" << std::endl;
+    return true;
 }
 
 void AudioEngine::LoadEntityBank(int entityUID) {
     std::cout << "[INFO] Loading Bank for Entity: " << entityUID << std::endl;
+    FMOD::Studio::Bank* bank = nullptr;
     auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
-    FMOD_RESULT result = system->loadBankFile(audio.bankPath.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
+    FMOD_RESULT result = system->loadBankFile(audio.bankPath.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &bank);
     if (result != FMOD_OK) {
         std::cerr << "[ERROR] Failed to load bank: " << FMOD_ErrorString(result) << std::endl;
     }
+    loadedBanks.push_back(bank);
     std::cout << "[INFO] Bank loaded successfully" << std::endl;
+}
+
+void AudioEngine::UnloadBank(FMOD::Studio::Bank* bank) {
+    bank->unload();
+}
+
+void AudioEngine::UnloadAllBanks() {
+    for(auto bank : loadedBanks) {
+        bank->unload();
+    }
 }
 
 void AudioEngine::PlayEvent(const std::string& eventPath) {
@@ -94,6 +112,7 @@ void AudioEngine::PlayEvent(const std::string& eventPath) {
                   << ". Error: " << FMOD_ErrorString(result) << std::endl;
         return;
     }
+    activeEvents.emplace(eventPath, eventInstance);
     std::cout << "[INFO] AudioEngine::PlayEvent(" << eventPath << ")" << std::endl;
 }
 
@@ -131,6 +150,7 @@ FMOD::Studio::EventInstance* AudioEngine::PlayEvent(int entityUID, const std::st
 
     audioComponent.eventInstances[eventName] = eventInstance;
     std::cout << "[INFO] AudioEngine::PlayEvent(" << eventName << ", " << eventPath << ")" << std::endl;
+    activeEvents.emplace(eventPath, eventInstance);
     return eventInstance;
 }
 
@@ -155,6 +175,19 @@ void AudioEngine::HandleInputEvent(const Event& event) {
             audioComponent.eventInstances.erase("walking");
         }
     }
+}
+
+void AudioEngine::StopAllActiveEvents() {
+    std::cout << "[INFO] AudioEngine::StopAllActiveEvents() called" << std::endl;
+    for (auto& eventPair : activeEvents) {
+        FMOD::Studio::EventInstance* eventInstance = eventPair.second;
+        if (eventInstance) {
+            eventInstance->stop(FMOD_STUDIO_STOP_IMMEDIATE);
+            eventInstance->release();
+        }
+    }
+    activeEvents.clear();
+    std::cout << "[INFO] All audio events have been stopped and released." << std::endl;
 }
 
 AudioEngine::~AudioEngine() {

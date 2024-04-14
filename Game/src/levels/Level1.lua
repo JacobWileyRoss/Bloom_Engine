@@ -31,6 +31,8 @@ end
 
 function GameplayState.exit()
     print("Exiting GameplayStateState")
+    stopAllActiveAudioEvents();
+
 end
 
 function GameplayState.update(deltaTime)
@@ -163,7 +165,9 @@ end
 -- constructLevel is called from Core. All level design should go in constructLevel so hot reloading the Lua script
 -- updates all entities
 function constructLevel()
-
+    logMessage("[INFO] Contructing level");
+    loadBank("../Game/assets/audio/Desktop/Master.bank");
+    loadBank("../Game/assets/audio/Desktop/Master.strings.bank");
     createBackgroundPainting();
     createBackgroundPainting2();
     createBoundaryBox(430, -30, 60, 40);
