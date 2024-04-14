@@ -34,7 +34,7 @@ public:
     void LoadBank(const std::string& bankPath);
     void LoadEntityBank(int entityUID);
     void PlayEvent(const std::string& eventPath);
-    void PlayEvent(int entityUID, const std::string& eventPath);
+    FMOD::Studio::EventInstance* PlayEvent(int entityUID, const std::string& eventName, const std::string& eventPath);
     void Update();
     void HandleInputEvent(const Event& event);
 

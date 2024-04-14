@@ -6,7 +6,7 @@
 
 void CollisionEngine::update() {
     //std::cout << "CollisionEngine::update called successfully" << std::endl;
-    auto entities = entityManager.getEntitiesWithComponent<Collider>(ComponentTypes::Collider);
+    auto entities = entityManager.getEntitiesWithComponent<Collider>(ComponentType::Collider);
 
     // TODO Collision Detection needs a more efficient algorithm instead of checking every possible entity combination
     // Naive collision detection: Check every pair of entities for collision
@@ -20,13 +20,13 @@ void CollisionEngine::update() {
 
             // For entityA and entityB get each of their Collider and Physics components
             auto& colliderA = entityManager.getEntityComponent<Collider>
-                    (*i, ComponentTypes::Collider);
+                    (*i, ComponentType::Collider);
             auto& colliderB = entityManager.getEntityComponent<Collider>
-                    (*j, ComponentTypes::Collider);
+                    (*j, ComponentType::Collider);
             auto& physicsA = entityManager.getEntityComponent<Physics>
-                    (*i, ComponentTypes::Physics);
+                    (*i, ComponentType::Physics);
             auto& physicsB = entityManager.getEntityComponent<Physics>
-                    (*j, ComponentTypes::Physics);
+                    (*j, ComponentType::Physics);
 
             // Unused debugging outputs
             //std::cout << "Entity i rectX: " << colliderA.rect.x << " Entity i recty: " << colliderA.rect.y
@@ -52,7 +52,7 @@ void CollisionEngine::update() {
 // This function is for defining the SDL_rect size in a Collider component attached to an entity for collision detection
 void CollisionEngine::setBoundaryBox(int entityUID, float posX, float posY, float width, float height) {
     auto& collider = entityManager.getEntityComponent<Collider>
-            (entityUID, ComponentTypes::Collider);
+            (entityUID, ComponentType::Collider);
     std::cout << "[DEBUG] CollisionEngine::setBoundaryBox() called successfully" << std::endl;
     collider.rect.x = posX;
     collider.rect.y = posY;

@@ -187,11 +187,11 @@ void Editor::Render() {
     ImGui::Separator();
     if (currentSelectedEntity != -1) {
         static int componentTypeIndex = 0;
-        ComponentTypes componentTypes[] = {
-                ComponentTypes::Animation, ComponentTypes::Camera, ComponentTypes::Collider,
-                ComponentTypes::Event, ComponentTypes::Physics, ComponentTypes::Player,
-                ComponentTypes::Renderable, ComponentTypes::Sprite, ComponentTypes::Texture,
-                ComponentTypes::Transform
+        ComponentType componentTypes[] = {
+                ComponentType::Animation, ComponentType::Camera, ComponentType::Collider,
+                ComponentType::Event, ComponentType::Physics, ComponentType::Player,
+                ComponentType::Renderable, ComponentType::Sprite, ComponentType::Texture,
+                ComponentType::Transform
         };
         const char* componentTypeNames[] = {
                 "Animation", "Camera", "Collider", "Event", "Physics",
@@ -204,7 +204,7 @@ void Editor::Render() {
             // Other components were failing without a Transform, so I attach one by default during createEntity()
             entityManager.attachComponent(currentSelectedEntity, componentTypes[componentTypeIndex]);
             std::string operation = "attachComponent(" + std::to_string(currentSelectedEntity) +
-                    ", ComponentTypes." + componentTypeNames[componentTypeIndex] + ")\n";
+                    ", ComponentType." + componentTypeNames[componentTypeIndex] + ")\n";
             operationsLog.logOperation(operation);
             std::cout << "[INFO] LUA COMMAND LOGGED: " << operation  << std::endl;
         }
@@ -217,9 +217,9 @@ void Editor::Render() {
     if (currentSelectedEntity != -1) {
         Entity& entity = entityManager.getEntity(currentSelectedEntity);
         ImGui::Text("Entity %d Components", currentSelectedEntity);
-        std::vector<ComponentTypes> componentsToBeRemoved;
+        std::vector<ComponentType> componentsToBeRemoved;
         for (const auto& compPair : entity.components) {
-            ComponentTypes compType = compPair.first;
+            ComponentType compType = compPair.first;
             std::string compName = componentTypeToString(compType);
             if (ImGui::TreeNode(compName.c_str())) {
                 // Immediate UI for removing a component
@@ -230,26 +230,26 @@ void Editor::Render() {
 
                 // Component-specific UI based on type
                 switch (compType) {
-                    case ComponentTypes::Animation: {
+                    case ComponentType::Animation: {
                         break;
                     }
-                    case ComponentTypes::Camera: {
+                    case ComponentType::Camera: {
                         break;
                     }
-                    case ComponentTypes::Collider: {
+                    case ComponentType::Collider: {
                         auto& collider = dynamic_cast<Collider&>(*compPair.second);
                         ImGui::InputInt("Position X", &collider.rect.x);
                         ImGui::InputInt("Position Y", &collider.rect.y);
                         ImGui::InputInt("Width", &collider.rect.w);
                         ImGui::InputInt("Height", &collider.rect.h);
                     }
-                    case ComponentTypes::Physics: {
+                    case ComponentType::Physics: {
                         break;
                     }
-                    case ComponentTypes::Player: {
+                    case ComponentType::Player: {
                         break;
                     }
-                    case ComponentTypes::Renderable: {
+                    case ComponentType::Renderable: {
                         static int renderLayerIndex = 0;
                         RenderLayer renderLayers[] = {
                                 RenderLayer::background, RenderLayer::character, RenderLayer::foreground
@@ -269,7 +269,7 @@ void Editor::Render() {
                         }
                         break;
                     }
-                    case ComponentTypes::Sprite: {
+                    case ComponentType::Sprite: {
                         auto& sprite = dynamic_cast<Sprite&>(*compPair.second);
 
                         // Assuming ImGui::InputFloat returns true when the field is edited and Enter key is pressed
@@ -297,7 +297,7 @@ void Editor::Render() {
                         }
                         break;
                     }
-                    case ComponentTypes::Texture: {
+                    case ComponentType::Texture: {
                         // Example: Text input for texture file path
                         static char filePath[256] = "";
                         //ImGui::InputText("Texture Path##Texture", filePath, sizeof(filePath));
@@ -325,7 +325,7 @@ void Editor::Render() {
                         }
                         break;
                     }
-                    case ComponentTypes::Transform: {
+                    case ComponentType::Transform: {
                         auto& transform = dynamic_cast<Transform&>(*compPair.second);
                         // Assuming ImGui::InputFloat returns true when the field is edited and Enter key is pressed
                         bool posXChanged = ImGui::InputFloat("Position X", &transform.posX,

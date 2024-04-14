@@ -1,0 +1,55 @@
+\doxysection{Animation.\+h}
+\hypertarget{_animation_8h_source}{}\label{_animation_8h_source}\index{Core/include/Animation.h@{Core/include/Animation.h}}
+\mbox{\hyperlink{_animation_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 3/25/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINE\_ANIMATION\_H}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINE\_ANIMATION\_H}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}Component.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}../../../vendor/sdl2\_image/2.8.2\_1/include/SDL2/SDL\_image.h"{}}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{_animation_8h_affb455e5ea72d01e065758c70f810a95}{AnimationType}}\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{comment}{//\ TODO\ ScriptingEngine\ should\ be\ able\ to\ add\ and\ remove\ from\ AnimationType\ to\ decouple\ animators\ from\ the\ engine}}
+\DoxyCodeLine{00027\ \ \ \ \ WalkCycleUP,}
+\DoxyCodeLine{00028\ \ \ \ \ WalkCycleDOWN,}
+\DoxyCodeLine{00029\ \ \ \ \ WalkCycleLEFT,}
+\DoxyCodeLine{00030\ \ \ \ \ WalkCycleRIGHT}
+\DoxyCodeLine{00031\ \};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{inline}\ std::string\ \mbox{\hyperlink{_animation_8h_a14fdc69a16a0f383880bad4e4a0f4004}{animationTypeToString}}(\mbox{\hyperlink{_animation_8h_affb455e5ea72d01e065758c70f810a95}{AnimationType}}\ type)\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{switch}\ (type)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AnimationType::WalkCycleUP:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}WalkCycleUp"{}};}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AnimationType::WalkCycleDOWN:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}WalkCycleDOWN"{}};}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AnimationType::WalkCycleLEFT:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}WalkCycleLEFT"{}};}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ AnimationType::WalkCycleRIGHT:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}WalkCycleRIGHT"{}};}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Unknown"{}};}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_animation}{Animation}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_component}{Component}}\ \{}
+\DoxyCodeLine{00053\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{comment}{//\ Animation\ cycles\ are\ stored\ as\ individual\ frames\ in\ a\ vector\ per\ animation\ cycle\ type}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{comment}{//\ TODO\ AnimationEngine\ should\ be\ able\ to\ add/remove\ SDL\_Texture\ vectors\ to\ decouple\ animators\ from\ engine}}
+\DoxyCodeLine{00056\ \ \ \ \ std::vector<SDL\_Texture*>\ \mbox{\hyperlink{class_animation_a5942383e011cb102a6420a738a9d92cf}{walkCycleUP}};\ }
+\DoxyCodeLine{00057\ \ \ \ \ std::vector<SDL\_Texture*>\ \mbox{\hyperlink{class_animation_a50a88b6ade038564e8b19036ab2fec64}{walkCycleDOWN}};\ }
+\DoxyCodeLine{00058\ \ \ \ \ std::vector<SDL\_Texture*>\ \mbox{\hyperlink{class_animation_a3766bc9a71529ad8dd492fc786a75b8f}{walkCycleLEFT}};\ }
+\DoxyCodeLine{00059\ \ \ \ \ std::vector<SDL\_Texture*>\ \mbox{\hyperlink{class_animation_a4f53706f1bfbe72fa2176b6c6299e094}{walkCycleRIGHT}};\ }
+\DoxyCodeLine{00060\ \ \ \ \ std::map<AnimationType,\ std::vector<SDL\_Texture*>>\ \mbox{\hyperlink{class_animation_a8603064b4e177cce04046071e8d2bff4}{animations}};\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_animation_a0b7e0d39ac1071d1389114b56db46544}{isPlaying}}\ =\ \textcolor{keyword}{false};\ }
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{_animation_8h_affb455e5ea72d01e065758c70f810a95}{AnimationType}}\ \mbox{\hyperlink{class_animation_a7614c410ce6fa9a32c0111e6a3758e48}{currentAnimationType}}\ =\ AnimationType::WalkCycleDOWN;\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_animation_a92e9b486565f490c578ad4fd42695aae}{currentFrameIndex}}\ =\ 0;\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{comment}{//\ TODO\ frameDuration\ should\ be\ set\ by\ Lua\ script\ and\ not\ hard\ coded\ here}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_animation_af788e0be911294832335d1010609ab93}{frameDuration}}\ =\ 0.06;\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_animation_a3be1931ff56b23ed13d2a3588049c773}{elapsedTime}}\ =\ 0;\ }
+\DoxyCodeLine{00067\ \};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINE\_ANIMATION\_H}}
+
+\end{DoxyCode}

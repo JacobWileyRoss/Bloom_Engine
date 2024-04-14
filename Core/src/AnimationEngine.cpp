@@ -9,7 +9,7 @@
 void AnimationEngine::addFrame(int entityUID, AnimationType animationType, SDL_Texture* frame) {
     std::cout << "[DEBUG] AnimationEngine::addFrame() called successfully" << std::endl;
     auto& animation = entityManager.getEntityComponent<Animation>
-            (entityUID, ComponentTypes::Animation);
+            (entityUID, ComponentType::Animation);
     std::cout << "[DEBUG] AnimationEngine getEntityComponent called successfully" << std::endl;
 
     animation.animations[animationType].push_back(frame);
@@ -19,7 +19,7 @@ void AnimationEngine::addFrame(int entityUID, AnimationType animationType, SDL_T
 // This function is used to return the actual vector that stores animation frames for specified AnimationType
 std::vector<SDL_Texture *>& AnimationEngine::getAnimationType(int entityUID, AnimationType animationType) {
     auto& entityAnimations = entityManager.getEntityComponent<Animation>
-                                    (entityUID, ComponentTypes::Animation);
+                                    (entityUID, ComponentType::Animation);
     // Static empty local vector used for the default case
     static std::vector<SDL_Texture*> emptyAnimation;
     switch (animationType) {
@@ -94,7 +94,7 @@ void AnimationEngine::handleInputEvent(const Event& event) {
 // relevant AnimationType to start
 void AnimationEngine::startAnimation(int entityUID, AnimationType animationType) {
     auto& animationComponent = entityManager.getEntityComponent<Animation>(entityUID,
-                                                                           ComponentTypes::Animation);
+                                                                           ComponentType::Animation);
 
     // Set the current animation type
     animationComponent.currentAnimationType = animationType;
@@ -114,7 +114,7 @@ void AnimationEngine::startAnimation(int entityUID, AnimationType animationType)
 // appropriate AnimationType
 void AnimationEngine::stopAnimation(int entityUID, AnimationType animationType) {
     auto& animationComponent = entityManager.getEntityComponent<Animation>(entityUID,
-                                                                           ComponentTypes::Animation);
+                                                                           ComponentType::Animation);
     if(animationComponent.currentAnimationType == animationType) {
         animationComponent.isPlaying = false;
         animationComponent.currentFrameIndex = 0; // Reset to the first frame
@@ -131,9 +131,9 @@ void AnimationEngine::stopAnimation(int entityUID, AnimationType animationType) 
 // the actual Animation Component (which is a TODO)
 void AnimationEngine::update(float deltaTime) {
     for (auto& [entityUID, entity] : entityManager.entities) {
-        if (entityManager.hasComponent(entityUID, ComponentTypes::Animation)) {
+        if (entityManager.hasComponent(entityUID, ComponentType::Animation)) {
             auto& animation = entityManager.getEntityComponent<Animation>(entityUID,
-                                                                          ComponentTypes::Animation);
+                                                                          ComponentType::Animation);
 
             // Ensure animation is playing and has a non-zero frameDuration
             if (animation.isPlaying && animation.frameDuration > 0.0f &&
@@ -147,9 +147,9 @@ void AnimationEngine::update(float deltaTime) {
                         animation.animations[animation.currentAnimationType].size();
 
                 // Update the texture component with the new frame
-                if (entityManager.hasComponent(entityUID, ComponentTypes::Texture)) {
+                if (entityManager.hasComponent(entityUID, ComponentType::Texture)) {
                     auto& textureComponent = entityManager.getEntityComponent<Texture>
-                            (entityUID, ComponentTypes::Texture);
+                            (entityUID, ComponentType::Texture);
                     textureComponent.texture =
                             animation.animations[animation.currentAnimationType][animation.currentFrameIndex];
                 }

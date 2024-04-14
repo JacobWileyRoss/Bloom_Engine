@@ -63,6 +63,7 @@ void Core::Initialize() {
         std::cout << "[INFO] Handling EventType::InputKeyUp" << std::endl;
         physicsEngine.handleInputEvent(inputEvent);
         animationEngine.handleInputEvent(inputEvent);
+        audioEngine.HandleInputEvent(inputEvent);
     });
 
     dispatcher.addEventListener(EventType::Collision, [this](const Event& collisionEvent) {

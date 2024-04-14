@@ -1,0 +1,99 @@
+\doxysection{Lua\+Game\+State Class Reference}
+\hypertarget{class_lua_game_state}{}\label{class_lua_game_state}\index{LuaGameState@{LuaGameState}}
+Inheritance diagram for Lua\+Game\+State\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_lua_game_state}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_lua_game_state_a4fe25c4b9db5b46190de0eb8f867953c}\label{class_lua_game_state_a4fe25c4b9db5b46190de0eb8f867953c} 
+{\bfseries Lua\+Game\+State} (\mbox{\hyperlink{class_entity_manager}{Entity\+Manager}} \&entity\+Manager, sol\+::state \&lua, const std\+::string \&state\+Name)
+\item 
+void \mbox{\hyperlink{class_lua_game_state_a18ae7e746b1403cd1f84b60d424d80c4}{enter}} () override
+\item 
+void \mbox{\hyperlink{class_lua_game_state_a71debc4575ff23b7d0816c5883155677}{exit}} () override
+\item 
+void \mbox{\hyperlink{class_lua_game_state_aad3b775b854d3a93d0ed8d8a9dfa88c4}{update}} (float delta\+Time) override
+\item 
+void \mbox{\hyperlink{class_lua_game_state_af9e978669f14114c6e01afda2321d1bd}{render}} () override
+\item 
+std\+::string \mbox{\hyperlink{class_lua_game_state_ae5082f83232b0d6abc1b5abf530255cb}{serialize}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_game_state}{Game\+State}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Game\+State} (\mbox{\hyperlink{class_entity_manager}{Entity\+Manager}} \&entity\+Manager)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_lua_game_state_a82ed980489b0f995d3efa28d4b254cf3}\label{class_lua_game_state_a82ed980489b0f995d3efa28d4b254cf3} 
+sol\+::state \& {\bfseries lua}
+\item 
+\Hypertarget{class_lua_game_state_a951a0bb5596c5a153903b5ca41eadfa1}\label{class_lua_game_state_a951a0bb5596c5a153903b5ca41eadfa1} 
+std\+::string {\bfseries state\+Name}
+\item 
+\Hypertarget{class_lua_game_state_a0ddbd2118867224747e6399598f26f78}\label{class_lua_game_state_a0ddbd2118867224747e6399598f26f78} 
+\mbox{\hyperlink{class_entity_manager}{Entity\+Manager}} \& {\bfseries entity\+Manager}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_lua_game_state_a18ae7e746b1403cd1f84b60d424d80c4}\label{class_lua_game_state_a18ae7e746b1403cd1f84b60d424d80c4} 
+\index{LuaGameState@{LuaGameState}!enter@{enter}}
+\index{enter@{enter}!LuaGameState@{LuaGameState}}
+\doxysubsubsection{\texorpdfstring{enter()}{enter()}}
+{\footnotesize\ttfamily void Lua\+Game\+State\+::enter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_game_state}{Game\+State}}.
+
+\Hypertarget{class_lua_game_state_a71debc4575ff23b7d0816c5883155677}\label{class_lua_game_state_a71debc4575ff23b7d0816c5883155677} 
+\index{LuaGameState@{LuaGameState}!exit@{exit}}
+\index{exit@{exit}!LuaGameState@{LuaGameState}}
+\doxysubsubsection{\texorpdfstring{exit()}{exit()}}
+{\footnotesize\ttfamily void Lua\+Game\+State\+::exit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_game_state}{Game\+State}}.
+
+\Hypertarget{class_lua_game_state_af9e978669f14114c6e01afda2321d1bd}\label{class_lua_game_state_af9e978669f14114c6e01afda2321d1bd} 
+\index{LuaGameState@{LuaGameState}!render@{render}}
+\index{render@{render}!LuaGameState@{LuaGameState}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily void Lua\+Game\+State\+::render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_game_state}{Game\+State}}.
+
+\Hypertarget{class_lua_game_state_ae5082f83232b0d6abc1b5abf530255cb}\label{class_lua_game_state_ae5082f83232b0d6abc1b5abf530255cb} 
+\index{LuaGameState@{LuaGameState}!serialize@{serialize}}
+\index{serialize@{serialize}!LuaGameState@{LuaGameState}}
+\doxysubsubsection{\texorpdfstring{serialize()}{serialize()}}
+{\footnotesize\ttfamily std\+::string Lua\+Game\+State\+::serialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_game_state}{Game\+State}}.
+
+\Hypertarget{class_lua_game_state_aad3b775b854d3a93d0ed8d8a9dfa88c4}\label{class_lua_game_state_aad3b775b854d3a93d0ed8d8a9dfa88c4} 
+\index{LuaGameState@{LuaGameState}!update@{update}}
+\index{update@{update}!LuaGameState@{LuaGameState}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Lua\+Game\+State\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_game_state}{Game\+State}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Core/include/Lua\+Game\+State.\+h\end{DoxyCompactItemize}

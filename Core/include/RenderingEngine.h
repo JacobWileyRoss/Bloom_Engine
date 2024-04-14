@@ -2,6 +2,14 @@
 // Created by Jacob Ross on 3/24/24.
 //
 
+/**
+ * @file RenderingEngine.h
+ * @brief Header file for the engine's rendering system.
+ *
+ * This file declares the engine's rendering system. The rendering engine retrieves all entities from EntityManager,
+ * checks for a Renderable component, and renders the entities based on render layer.
+ */
+
 #ifndef BLOOM_ENGINE_RENDERINGENGINE_H
 #define BLOOM_ENGINE_RENDERINGENGINE_H
 
@@ -19,9 +27,18 @@
 
 
 
-
+/**
+    * @class RenderingEngine
+    *
+    * @brief The RenderingEngine class is responsible for managing all of the Renderable entities and drawing them to
+    * the screen.
+    *
+    * @param entityManager
+    * @param dispatcher
+    */
 class RenderingEngine {
 public:
+
     explicit RenderingEngine(EntityManager& entityManager, Dispatcher& dispatcher) : entityManager(entityManager),
                                                                                      dispatcher(dispatcher){} ;
 

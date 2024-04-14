@@ -44,8 +44,8 @@ bool AudioEngine::Initialize() {
 
 void AudioEngine::SetBank(int entityUID, std::string bankPath) {
 
-    if (entityManager.hasComponent(entityUID, ComponentTypes::Audio)) {
-        auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentTypes::Audio);
+    if (entityManager.hasComponent(entityUID, ComponentType::Audio)) {
+        auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
         audio.bankPath = bankPath;
         std::cout << "[INFO] Bank set successfully for Entity: " << entityUID << std::endl;
     } else {
@@ -60,18 +60,16 @@ void AudioEngine::LoadBank(const std::string& bankName) {
         std::cerr << "Failed to load bank: " << FMOD_ErrorString(result) << std::endl;
     }
     std::cout << "Bank loaded successfully" << std::endl;
-
 }
 
 void AudioEngine::LoadEntityBank(int entityUID) {
     std::cout << "[INFO] Loading Bank for Entity: " << entityUID << std::endl;
-    auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentTypes::Audio);
+    auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
     FMOD_RESULT result = system->loadBankFile(audio.bankPath.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
     if (result != FMOD_OK) {
         std::cerr << "[ERROR] Failed to load bank: " << FMOD_ErrorString(result) << std::endl;
     }
     std::cout << "[INFO] Bank loaded successfully" << std::endl;
-
 }
 
 void AudioEngine::PlayEvent(const std::string& eventPath) {
@@ -99,36 +97,64 @@ void AudioEngine::PlayEvent(const std::string& eventPath) {
     std::cout << "[INFO] AudioEngine::PlayEvent(" << eventPath << ")" << std::endl;
 }
 
-void AudioEngine::PlayEvent(int entityUID, const std::string& eventPath) {
+FMOD::Studio::EventInstance* AudioEngine::PlayEvent(int entityUID, const std::string& eventName, const std::string& eventPath) {
+    auto& audioComponent = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
+
     FMOD::Studio::EventDescription* eventDescription = nullptr;
     FMOD_RESULT result = system->getEvent(eventPath.c_str(), &eventDescription);
 
     if (result != FMOD_OK) {
-        std::cerr << "Error: Failed to get event description for " << eventPath
-                  << ". Error: " << FMOD_ErrorString(result) << std::endl;
-        return;
+    std::cerr << "Error: Failed to get event description for " << eventPath
+    << ". Error: " << FMOD_ErrorString(result) << std::endl;
     }
+
+    if (audioComponent.eventInstances.count(eventName) > 0) {
+        FMOD::Studio::EventInstance* oldEvent = audioComponent.eventInstances[eventName];
+        if (oldEvent) {
+            oldEvent->stop(FMOD_STUDIO_STOP_IMMEDIATE);
+            oldEvent->release();
+        }
+    }
+
     FMOD::Studio::EventInstance* eventInstance = nullptr;
     result = eventDescription->createInstance(&eventInstance);
     if (result != FMOD_OK) {
         std::cerr << "Error: Failed to create event instance for " << eventPath
-                  << ". Error: " << FMOD_ErrorString(result) << std::endl;
-        return;
+        << ". Error: " << FMOD_ErrorString(result) << std::endl;
     }
+
     result = eventInstance->start();
     if (result != FMOD_OK) {
         std::cerr << "Error: Failed to start event " << eventPath
-                  << ". Error: " << FMOD_ErrorString(result) << std::endl;
-        return;
+        << ". Error: " << FMOD_ErrorString(result) << std::endl;
     }
+
+    audioComponent.eventInstances[eventName] = eventInstance;
+    std::cout << "[INFO] AudioEngine::PlayEvent(" << eventName << ", " << eventPath << ")" << std::endl;
+    return eventInstance;
 }
+
 void AudioEngine::Update() {
     system->update(); // Just update the FMOD system
 }
 
 void AudioEngine::HandleInputEvent(const Event& event) {
     std::cout << "[INFO] AudioEngine::HandleInputEvent() called" << std::endl;
-    PlayEvent(event.entityUID, "event:/Walking");
+
+    if(event.eventType == EventType::InputKeyDown) {
+    auto eventInstance = PlayEvent(event.entityUID, "walking", "event:/Walking");
+    eventInstance->setParameterByName("repeat", 1.0);
+    }
+    if(event.eventType == EventType::InputKeyUp) {
+        std::cout << "[DEBUG] HandleInputEvent() InputKeyUp called" << std::endl;
+        auto& audioComponent = entityManager.getEntityComponent<Audio>(event.entityUID, ComponentType::Audio);
+        if (audioComponent.eventInstances.count("walking") > 0) {
+            FMOD::Studio::EventInstance* eventInstance = audioComponent.eventInstances["walking"];
+            eventInstance->stop(FMOD_STUDIO_STOP_IMMEDIATE);
+            eventInstance->release();
+            audioComponent.eventInstances.erase("walking");
+        }
+    }
 }
 
 AudioEngine::~AudioEngine() {

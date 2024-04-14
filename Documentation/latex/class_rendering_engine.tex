@@ -1,0 +1,71 @@
+\doxysection{Rendering\+Engine Class Reference}
+\hypertarget{class_rendering_engine}{}\label{class_rendering_engine}\index{RenderingEngine@{RenderingEngine}}
+
+
+The \doxylink{class_rendering_engine}{Rendering\+Engine} class is responsible for managing all of the \doxylink{class_renderable}{Renderable} entities and drawing them to the screen.  
+
+
+
+
+{\ttfamily \#include $<$Rendering\+Engine.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_rendering_engine_a91a956467ddc1e2b1ed9922ec244d23b}\label{class_rendering_engine_a91a956467ddc1e2b1ed9922ec244d23b} 
+{\bfseries Rendering\+Engine} (\mbox{\hyperlink{class_entity_manager}{Entity\+Manager}} \&entity\+Manager, \mbox{\hyperlink{class_dispatcher}{Dispatcher}} \&dispatcher)
+\item 
+\Hypertarget{class_rendering_engine_ac590e2648076159af51f91a6228113ff}\label{class_rendering_engine_ac590e2648076159af51f91a6228113ff} 
+void {\bfseries set\+Sprite} (int entity\+UID, float x, float y, float w, float h)
+\item 
+\Hypertarget{class_rendering_engine_a2431d93121e3ff5519faaf436da5fadf}\label{class_rendering_engine_a2431d93121e3ff5519faaf436da5fadf} 
+void {\bfseries set\+Texture} (int entity\+UID, std\+::string filename)
+\item 
+\Hypertarget{class_rendering_engine_a85a0ab9fa6e710ffee35c0de851482b8}\label{class_rendering_engine_a85a0ab9fa6e710ffee35c0de851482b8} 
+void {\bfseries set\+Camera} (int entity\+UID, int posX, int posY, int width, int height)
+\item 
+\Hypertarget{class_rendering_engine_aebecd701061c5dbbb74ad2ad320a967f}\label{class_rendering_engine_aebecd701061c5dbbb74ad2ad320a967f} 
+void {\bfseries update} (std\+::unordered\+\_\+map$<$ int, \mbox{\hyperlink{class_entity}{Entity}} $>$ \&entities)
+\item 
+\Hypertarget{class_rendering_engine_a6746d69cbebbc667fd05eed13cf9aee2}\label{class_rendering_engine_a6746d69cbebbc667fd05eed13cf9aee2} 
+void {\bfseries Render} (std\+::unordered\+\_\+map$<$ int, \mbox{\hyperlink{class_entity}{Entity}} $>$ \&entities)
+\item 
+\Hypertarget{class_rendering_engine_ad8007c1b975790ed5266171554d453bf}\label{class_rendering_engine_ad8007c1b975790ed5266171554d453bf} 
+SDL\+\_\+\+Renderer \texorpdfstring{$\ast$}{*} {\bfseries Get\+Renderer} ()
+\item 
+\Hypertarget{class_rendering_engine_a69825f0f5413e5bb242d9bdf9d383450}\label{class_rendering_engine_a69825f0f5413e5bb242d9bdf9d383450} 
+SDL\+\_\+\+Texture \texorpdfstring{$\ast$}{*} {\bfseries Get\+Render\+Target\+Texture} () const
+\item 
+\Hypertarget{class_rendering_engine_ad0251ba3aa1c526d32bcdedd60e11960}\label{class_rendering_engine_ad0251ba3aa1c526d32bcdedd60e11960} 
+void {\bfseries set\+Render\+Layer} (int entity\+UID, Render\+Layer render\+Layer)
+\item 
+\Hypertarget{class_rendering_engine_aa6ebf709a9e62e2421fd0d21081ec73b}\label{class_rendering_engine_aa6ebf709a9e62e2421fd0d21081ec73b} 
+bool {\bfseries has\+Camera\+Entity} ()
+\item 
+\Hypertarget{class_rendering_engine_a2b67c242208821044d75dc6fe2d7a79f}\label{class_rendering_engine_a2b67c242208821044d75dc6fe2d7a79f} 
+void {\bfseries Shutdown} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_rendering_engine_a1ccc03d4a32e7f860f03f086fe30fbc1}\label{class_rendering_engine_a1ccc03d4a32e7f860f03f086fe30fbc1} 
+static void {\bfseries Initialize} (SDL\+\_\+\+Window \texorpdfstring{$\ast$}{*}window)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_rendering_engine}{Rendering\+Engine} class is responsible for managing all of the \doxylink{class_renderable}{Renderable} entities and drawing them to the screen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity\+Manager} & \\
+\hline
+{\em dispatcher} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Core/include/\mbox{\hyperlink{_rendering_engine_8h}{Rendering\+Engine.\+h}}\item 
+Core/src/Rendering\+Engine.\+cpp\end{DoxyCompactItemize}

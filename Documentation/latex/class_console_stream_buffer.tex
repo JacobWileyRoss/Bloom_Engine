@@ -1,0 +1,31 @@
+\doxysection{Console\+Stream\+Buffer Class Reference}
+\hypertarget{class_console_stream_buffer}{}\label{class_console_stream_buffer}\index{ConsoleStreamBuffer@{ConsoleStreamBuffer}}
+Inheritance diagram for Console\+Stream\+Buffer\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_console_stream_buffer}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_console_stream_buffer_a3d87f6e750c7c70d407fdab5b10aeb38}\label{class_console_stream_buffer_a3d87f6e750c7c70d407fdab5b10aeb38} 
+{\bfseries Console\+Stream\+Buffer} (std\+::ostream \&stream, std\+::size\+\_\+t max\+Lines=1000)
+\item 
+\Hypertarget{class_console_stream_buffer_a16888856c66cdfb6f8784c44fbb1f809}\label{class_console_stream_buffer_a16888856c66cdfb6f8784c44fbb1f809} 
+const std\+::vector$<$ std\+::string $>$ \& {\bfseries Get\+Lines} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_console_stream_buffer_a92b4f59338f7e8fc3a3a7a2cbedd6362}\label{class_console_stream_buffer_a92b4f59338f7e8fc3a3a7a2cbedd6362} 
+int\+\_\+type {\bfseries overflow} (int\+\_\+type ch) override
+\item 
+\Hypertarget{class_console_stream_buffer_a6b784611b9a0c6573743deeb9a7bca85}\label{class_console_stream_buffer_a6b784611b9a0c6573743deeb9a7bca85} 
+std\+::streamsize {\bfseries xsputn} (const char\+\_\+type \texorpdfstring{$\ast$}{*}s, std\+::streamsize count) override
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Editor/include/Console\+Stream\+Buffer.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,38 @@
+\doxysection{State\+Machine.\+h}
+\hypertarget{_state_machine_8h_source}{}\label{_state_machine_8h_source}\index{Core/include/StateMachine.h@{Core/include/StateMachine.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 3/29/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINE\_STATEMACHINE\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINE\_STATEMACHINE\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <stack>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <../../../vendor/sol2/include/sol/sol.hpp>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}GameState.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}LuaGameState.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_state_machine}{StateMachine}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00016\ \ \ \ \ std::stack<GameState*>\ states;}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager;}
+\DoxyCodeLine{00018\ \ \ \ \ sol::state\&\ lua;\ \textcolor{comment}{//\ Reference\ to\ the\ Lua\ state}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{class_state_machine}{StateMachine}}(\mbox{\hyperlink{class_entity_manager}{EntityManager}}\&\ entityManager,\ sol::state\&\ lua)\ :\ entityManager(entityManager),\ lua(lua)\ \{\}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ changeState(\textcolor{keyword}{const}\ std::string\&\ stateName);}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ pushState(\mbox{\hyperlink{class_game_state}{GameState}}*\ state);}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ popState();}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime);}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ render();}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINE\_STATEMACHINE\_H}}
+
+\end{DoxyCode}

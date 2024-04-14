@@ -1,0 +1,94 @@
+\doxysection{Core Class Reference}
+\hypertarget{class_core}{}\label{class_core}\index{Core@{Core}}
+
+
+Central class of the Bloom Engine.  
+
+
+
+
+{\ttfamily \#include $<$Core.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_core_a14e63188e0aa7c4a6f72d5501384d1f9}{Core}} ()
+\begin{DoxyCompactList}\small\item\em Constructor of the \doxylink{class_core}{Core} class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_core_a776f8c46504b14183883c6273f93eaed}{\texorpdfstring{$\sim$}{\string~}\+Core}} ()
+\begin{DoxyCompactList}\small\item\em Destructor of the \doxylink{class_core}{Core} class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_core_a8606c1098d51cb8260540e0d37a6bf23}{Initialize}} ()
+\begin{DoxyCompactList}\small\item\em Initializes all subsystems of the game engine and creates the main window. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_core_ab504f850bc0441410601f3709545662b}{Main\+Loop}} ()
+\item 
+void \mbox{\hyperlink{class_core_a435d4ce5ae27d85ac427873396ff7e1c}{Shutdown}} ()
+\item 
+SDL\+\_\+\+Window \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_core_a766d57417d53d60cb160d3541f517ecf}{Get\+Window}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Central class of the Bloom Engine. 
+
+The \doxylink{class_core}{Core} class is responsible for orchestrating the engine\textquotesingle{}s subsystems, managing the main loop, and handling initialization and shutdown processes. It provides the primary interface for running the game engine. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_core_a14e63188e0aa7c4a6f72d5501384d1f9}\label{class_core_a14e63188e0aa7c4a6f72d5501384d1f9} 
+\index{Core@{Core}!Core@{Core}}
+\index{Core@{Core}!Core@{Core}}
+\doxysubsubsection{\texorpdfstring{Core()}{Core()}}
+{\footnotesize\ttfamily Core\+::\+Core (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructor of the \doxylink{class_core}{Core} class. 
+
+Initializes the engine\textquotesingle{}s core systems and sets default states. \Hypertarget{class_core_a776f8c46504b14183883c6273f93eaed}\label{class_core_a776f8c46504b14183883c6273f93eaed} 
+\index{Core@{Core}!````~Core@{\texorpdfstring{$\sim$}{\string~}Core}}
+\index{````~Core@{\texorpdfstring{$\sim$}{\string~}Core}!Core@{Core}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Core()}{\string~Core()}}
+{\footnotesize\ttfamily Core\+::\texorpdfstring{$\sim$}{\string~}\+Core (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+Destructor of the \doxylink{class_core}{Core} class. 
+
+Ensures the proper shutdown and cleanup of the engine\textquotesingle{}s core systems. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_core_a766d57417d53d60cb160d3541f517ecf}\label{class_core_a766d57417d53d60cb160d3541f517ecf} 
+\index{Core@{Core}!GetWindow@{GetWindow}}
+\index{GetWindow@{GetWindow}!Core@{Core}}
+\doxysubsubsection{\texorpdfstring{GetWindow()}{GetWindow()}}
+{\footnotesize\ttfamily SDL\+\_\+\+Window \texorpdfstring{$\ast$}{*} Core\+::\+Get\+Window (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Retrieves the main window used by the engine. \begin{DoxyReturn}{Returns}
+A pointer to the SDL\+\_\+\+Window used by the engine. 
+\end{DoxyReturn}
+\Hypertarget{class_core_a8606c1098d51cb8260540e0d37a6bf23}\label{class_core_a8606c1098d51cb8260540e0d37a6bf23} 
+\index{Core@{Core}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!Core@{Core}}
+\doxysubsubsection{\texorpdfstring{Initialize()}{Initialize()}}
+{\footnotesize\ttfamily void Core\+::\+Initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes all subsystems of the game engine and creates the main window. 
+
+This method sets up SDL, SDL\+\_\+\+Image, creates the SDL window, initializes the rendering engine, and sets up other subsystems like \doxylink{class_physics}{Physics} Engine, \doxylink{class_animation}{Animation} Engine, etc. It also initializes Im\+Gui for the editor functionalities. \Hypertarget{class_core_ab504f850bc0441410601f3709545662b}\label{class_core_ab504f850bc0441410601f3709545662b} 
+\index{Core@{Core}!MainLoop@{MainLoop}}
+\index{MainLoop@{MainLoop}!Core@{Core}}
+\doxysubsubsection{\texorpdfstring{MainLoop()}{MainLoop()}}
+{\footnotesize\ttfamily void Core\+::\+Main\+Loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Contains the engine\textquotesingle{}s main loop where all subsystem updates and rendering occur. This loop runs until the engine is signaled to shut down. \Hypertarget{class_core_a435d4ce5ae27d85ac427873396ff7e1c}\label{class_core_a435d4ce5ae27d85ac427873396ff7e1c} 
+\index{Core@{Core}!Shutdown@{Shutdown}}
+\index{Shutdown@{Shutdown}!Core@{Core}}
+\doxysubsubsection{\texorpdfstring{Shutdown()}{Shutdown()}}
+{\footnotesize\ttfamily void Core\+::\+Shutdown (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Shuts down the engine, releasing all allocated resources and subsystems. Ensures a clean exit from the application. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Core/include/\mbox{\hyperlink{_core_8h}{Core.\+h}}\item 
+Core/src/Core.\+cpp\end{DoxyCompactItemize}

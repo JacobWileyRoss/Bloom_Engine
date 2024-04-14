@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Workspace" id="{6a06533f-b77b-42f9-95a0-add62dfb9d1b}">
 		<property name="builtBanksOutputDirectory">
-			<value>../../../../../Users/enki/Developer/Repositories (Version Controlled)/Bloom_Engine/Game/assets/audio</value>
+			<value>../assets/audio</value>
 		</property>
 		<relationship name="masterEventFolder">
 			<destination>{df5b89fa-3f15-4aac-9b0d-5978e3429b61}</destination>

@@ -10,7 +10,9 @@
 
 class Audio : public Component {
 public:
-    std::string bankPath{""};
-};
+std::string bankPath{""};
+std::unordered_map<std::string, FMOD::Studio::EventInstance*> eventInstances;
 
+
+};
 #endif //BLOOM_ENGINE_AUDIO_H

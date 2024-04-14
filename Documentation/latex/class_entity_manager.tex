@@ -1,0 +1,213 @@
+\doxysection{Entity\+Manager Class Reference}
+\hypertarget{class_entity_manager}{}\label{class_entity_manager}\index{EntityManager@{EntityManager}}
+
+
+System class that orchestrates all \doxylink{class_entity}{Entity} handling. The \doxylink{class_entity_manager}{Entity\+Manager} system manages \doxylink{class_entity}{Entity} creation, composition, and destruction. Each entity created by the \doxylink{class_entity_manager}{Entity\+Manager} is stored in an unordered map by it\textquotesingle{}s assigned unique identifier (entity\+UID).  
+
+
+
+
+{\ttfamily \#include $<$Entity\+Manager.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_entity_manager_a7555637657d090171be6ceee8451de0a}\label{class_entity_manager_a7555637657d090171be6ceee8451de0a} 
+{\bfseries Entity\+Manager} ()
+\begin{DoxyCompactList}\small\item\em \doxylink{class_entity_manager}{Entity\+Manager}\textquotesingle{}s constructor. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_entity_manager_a3d24f65904bf586af690504f24cc3339}{create\+Entity}} ()
+\item 
+\mbox{\hyperlink{class_entity}{Entity}} \& \mbox{\hyperlink{class_entity_manager_a0ac37667880dc6fc985b2e03a9a68f04}{get\+Entity}} (int entity\+UID)
+\item 
+void \mbox{\hyperlink{class_entity_manager_a77b2944b1031c77267e632dd5da11b6e}{destroy\+Entity}} (int entity\+UID)
+\begin{DoxyCompactList}\small\item\em Destroys \doxylink{class_entity}{Entity} object specified by an entity\+UID. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_entity_manager_a8fb0a1abbc5301d7bdfef8f157e10b8c}{has\+Component}} (int entity\+UID, const \mbox{\hyperlink{class_component_type}{Component\+Type}} \&component\+Type)
+\begin{DoxyCompactList}\small\item\em Checks if an \doxylink{class_entity}{Entity} has a specified \doxylink{class_component_type}{Component\+Type} attached. Accepts an entity\+UID and \doxylink{class_component_type}{Component\+Type}, does a search on the entities container for the entity\+UID, then checks if the \doxylink{class_entity}{Entity} has the \doxylink{class_component}{Component} type attached. If the \doxylink{class_component_type}{Component\+Type} is attached it returns True. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ int $>$ \mbox{\hyperlink{class_entity_manager_a16eb864802d47025c7892e0e1454a237}{get\+Entities\+With\+Component}} (\mbox{\hyperlink{class_component_type}{Component\+Type}} component\+Type)
+\begin{DoxyCompactList}\small\item\em Returns all entities that contain the specified \doxylink{class_component_type}{Component\+Type}. Iterates through the entities container, then for each \doxylink{class_entity}{Entity} it iterates through the attached components and checks if the \doxylink{class_entity}{Entity} contains the specified \doxylink{class_component}{Component}. If it does, the entity\+UID is stored in a vector and the vector is returned once all entities are checked. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\T \& \mbox{\hyperlink{class_entity_manager_af1b3cd0b6983e14413232fd4d7b0b100}{get\+Entity\+Component}} (int entity\+UID, const \mbox{\hyperlink{class_component_type}{Component\+Type}} component\+Type)
+\begin{DoxyCompactList}\small\item\em Returns \doxylink{class_component}{Component} object of specified \doxylink{class_component_type}{Component\+Type}. Takes an entity\+UID and \doxylink{class_component_type}{Component\+Type}, gets the \doxylink{class_entity}{Entity} object and searches for the \doxylink{class_component_type}{Component\+Type}. If \doxylink{class_component_type}{Component\+Type} is found, the \doxylink{class_component}{Component} object is returned by reference. \end{DoxyCompactList}\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_component}{Component}} $>$ \mbox{\hyperlink{class_entity_manager_a8f71b17240bc29d2fa9f74888991e99b}{create\+Component}} (\mbox{\hyperlink{class_component_type}{Component\+Type}} component\+Type)
+\begin{DoxyCompactList}\small\item\em Creates \doxylink{class_component}{Component} object of specified \doxylink{class_component_type}{Component\+Type}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_entity_manager_a471df097dab9835519e564daec1dd4dc}{attach\+Component}} (int entity\+UID, \mbox{\hyperlink{class_component_type}{Component\+Type}} component\+Type)
+\begin{DoxyCompactList}\small\item\em Calls \doxylink{class_entity_manager_a8f71b17240bc29d2fa9f74888991e99b}{create\+Component()} to create \doxylink{class_component}{Component} object and attach it to specified \doxylink{class_entity}{Entity}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_entity_manager_ac833c8cf1cdaf728bfcb09c0cc130ae5}{remove\+Component}} (int entity\+UID, \mbox{\hyperlink{class_component_type}{Component\+Type}} component\+Type)
+\begin{DoxyCompactList}\small\item\em Destroys component object from \doxylink{class_entity}{Entity}\textquotesingle{}s attached components. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_entity_manager_adb0d4ec64911055ce478814fbd8fafc8}\label{class_entity_manager_adb0d4ec64911055ce478814fbd8fafc8} 
+std\+::unordered\+\_\+map$<$ int, \mbox{\hyperlink{class_entity}{Entity}} $>$ {\bfseries entities}
+\begin{DoxyCompactList}\small\item\em Stores all entity objects by their unique identifier (entity\+UID). entities is an unordered\+\_\+map that stores every \doxylink{class_entity}{Entity} created by the \doxylink{class_entity_manager}{Entity\+Manager}. Storing each \doxylink{class_entity}{Entity} by it\textquotesingle{}s entity\+UID allows for fast \doxylink{class_entity}{Entity} lookup by other Systems in the engine. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+System class that orchestrates all \doxylink{class_entity}{Entity} handling. The \doxylink{class_entity_manager}{Entity\+Manager} system manages \doxylink{class_entity}{Entity} creation, composition, and destruction. Each entity created by the \doxylink{class_entity_manager}{Entity\+Manager} is stored in an unordered map by it\textquotesingle{}s assigned unique identifier (entity\+UID). 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_entity_manager_a471df097dab9835519e564daec1dd4dc}\label{class_entity_manager_a471df097dab9835519e564daec1dd4dc} 
+\index{EntityManager@{EntityManager}!attachComponent@{attachComponent}}
+\index{attachComponent@{attachComponent}!EntityManager@{EntityManager}}
+\doxysubsubsection{\texorpdfstring{attachComponent()}{attachComponent()}}
+{\footnotesize\ttfamily void Entity\+Manager\+::attach\+Component (\begin{DoxyParamCaption}\item[{int}]{entity\+UID,  }\item[{\mbox{\hyperlink{class_component_type}{Component\+Type}}}]{component\+Type }\end{DoxyParamCaption})}
+
+
+
+Calls \doxylink{class_entity_manager_a8f71b17240bc29d2fa9f74888991e99b}{create\+Component()} to create \doxylink{class_component}{Component} object and attach it to specified \doxylink{class_entity}{Entity}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity\+UID} & \\
+\hline
+{\em component\+Type} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_entity_manager_a8f71b17240bc29d2fa9f74888991e99b}\label{class_entity_manager_a8f71b17240bc29d2fa9f74888991e99b} 
+\index{EntityManager@{EntityManager}!createComponent@{createComponent}}
+\index{createComponent@{createComponent}!EntityManager@{EntityManager}}
+\doxysubsubsection{\texorpdfstring{createComponent()}{createComponent()}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_component}{Component}} $>$ Entity\+Manager\+::create\+Component (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_component_type}{Component\+Type}}}]{component\+Type }\end{DoxyParamCaption})}
+
+
+
+Creates \doxylink{class_component}{Component} object of specified \doxylink{class_component_type}{Component\+Type}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em component\+Type} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unique\+\_\+ptr to created \doxylink{class_component}{Component} object 
+\end{DoxyReturn}
+\Hypertarget{class_entity_manager_a3d24f65904bf586af690504f24cc3339}\label{class_entity_manager_a3d24f65904bf586af690504f24cc3339} 
+\index{EntityManager@{EntityManager}!createEntity@{createEntity}}
+\index{createEntity@{createEntity}!EntityManager@{EntityManager}}
+\doxysubsubsection{\texorpdfstring{createEntity()}{createEntity()}}
+{\footnotesize\ttfamily int Entity\+Manager\+::create\+Entity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Creates a new \doxylink{class_entity}{Entity} object and assigns it an entity\+UID, the \doxylink{class_entity}{Entity} is then stored in the entities unordered map. A \doxylink{class_transform}{Transform} \doxylink{class_component}{Component} is attached to the \doxylink{class_entity}{Entity} by default. \begin{DoxyReturn}{Returns}
+Returns the created \doxylink{class_entity}{Entity}\textquotesingle{}s (entity\+UID) 
+\end{DoxyReturn}
+\Hypertarget{class_entity_manager_a77b2944b1031c77267e632dd5da11b6e}\label{class_entity_manager_a77b2944b1031c77267e632dd5da11b6e} 
+\index{EntityManager@{EntityManager}!destroyEntity@{destroyEntity}}
+\index{destroyEntity@{destroyEntity}!EntityManager@{EntityManager}}
+\doxysubsubsection{\texorpdfstring{destroyEntity()}{destroyEntity()}}
+{\footnotesize\ttfamily void Entity\+Manager\+::destroy\+Entity (\begin{DoxyParamCaption}\item[{int}]{entity\+UID }\end{DoxyParamCaption})}
+
+
+
+Destroys \doxylink{class_entity}{Entity} object specified by an entity\+UID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity\+UID} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_entity_manager_a16eb864802d47025c7892e0e1454a237}\label{class_entity_manager_a16eb864802d47025c7892e0e1454a237} 
+\index{EntityManager@{EntityManager}!getEntitiesWithComponent@{getEntitiesWithComponent}}
+\index{getEntitiesWithComponent@{getEntitiesWithComponent}!EntityManager@{EntityManager}}
+\doxysubsubsection{\texorpdfstring{getEntitiesWithComponent()}{getEntitiesWithComponent()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$ int $>$ Entity\+Manager\+::get\+Entities\+With\+Component (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_component_type}{Component\+Type}}}]{component\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns all entities that contain the specified \doxylink{class_component_type}{Component\+Type}. Iterates through the entities container, then for each \doxylink{class_entity}{Entity} it iterates through the attached components and checks if the \doxylink{class_entity}{Entity} contains the specified \doxylink{class_component}{Component}. If it does, the entity\+UID is stored in a vector and the vector is returned once all entities are checked. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em component\+Type} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector of entity\+UID\textquotesingle{}s that contain specified component 
+\end{DoxyReturn}
+\Hypertarget{class_entity_manager_a0ac37667880dc6fc985b2e03a9a68f04}\label{class_entity_manager_a0ac37667880dc6fc985b2e03a9a68f04} 
+\index{EntityManager@{EntityManager}!getEntity@{getEntity}}
+\index{getEntity@{getEntity}!EntityManager@{EntityManager}}
+\doxysubsubsection{\texorpdfstring{getEntity()}{getEntity()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_entity}{Entity}} \& Entity\+Manager\+::get\+Entity (\begin{DoxyParamCaption}\item[{int}]{entity\+UID }\end{DoxyParamCaption})}
+
+Takes the provided entity\+UID and does a search on the entities container. If an \doxylink{class_entity}{Entity} was found, the \doxylink{class_entity}{Entity} object is returned by reference. 
+\begin{DoxyParams}{Parameters}
+{\em entity\+UID} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_entity}{Entity} object is returned by reference 
+\end{DoxyReturn}
+\Hypertarget{class_entity_manager_af1b3cd0b6983e14413232fd4d7b0b100}\label{class_entity_manager_af1b3cd0b6983e14413232fd4d7b0b100} 
+\index{EntityManager@{EntityManager}!getEntityComponent@{getEntityComponent}}
+\index{getEntityComponent@{getEntityComponent}!EntityManager@{EntityManager}}
+\doxysubsubsection{\texorpdfstring{getEntityComponent()}{getEntityComponent()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \& Entity\+Manager\+::get\+Entity\+Component (\begin{DoxyParamCaption}\item[{int}]{entity\+UID,  }\item[{const \mbox{\hyperlink{class_component_type}{Component\+Type}}}]{component\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns \doxylink{class_component}{Component} object of specified \doxylink{class_component_type}{Component\+Type}. Takes an entity\+UID and \doxylink{class_component_type}{Component\+Type}, gets the \doxylink{class_entity}{Entity} object and searches for the \doxylink{class_component_type}{Component\+Type}. If \doxylink{class_component_type}{Component\+Type} is found, the \doxylink{class_component}{Component} object is returned by reference. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em entity\+UID} & \\
+\hline
+{\em component\+Type} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\Hypertarget{class_entity_manager_a8fb0a1abbc5301d7bdfef8f157e10b8c}\label{class_entity_manager_a8fb0a1abbc5301d7bdfef8f157e10b8c} 
+\index{EntityManager@{EntityManager}!hasComponent@{hasComponent}}
+\index{hasComponent@{hasComponent}!EntityManager@{EntityManager}}
+\doxysubsubsection{\texorpdfstring{hasComponent()}{hasComponent()}}
+{\footnotesize\ttfamily bool Entity\+Manager\+::has\+Component (\begin{DoxyParamCaption}\item[{int}]{entity\+UID,  }\item[{const \mbox{\hyperlink{class_component_type}{Component\+Type}} \&}]{component\+Type }\end{DoxyParamCaption})}
+
+
+
+Checks if an \doxylink{class_entity}{Entity} has a specified \doxylink{class_component_type}{Component\+Type} attached. Accepts an entity\+UID and \doxylink{class_component_type}{Component\+Type}, does a search on the entities container for the entity\+UID, then checks if the \doxylink{class_entity}{Entity} has the \doxylink{class_component}{Component} type attached. If the \doxylink{class_component_type}{Component\+Type} is attached it returns True. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity\+UID} & \\
+\hline
+{\em component\+Type} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Boolean value True if \doxylink{class_component_type}{Component\+Type} was attached, False if not. 
+\end{DoxyReturn}
+\Hypertarget{class_entity_manager_ac833c8cf1cdaf728bfcb09c0cc130ae5}\label{class_entity_manager_ac833c8cf1cdaf728bfcb09c0cc130ae5} 
+\index{EntityManager@{EntityManager}!removeComponent@{removeComponent}}
+\index{removeComponent@{removeComponent}!EntityManager@{EntityManager}}
+\doxysubsubsection{\texorpdfstring{removeComponent()}{removeComponent()}}
+{\footnotesize\ttfamily void Entity\+Manager\+::remove\+Component (\begin{DoxyParamCaption}\item[{int}]{entity\+UID,  }\item[{\mbox{\hyperlink{class_component_type}{Component\+Type}}}]{component\+Type }\end{DoxyParamCaption})}
+
+
+
+Destroys component object from \doxylink{class_entity}{Entity}\textquotesingle{}s attached components. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em entity\+UID} & \\
+\hline
+{\em component\+Type} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Core/include/\mbox{\hyperlink{_entity_manager_8h}{Entity\+Manager.\+h}}\item 
+Core/src/Entity\+Manager.\+cpp\end{DoxyCompactItemize}

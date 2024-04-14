@@ -1,0 +1,65 @@
+\doxysection{Console\+Stream\+Buffer.\+h}
+\hypertarget{_console_stream_buffer_8h_source}{}\label{_console_stream_buffer_8h_source}\index{Editor/include/ConsoleStreamBuffer.h@{Editor/include/ConsoleStreamBuffer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ Jacob\ Ross\ on\ 4/4/24.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ BLOOM\_ENGINEPROJECT\_CONSOLESTREAMBUFFER\_H}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ BLOOM\_ENGINEPROJECT\_CONSOLESTREAMBUFFER\_H}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_console_stream_buffer}{ConsoleStreamBuffer}}\ :\ \textcolor{keyword}{public}\ std::streambuf\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{class_console_stream_buffer}{ConsoleStreamBuffer}}(std::ostream\&\ stream,\ std::size\_t\ maxLines\ =\ 1000)\ :\ stream\_(stream),\ maxLines\_(maxLines)\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ lineBuffer\_.reserve(128);}
+\DoxyCodeLine{00018\ \ \ \ \ \}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<std::string>\&\ GetLines()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lines\_;}
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00025\ \ \ \ \ int\_type\ overflow(int\_type\ ch)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ !=\ EOF)\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ lineBuffer\_.push\_back(ch);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ ==\ \textcolor{charliteral}{'\(\backslash\)n'}\ ||\ ch\ ==\ EOF)\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ lines\_.push\_back(std::string(lineBuffer\_.data(),\ lineBuffer\_.size()));}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lines\_.size()\ >\ maxLines\_)\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lines\_.erase(lines\_.begin());}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ lineBuffer\_.clear();}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ch;}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ std::streamsize\ xsputn(\textcolor{keyword}{const}\ char\_type*\ s,\ std::streamsize\ count)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ bufferSize\ =\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(std::min<std::streamsize>(count,\ std::numeric\_limits<std::streamsize>::max()));}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ lineBuffer\_.insert(lineBuffer\_.end(),\ s,\ s\ +\ bufferSize);}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::find(s,\ s\ +\ count,\ \textcolor{charliteral}{'\(\backslash\)n'})\ !=\ s\ +\ count)\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ lines\_.push\_back(std::string(lineBuffer\_.data(),\ lineBuffer\_.size()));}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lines\_.size()\ >\ maxLines\_)\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lines\_.erase(lines\_.begin());}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ lineBuffer\_.clear();}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ count;}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00053\ \ \ \ \ std::ostream\&\ stream\_;}
+\DoxyCodeLine{00054\ \ \ \ \ std::vector<char>\ lineBuffer\_;}
+\DoxyCodeLine{00055\ \ \ \ \ std::vector<std::string>\ lines\_;}
+\DoxyCodeLine{00056\ \ \ \ \ std::size\_t\ maxLines\_;}
+\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//BLOOM\_ENGINEPROJECT\_CONSOLESTREAMBUFFER\_H}}
+
+\end{DoxyCode}

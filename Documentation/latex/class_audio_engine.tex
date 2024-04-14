@@ -1,0 +1,38 @@
+\doxysection{Audio\+Engine Class Reference}
+\hypertarget{class_audio_engine}{}\label{class_audio_engine}\index{AudioEngine@{AudioEngine}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_audio_engine_aa4e678f89c0b54cf972e2e9ac14f6c1e}\label{class_audio_engine_aa4e678f89c0b54cf972e2e9ac14f6c1e} 
+{\bfseries Audio\+Engine} (\mbox{\hyperlink{class_entity_manager}{Entity\+Manager}} \&entity\+Manager)
+\item 
+\Hypertarget{class_audio_engine_a32ad2899215c9f207df28efb698d68f9}\label{class_audio_engine_a32ad2899215c9f207df28efb698d68f9} 
+bool {\bfseries Initialize} ()
+\item 
+\Hypertarget{class_audio_engine_a77674c4f7339801de424b84dd17899f9}\label{class_audio_engine_a77674c4f7339801de424b84dd17899f9} 
+void {\bfseries Set\+Bank} (int entity\+UID, std\+::string bank\+Path)
+\item 
+\Hypertarget{class_audio_engine_acabbd63b205b06479303656b988a7798}\label{class_audio_engine_acabbd63b205b06479303656b988a7798} 
+void {\bfseries Load\+Bank} (const std\+::string \&bank\+Path)
+\item 
+\Hypertarget{class_audio_engine_a79bce738d29b49b879c2a042518fda8a}\label{class_audio_engine_a79bce738d29b49b879c2a042518fda8a} 
+void {\bfseries Load\+Entity\+Bank} (int entity\+UID)
+\item 
+\Hypertarget{class_audio_engine_a802d4f4ad26ea2dc564317a01ce616cb}\label{class_audio_engine_a802d4f4ad26ea2dc564317a01ce616cb} 
+void {\bfseries Play\+Event} (const std\+::string \&event\+Path)
+\item 
+\Hypertarget{class_audio_engine_a91caf7b2e4d7b37dc184b9b0e690aec1}\label{class_audio_engine_a91caf7b2e4d7b37dc184b9b0e690aec1} 
+FMOD\+::\+Studio\+::\+Event\+Instance \texorpdfstring{$\ast$}{*} {\bfseries Play\+Event} (int entity\+UID, const std\+::string \&event\+Name, const std\+::string \&event\+Path)
+\item 
+\Hypertarget{class_audio_engine_ac4ae67f7c7029d2fa3025b679683f81d}\label{class_audio_engine_ac4ae67f7c7029d2fa3025b679683f81d} 
+void {\bfseries Update} ()
+\item 
+\Hypertarget{class_audio_engine_a36194d18a4b6e620f17ac32656496531}\label{class_audio_engine_a36194d18a4b6e620f17ac32656496531} 
+void {\bfseries Handle\+Input\+Event} (const \mbox{\hyperlink{class_event}{Event}} \&event)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Core/include/Audio\+Engine.\+h\item 
+Core/src/Audio\+Engine.\+cpp\end{DoxyCompactItemize}
