@@ -19,5 +19,8 @@ public:
     }
     int UID;
     std::unordered_map<ComponentType, std::shared_ptr<Component> > components;
+    ~Entity() {
+        components.clear();
+    }
 };
 #endif //BLOOM_ENGINE_ENTITY_H

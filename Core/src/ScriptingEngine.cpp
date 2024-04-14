@@ -142,11 +142,20 @@ void ScriptingEngine::bindToLua() {
     lua.set_function("loadEntityBank", [this](int entityUID) {
         audioEngine.LoadEntityBank(entityUID);
     });
+
+    lua.set_function("unloadAllBanks", [this]() {
+        audioEngine.UnloadAllBanks();
+    });
+
     lua.set_function("playEvent", [this](std::string eventPath) {
         audioEngine.PlayEvent(eventPath);
     });
 
     lua.set_function("playEntityEvent", [this](int entityUID, const std::string& eventName, const std::string& eventPath) {
         audioEngine.PlayEvent(entityUID, eventName, eventPath);
+    });
+
+    lua.set_function("stopAllActiveAudioEvents", [this]() {
+        audioEngine.StopAllActiveEvents();
     });
 }

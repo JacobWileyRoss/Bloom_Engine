@@ -31,12 +31,15 @@ public:
     AudioEngine(EntityManager& entityManager);
     bool Initialize();
     void SetBank(int entityUID, std::string bankPath);
-    void LoadBank(const std::string& bankPath);
+    bool LoadBank(const std::string& bankPath);
+    void UnloadBank(FMOD::Studio::Bank* bank);
+    void UnloadAllBanks();
     void LoadEntityBank(int entityUID);
     void PlayEvent(const std::string& eventPath);
     FMOD::Studio::EventInstance* PlayEvent(int entityUID, const std::string& eventName, const std::string& eventPath);
     void Update();
     void HandleInputEvent(const Event& event);
+    void StopAllActiveEvents();
 
     ~AudioEngine();
 
@@ -48,6 +51,8 @@ private:
     FMOD::Channel* channel = nullptr;
     FMOD::Studio::Bank* masterBank = nullptr;
     FMOD::Studio::Bank* stringsBank = nullptr;
+    std::unordered_map<std::string, FMOD::Studio::EventInstance*> activeEvents;
+    std::vector<FMOD::Studio::Bank*> loadedBanks;
 
 
     };
