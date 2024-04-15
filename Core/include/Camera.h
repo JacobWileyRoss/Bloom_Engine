@@ -20,10 +20,9 @@ public:
     }
     SDL_Rect viewPort; // Defines the part of the world the camera is looking at.
     float zoomLevel = 1.0f;
-    // Add more properties as needed, such as rotation for more advanced camera systems.
-
     Camera(int x, int y, int width, int height) : viewPort({x, y, width, height}) {}
 
+    // TODO Methods for setting camera properties should be managed by RenderingEngine
     // Methods to move, zoom, and rotate the camera as needed.
     void move(int deltaX, int deltaY) {
         viewPort.x += deltaX;

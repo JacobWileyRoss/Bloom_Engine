@@ -82,7 +82,8 @@ function createBoundaryBox(posX, posY, width, height)
     attachComponent(boundaryBox, ComponentType.Sprite);
     setTransform(boundaryBox, posX, posY);
     setBoundaryBox(boundaryBox, posX, -posY, width, height );
-    setSprite(boundaryBox, posX, posY, 32, 32)
+    setSprite(boundaryBox, posX, posY, 32, 32);
+    setPhysics(boundaryBox, 0, 0, 0, PhysicsMode.TopDown, 0, 0);
 
 end
 

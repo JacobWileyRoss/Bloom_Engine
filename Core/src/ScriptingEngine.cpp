@@ -63,7 +63,13 @@ void ScriptingEngine::bindToLua() {
             "Physics", EventType::Physics,
             "Collision", EventType::Collision,
             "Undefined", EventType::Undefined
-            );
+    );
+
+    // Expose Physics modes
+    lua["PhysicsMode"] = lua.create_table_with(
+            "TopDown", PhysicsMode::TopDown,
+            "SideScroll", PhysicsMode::SideScroll
+    );
 
     // Expose the AnimationTypes to Lua
     lua["AnimationType"] = lua.create_table_with(
@@ -225,10 +231,17 @@ void ScriptingEngine::bindToLua() {
     });
 
     // Expose the function to Lua to modify the Physics component
-    lua.set_function("setPhysics", [this](int entityUID, float dirX, float dirY, float speed) {
-        physicsEngine.setPhysics(entityUID, dirX, dirY, speed);
+    lua.set_function("setPhysics", [this](int entityUID, float velX, float velY, float speed, PhysicsMode mode, float gravity, float mass) {
+        physicsEngine.setPhysics(entityUID, velX, velY, speed, mode, gravity, mass);
     });
 
+    lua.set_function("setIsJumping", [this](int entityUID, bool isJumping) {
+        physicsEngine.setIsJumping(entityUID, isJumping);
+    });
+
+    lua.set_function("setJumpForce", [this](int entityUID, float jumpForce) {
+        physicsEngine.setJumpForce(entityUID, jumpForce);
+    });
 
     lua.set_function("setCamera", [this](int entityUID, int posX, int posY, int width, int height) {
         renderingEngine.setCamera(entityUID, posX, posY, width, height);

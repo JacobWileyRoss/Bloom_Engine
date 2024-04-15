@@ -29,7 +29,8 @@ function Player.createPlayerEntity(posX, posY, width, height)
     setTexture(entityUID, "../TopDown_Game/assets/animation/hero_WalkCycleDown1.png")
     setRenderLayer(entityUID, RenderLayer.character)
     setTransform(entityUID, posX, posY)
-    setPhysics(entityUID, 0, 0, 250, PhysicsMode.TopDown, 0, 0);
+    setPhysics(entityUID, 0, 0, 250, PhysicsMode.SideScroll, 20, 60.0);
+    setJumpForce(entityUID, 600);
     setCamera(entityUID, posX, posY, 1280, 720);
     setBoundaryBox(entityUID, posX, posY, 32, 32)
     setBank(entityUID, "../TopDown_Game/assets/audio/Desktop/Player.bank");
@@ -69,15 +70,16 @@ end
 
 -- General move function
 state = "idle";
-Player.isMovingUp = false
-Player.isMovingDown = false
-Player.isMovingLeft = false
-Player.isMovingRight = false
+Player.isMovingUp = false;
+Player.isMovingDown = false;
+Player.isMovingLeft = false;
+Player.isMovingRight = false;
+Player.isJumping = false;
 
 function Player.move(dx, dy)
-    local transform = getComponent(entityUID, "Transform")
-    transform.posX = transform.posX + dx
-    transform.posY = transform.posY + dy
+    local transform = getComponent(entityUID, "Transform");
+    transform.posX = transform.posX + dx;
+    transform.posY = transform.posY + dy;
 end
 
 -- Specific directional movements
@@ -86,7 +88,7 @@ function Player.moveUp(KeyCode)
     dispatchEvent(entityUID, EventType.InputKeyDown, KeyCode);
     isMovingUp = true;
     state = "movingUp";
-    triggerAnimationChange(entityUID, "movingUp")
+    triggerAnimationChange(entityUID, "movingUp");
 end
 
 function Player.stopMoveUp(KeyCode)
@@ -145,6 +147,21 @@ function Player.stopMoveRight(KeyCode)
     triggerAnimationChange(entityUID, "idle");
 end
 
+function Player.jump(KeyCode)
+    logMessage("[INFO] Lua Player.startJump() called");
+    dispatchEvent(entityUID, EventType.InputKeyDown, KeyCode);
+    setIsJumping(entityUID, true);
+    isJumping = true;
+    state = "idle";
+end
+
+function Player.stopJump(KeyCode)
+    logMessage("[INFO] Lua Player.startJump() called");
+    dispatchEvent(entityUID, EventType.InputKeyDown, KeyCode);
+    isJumping = false;
+    state = "idle";
+end
+
 -- Update function to apply continuous movement
 function Player.update(deltaTime)
     if isMovingUp then
@@ -162,6 +179,10 @@ function Player.update(deltaTime)
     if isMovingRight then
         -- Apply movement to the right
         applyForce(entityUID, 1, 0)
+    end
+    if isJumping then
+        applyForce(entityUID, 0, -1);
+        setIsJumping(entityUID, false);
     end
 
 end

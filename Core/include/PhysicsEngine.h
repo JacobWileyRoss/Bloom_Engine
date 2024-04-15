@@ -19,11 +19,18 @@ public:
                             {std::cout <<"[INFO] Physics Engine initialized successfully" << std::endl;};
 
     void update(float deltaTime);
+    void updateTopDownPhysics(int entityUID, float deltaTime);
+    void updateSideScrollPhysics(int entityUID, float deltaTime);
     void handleInputEvent(const Event& event);
     void handleCollisionEvent(const Event& event);
     void applyForce(int entityUID, float x, float y);
-    void setPhysics(int entityUID, float dirX, float dirY, float speed);
+    void setPhysics(int entityUID, float dirX, float dirY, float speed, PhysicsMode mode);
+    void setPhysics(int entityUID, float dirX, float dirY, float speed, PhysicsMode mode, float gravity, float mass);
+    void setPhysicsMode(int entityUID, PhysicsMode mode);
+    void setIsJumping(int entityUID, bool isJumping);
+    void setJumpForce(int entityUID, float jumpForce);
     void setTransform(int entityUID, float posX, float posY);
+
 
 private:
     Dispatcher& dispatcher;

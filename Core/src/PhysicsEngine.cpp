@@ -8,6 +8,23 @@
 
 // Gets all entities with a Physics component and updates their position accordingly
 void PhysicsEngine::update(float deltaTime) {
+    for (auto& entity : entityManager.entities) {
+        if(entityManager.hasComponent(entity.first, ComponentType::Physics)) {
+            auto& physics = entityManager.getEntityComponent<Physics>(entity.first, ComponentType::Physics);
+            switch (physics.mode) {
+                case PhysicsMode::TopDown:
+                    updateTopDownPhysics(entity.first, deltaTime);
+                    break;
+                case PhysicsMode::SideScroll:
+                    updateSideScrollPhysics(entity.first, deltaTime);
+                    break;
+            }
+        };
+    }
+}
+
+void PhysicsEngine::updateTopDownPhysics(int entityUID, float deltaTime){
+    std::cout << "[INFO] PhysicsEngine::updateTopDown() called for Entity: " << entityUID << std::endl;
     for (auto& [entityUID, entity] : entityManager.entities) {
         if (entityManager.hasComponent(entityUID, ComponentType::Physics)) {
 
@@ -35,6 +52,39 @@ void PhysicsEngine::update(float deltaTime) {
     }
 }
 
+void PhysicsEngine::updateSideScrollPhysics(int entityUID, float deltaTime) {
+    //std::cout << "[INFO] PhysicsEngine::updateSideScroll() called for Entity: " << entityUID << std::endl;
+    auto& physics = entityManager.getEntityComponent<Physics>(entityUID, ComponentType::Physics);
+    auto& transform = entityManager.getEntityComponent<Transform>(entityUID, ComponentType::Transform);
+
+    // Apply gravity if needed
+    if (physics.mode == PhysicsMode::SideScroll) {
+        std::cout << "[DEBUG] Entity UID: " << entityUID << " VelY before GRAVITY: " << physics.velY << std::endl;
+        physics.velY += (physics.gravity * deltaTime * physics.mass);
+        std::cout << "[DEBUG] Entity UID: " << entityUID << " VelY after GRAVITY: " << physics.velY << std::endl;
+    }
+
+    // Handle jump initiation
+    if (physics.isJumping) {
+        physics.velY -= physics.jumpForce;  // Apply an immediate upward force
+        physics.isJumping = false;  // Reset the jump flag after applying force
+    }
+
+    // Update the position with new velocity
+    transform.posX += physics.velX * deltaTime;
+    transform.posY += physics.velY * deltaTime;
+
+    // Check if the entity has a Collider component, if true updates Collider rect position used for
+    // collision detection
+    if (entityManager.hasComponent(entityUID, ComponentType::Collider)) {
+        auto& collider = entityManager.getEntityComponent<Collider>
+                (entityUID, ComponentType::Collider);
+        collider.rect.x = transform.posX;
+        collider.rect.y = transform.posY;
+    }
+}
+
+
 // TODO I need to review the handleCollisionEvent and make sure I completely understand it and determine if it is the best method
 // Takes 2 colliding entities and determines if any of them are the player object, the player entity gets velocity set
 // to 0 and transform set back. Checking for player because if that logic is applied to other entities, the player can
@@ -60,16 +110,16 @@ void PhysicsEngine::handleCollisionEvent(const Event &event) {
         if (penetrationDepthX < penetrationDepthY) {
             physicsA.velX = 0; // Stop horizontal movement
             if (transformA.posX < transformB.posX) {
-                transformA.posX -= 5; // Move back left
+                transformA.posX -= 1; // Move back left
             } else {
-                transformA.posX += 5; // Move back right
+                transformA.posX += 1; // Move back right
             }
         } else {
             physicsA.velY = 0; // Stop vertical movement
             if (transformA.posY < transformB.posY) {
-                transformA.posY -= 5; // Move back up
+                transformA.posY -= 1; // Move back up
             } else {
-                transformA.posY += 5; // Move back down
+                transformA.posY += 1; // Move back down
             }
         }
     } else if (isEntityBPlayer) {
@@ -77,16 +127,16 @@ void PhysicsEngine::handleCollisionEvent(const Event &event) {
         if (penetrationDepthX < penetrationDepthY) {
             physicsB.velX = 0; // Stop horizontal movement
             if (transformB.posX < transformA.posX) {
-                transformB.posX -= 5; // Move back left
+                transformB.posX -= 1; // Move back left
             } else {
-                transformB.posX += 5; // Move back right
+                transformB.posX += 1; // Move back right
             }
         } else {
             physicsB.velY = 0; // Stop vertical movement
             if (transformB.posY < transformA.posY) {
-                transformB.posY -= 5; // Move back up
+                transformB.posY -= 1; // Move back up
             } else {
-                transformB.posY += 5; // Move back down
+                transformB.posY += 1; // Move back down
             }
         }
     }
@@ -121,13 +171,49 @@ void PhysicsEngine::applyForce(int entityUID, float dirX, float dirY) {
     }
 }
 
-void PhysicsEngine::setPhysics(int entityUID, float dirX, float dirY, float speed){
+void PhysicsEngine::setPhysics(int entityUID, float dirX, float dirY, float speed, PhysicsMode mode){
     auto& physics = entityManager.getEntityComponent<Physics>
                                 (entityUID, ComponentType::Physics);
+    physics.mode = mode;
     physics.dirX = dirX;
     physics.dirY = dirY;
     physics.speed = speed;
     std::cout << "[INFO] setPhysics() called for entityUID: " << entityUID << std::endl;
+}
+
+void PhysicsEngine::setPhysics(int entityUID, float velX, float velY, float speed, PhysicsMode mode, float gravity, float mass) {;
+    auto& physics = entityManager.getEntityComponent<Physics>
+            (entityUID, ComponentType::Physics);
+    physics.velX = velX;
+    physics.velY = velY;
+    physics.speed = speed;
+    physics.mode = mode;
+    physics.gravity = gravity;
+    physics.mass = mass;
+
+    std::cout << "[INFO] setPhysics() called for entityUID: " << entityUID << std::endl;
+}
+
+void PhysicsEngine::setPhysicsMode(int entityUID, PhysicsMode mode) {
+    auto& physics = entityManager.getEntityComponent<Physics>
+            (entityUID, ComponentType::Physics);
+    physics.mode = mode;
+}
+
+void PhysicsEngine::setIsJumping(int entityUID, bool isJumping) {
+    if(entityManager.hasComponent(entityUID, ComponentType::Physics)) {
+        auto& physics = entityManager.getEntityComponent<Physics>
+                (entityUID, ComponentType::Physics);
+        physics.isJumping = isJumping;
+    }
+}
+
+void PhysicsEngine::setJumpForce(int entityUID, float jumpForce) {
+    if(entityManager.hasComponent(entityUID, ComponentType::Physics)) {
+        auto& physics = entityManager.getEntityComponent<Physics>
+                (entityUID, ComponentType::Physics);
+        physics.jumpForce = jumpForce;
+    }
 }
 
 
