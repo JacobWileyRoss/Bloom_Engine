@@ -275,6 +275,7 @@ void Editor::Render() {
                         ImGui::InputFloat("Speed", &physics.speed);
                         ImGui::InputFloat("Mass", &physics.mass);
                         ImGui::InputFloat("Gravity", &physics.gravity);
+                        ImGui::InputFloat("Jump Force", &physics.jumpForce);
 
                         break;
                     }

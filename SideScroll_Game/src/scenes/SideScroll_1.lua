@@ -17,12 +17,6 @@ package.path = package.path .. ";../SideScroll_Game/src/actors/?.lua"
 local player = require("Player")
 
 -- Binding movement functions to key events
---registerKeyDownCallback(KeyCode.W, function() player.moveUp(KeyCode.W) end)
---registerKeyUpCallback(KeyCode.W, function() player.stopMoveUp(KeyCode.W) end)
-
-registerKeyDownCallback(KeyCode.S, function() player.moveDown(KeyCode.S) end)
-registerKeyUpCallback(KeyCode.S, function() player.stopMoveDown(KeyCode.S) end)
-
 registerKeyDownCallback(KeyCode.A, function() player.moveLeft(KeyCode.A) end)
 registerKeyUpCallback(KeyCode.A, function() player.stopMoveLeft(KeyCode.A) end)
 
@@ -90,12 +84,16 @@ end
 function constructLevel()
     createBackgroundPainting();
     createBoundaryBox(0, 600, 1280, 5);
-    createPlatform(800, 570, 300, 30);
-    createBoundaryBox(800, 480, 325, 16);
-    createPlatform(300, 420, 300, 30);
-    createBoundaryBox(300, 330, 325, 16);
-    createPlatform(800, 270, 300, 30);
-    createBoundaryBox(800, 180, 325, 16);
 
-    playerUID = player.createPlayerEntity(615, 530, 96, 128);
+    createPlatform(800, 570, 300, 30);
+    createBoundaryBox(780, 480, 320, 16);
+
+    createPlatform(340, 440, 300, 30);
+    createBoundaryBox(320, 350, 320, 16);
+
+    createPlatform(800, 300, 300, 30);
+    createBoundaryBox(780, 210, 320, 16);
+
+    playerUID = player.createPlayerEntity(615, 75, 96, 128);
 end
+

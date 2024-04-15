@@ -28,6 +28,7 @@ public:
     void setPhysics(int entityUID, float dirX, float dirY, float speed, PhysicsMode mode, float gravity, float mass);
     void setPhysicsMode(int entityUID, PhysicsMode mode);
     void setIsJumping(int entityUID, bool isJumping);
+    void setJumpForce(int entityUID, float jumpForce);
     void setTransform(int entityUID, float posX, float posY);
 
 

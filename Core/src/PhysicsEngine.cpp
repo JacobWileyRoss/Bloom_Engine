@@ -181,11 +181,11 @@ void PhysicsEngine::setPhysics(int entityUID, float dirX, float dirY, float spee
     std::cout << "[INFO] setPhysics() called for entityUID: " << entityUID << std::endl;
 }
 
-void PhysicsEngine::setPhysics(int entityUID, float dirX, float dirY, float speed, PhysicsMode mode, float gravity, float mass) {;
+void PhysicsEngine::setPhysics(int entityUID, float velX, float velY, float speed, PhysicsMode mode, float gravity, float mass) {;
     auto& physics = entityManager.getEntityComponent<Physics>
             (entityUID, ComponentType::Physics);
-    physics.dirX = dirX;
-    physics.dirY = dirY;
+    physics.velX = velX;
+    physics.velY = velY;
     physics.speed = speed;
     physics.mode = mode;
     physics.gravity = gravity;
@@ -208,7 +208,13 @@ void PhysicsEngine::setIsJumping(int entityUID, bool isJumping) {
     }
 }
 
-
+void PhysicsEngine::setJumpForce(int entityUID, float jumpForce) {
+    if(entityManager.hasComponent(entityUID, ComponentType::Physics)) {
+        auto& physics = entityManager.getEntityComponent<Physics>
+                (entityUID, ComponentType::Physics);
+        physics.jumpForce = jumpForce;
+    }
+}
 
 
 // This function can set a Transform Component's X and Y coordinate position to the specified coordinates
