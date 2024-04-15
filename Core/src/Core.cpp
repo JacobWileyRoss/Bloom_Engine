@@ -55,23 +55,23 @@ void Core::Initialize() {
     dispatcher.addEventListener(EventType::InputKeyDown, [this](const Event& inputEvent) {
         std::cout << "[INFO] Handling EventType::InputKeyDown" << std::endl;
         //physicsEngine.handleInputEvent(inputEvent);
-        animationEngine.handleInputEvent(inputEvent);
+        //animationEngine.handleInputEvent(inputEvent);
         audioEngine.HandleInputEvent(inputEvent);
-        scriptingEngine.handleInput();
+        //scriptingEngine.handleInput();
     });
 
     dispatcher.addEventListener(EventType::InputKeyUp, [this](const Event& inputEvent) {
         std::cout << "[INFO] Handling EventType::InputKeyUp" << std::endl;
         //physicsEngine.handleInputEvent(inputEvent);
-        animationEngine.handleInputEvent(inputEvent);
+        //animationEngine.handleInputEvent(inputEvent);
         audioEngine.HandleInputEvent(inputEvent);
-        scriptingEngine.handleInput();
+        //scriptingEngine.handleInput();
     });
 
     dispatcher.addEventListener(EventType::Collision, [this](const Event& collisionEvent) {
         std::cout << "[INFO] Handling EventType::Collision" << std::endl;
         physicsEngine.handleCollisionEvent(collisionEvent);
-        animationEngine.handleInputEvent(collisionEvent);
+        //animationEngine.handleInputEvent(collisionEvent);
     });
 
     // Load Lua script for current Level

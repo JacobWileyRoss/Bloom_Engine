@@ -61,7 +61,7 @@ public:
         }
         if (ImGui::BeginPopup("Open Lua Script")) {
             // Iterate over files in the directory and display them as selectable options
-            for (const auto& entry : std::filesystem::directory_iterator("../../editor/Game/src")) {
+            for (const auto& entry : std::filesystem::directory_iterator("../../editor/TopDown_Game/src")) {
                 if (!entry.is_directory()) {
                     if (ImGui::Selectable(entry.path().filename().string().c_str())) {
                         // Load the selected file

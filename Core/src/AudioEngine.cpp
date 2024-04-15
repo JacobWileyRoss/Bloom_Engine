@@ -25,7 +25,7 @@ bool AudioEngine::Initialize() {
     FMOD::Debug_Initialize(FMOD_DEBUG_LEVEL_WARNING | FMOD_DEBUG_LEVEL_ERROR | FMOD_DEBUG_TYPE_FILE, FMOD_DEBUG_MODE_CALLBACK, nullptr, "fmod_log.txt");
 
     // Load the master bank
-    FMOD_RESULT loadMasterBank = system->loadBankFile("../Game/assets/audio/Desktop/Master.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
+    FMOD_RESULT loadMasterBank = system->loadBankFile("../TopDown_Game/assets/audio/Desktop/Master.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
     if (loadMasterBank != FMOD_OK) {
         std::cerr << "Failed to load master bank: " << FMOD_ErrorString(result) << std::endl;
         return false;
@@ -34,7 +34,7 @@ bool AudioEngine::Initialize() {
     std::cout << "[INFO] MasterBank loaded from file successfully" << std::endl;
 
     // Load the strings bank
-    FMOD_RESULT loadStringsBank = system->loadBankFile("../Game/assets/audio/Desktop/Master.strings.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
+    FMOD_RESULT loadStringsBank = system->loadBankFile("../TopDown_Game/assets/audio/Desktop/Master.strings.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
     if (loadStringsBank != FMOD_OK) {
     std::cerr << "Failed to load master.strings bank: " << FMOD_ErrorString(result) << std::endl;
     return false;

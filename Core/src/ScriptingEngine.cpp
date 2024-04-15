@@ -82,10 +82,95 @@ void ScriptingEngine::bindToLua() {
 
     // Expose the KeyCode types to Lua
     lua["KeyCode"] = lua.create_table_with(
-            "W", KeyCode::W,
+
+            // Alphabetic keys
             "A", KeyCode::A,
+            "B", KeyCode::B,
+            "C", KeyCode::C,
+            "D", KeyCode::D,
+            "E", KeyCode::E,
+            "F", KeyCode::F,
+            "G", KeyCode::G,
+            "H", KeyCode::H,
+            "I", KeyCode::I,
+            "J", KeyCode::J,
+            "K", KeyCode::K,
+            "L", KeyCode::L,
+            "M", KeyCode::M,
+            "N", KeyCode::N,
+            "O", KeyCode::O,
+            "P", KeyCode::P,
+            "Q", KeyCode::Q,
+            "R", KeyCode::R,
             "S", KeyCode::S,
-            "D", KeyCode::D
+            "T", KeyCode::T,
+            "U", KeyCode::U,
+            "V", KeyCode::V,
+            "W", KeyCode::W,
+            "X", KeyCode::X,
+            "Y", KeyCode::Y,
+            "Z", KeyCode::Z,
+
+            // Numeric keys
+            "NUM_1", KeyCode::NUM_1,
+            "NUM_2", KeyCode::NUM_2,
+            "NUM_3", KeyCode::NUM_3,
+            "NUM_4", KeyCode::NUM_4,
+            "NUM_5", KeyCode::NUM_5,
+            "NUM_6", KeyCode::NUM_6,
+            "NUM_7", KeyCode::NUM_7,
+            "NUM_8", KeyCode::NUM_8,
+            "NUM_9", KeyCode::NUM_9,
+            "NUM_0", KeyCode::NUM_0,
+
+            // Special keys
+            "ESC", KeyCode::ESC,
+            "TILDE", KeyCode::TILDE,
+            "TAB", KeyCode::TAB,
+            "CAPS", KeyCode::CAPS,
+            "LSHIFT", KeyCode::LSHIFT,
+            "LCTRL", KeyCode::LCTRL,
+            "WINDOWS", KeyCode::WINDOWS,
+            "LALT", KeyCode::LALT,
+            "SPACE", KeyCode::SPACE,
+            "RALT", KeyCode::RALT,
+            "MENU", KeyCode::MENU,
+            "RCTRL", KeyCode::RCTRL,
+            "RSHIFT", KeyCode::RSHIFT,
+            "ENTER", KeyCode::ENTER,
+            "BACKSLASH", KeyCode::BACKSLASH,
+            "BACKSPACE", KeyCode::BACKSPACE,
+
+            // Function keys
+            "F1", KeyCode::F1,
+            "F2", KeyCode::F2,
+            "F3", KeyCode::F3,
+            "F4", KeyCode::F4,
+            "F5", KeyCode::F5,
+            "F6", KeyCode::F6,
+            "F7", KeyCode::F7,
+            "F8", KeyCode::F8,
+            "F9", KeyCode::F9,
+            "F10", KeyCode::F10,
+            "F11", KeyCode::F11,
+            "F12", KeyCode::F12,
+
+            // Other keys
+            "PRT_SC", KeyCode::PRT_SC,
+            "INS", KeyCode::INS,
+            "DEL", KeyCode::DEL,
+            "SCRL_LK", KeyCode::SCRL_LK,
+            "HOME", KeyCode::HOME,
+            "END", KeyCode::END,
+            "PAUSE", KeyCode::PAUSE,
+            "PG_UP", KeyCode::PG_UP,
+            "PG_DN", KeyCode::PG_DN,
+
+            // Arrow keys
+            "ARROW_LEFT", KeyCode::ARROW_LEFT,
+            "ARROW_UP", KeyCode::ARROW_UP,
+            "ARROW_DOWN", KeyCode::ARROW_DOWN,
+            "ARROW_RIGHT", KeyCode::ARROW_RIGHT
     );
 
     // Expose game functions, entities, and components to Lua
@@ -206,6 +291,34 @@ void ScriptingEngine::bindToLua() {
     lua.set_function("registerKeyUpCallback", [&](KeyCode keyCode, sol::function func) {
         inputProcessor.registerKeyUpCallback(keyCode, func);
     });
+
+    // Expose AnimationEngine functionality
+    lua.set_function("triggerAnimationChange", [&](int entityUID, const std::string& state) {
+        if(state == "movingUp") {
+            std::cout << "[DEBUG] triggerAnimationChange called for: movingUp" << std::endl;
+            animationEngine.startAnimation(entityUID, AnimationType::WalkCycleUP);
+        } else if(state == "idle") {
+            animationEngine.stopAnimation(entityUID, AnimationType::WalkCycleUP);  // Assuming you stop the same animation
+        }
+        if(state == "movingDown") {
+            std::cout << "[DEBUG] triggerAnimationChange called for: movingDown" << std::endl;
+            animationEngine.startAnimation(entityUID, AnimationType::WalkCycleDOWN);
+        } else if(state == "idle") {
+            animationEngine.stopAnimation(entityUID, AnimationType::WalkCycleDOWN);  // Assuming you stop the same animation
+        }
+        if(state == "movingLeft") {
+            animationEngine.startAnimation(entityUID, AnimationType::WalkCycleLEFT);
+        } else if(state == "idle") {
+            animationEngine.stopAnimation(entityUID, AnimationType::WalkCycleLEFT);  // Assuming you stop the same animation
+        }
+        if(state == "movingRight") {
+            animationEngine.startAnimation(entityUID, AnimationType::WalkCycleRIGHT);
+        } else if(state == "idle") {
+            animationEngine.stopAnimation(entityUID, AnimationType::WalkCycleRIGHT);  // Assuming you stop the same animation
+        }
+        // Add other states as necessary
+    });
+
 
 }
 

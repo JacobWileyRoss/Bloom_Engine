@@ -146,14 +146,14 @@ void Editor::Render() {
     ImGui::SetNextWindowSize(ImVec2(200, 400), ImGuiCond_FirstUseEver);
     if (ImGui::Begin("Project Browser")) {
         ImGui::DockBuilderDockWindow("Project Browser", dockspace_id2);
-        fileTree.DisplayFileTree("../Game", codeEditor);
+        fileTree.DisplayFileTree("../TopDown_Game", codeEditor);
     }
     ImGui::End();
 
     // Render Asset Browser docked
     if (ImGui::Begin("Asset Browser")) {
         ImGui::DockBuilderDockWindow("Asset Browser", dockspace_id2);
-        fileTree.DisplayFileTree("../Game/assets", codeEditor);
+        fileTree.DisplayFileTree("../TopDown_Game/assets", codeEditor);
     }
     ImGui::End();
 
