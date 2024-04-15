@@ -29,7 +29,7 @@ function Player.createPlayerEntity(posX, posY, width, height)
     setTexture(entityUID, "../Game/assets/animation/hero_WalkCycleDown1.png")
     setRenderLayer(entityUID, RenderLayer.character)
     setTransform(entityUID, posX, posY)
-    setPhysics(entityUID, 0, 0, 2);
+    setPhysics(entityUID, 0, 0, 250);
     setCamera(entityUID, posX, posY, 1280, 720);
     setBoundaryBox(entityUID, posX, posY, 32, 32)
     setBank(entityUID, "../Game/assets/audio/Desktop/Player.bank");

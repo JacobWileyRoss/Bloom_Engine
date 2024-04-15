@@ -70,7 +70,7 @@ void Core::Initialize() {
 
     dispatcher.addEventListener(EventType::Collision, [this](const Event& collisionEvent) {
         std::cout << "[INFO] Handling EventType::Collision" << std::endl;
-        //physicsEngine.handleCollisionEvent(collisionEvent);
+        physicsEngine.handleCollisionEvent(collisionEvent);
         animationEngine.handleInputEvent(collisionEvent);
     });
 

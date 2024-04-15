@@ -17,6 +17,23 @@ package.path = package.path .. ";../Game/src/actors/?.lua"
 -- Now require the Player module without specifying the '.lua' extension
 local player = require("Player")
 
+-- Binding movement functions to key events
+registerKeyDownCallback(KeyCode.W, function() player.moveUp(KeyCode.W) end)
+registerKeyUpCallback(KeyCode.W, function() player.stopMoveUp(KeyCode.W) end)
+
+registerKeyDownCallback(KeyCode.S, function() player.moveDown(KeyCode.S) end)
+registerKeyUpCallback(KeyCode.S, function() player.stopMoveDown(KeyCode.S) end)
+
+registerKeyDownCallback(KeyCode.A, function() player.moveLeft(KeyCode.A) end)
+registerKeyUpCallback(KeyCode.A, function() player.stopMoveLeft(KeyCode.A) end)
+
+registerKeyDownCallback(KeyCode.D, function() player.moveRight(KeyCode.D) end)
+registerKeyUpCallback(KeyCode.D, function() player.stopMoveRight(KeyCode.D) end)
+
+function update(deltaTime)
+    --logMessage("[INFO] Game script called update() with deltaTime: " .. deltaTime);
+    player.update(deltaTime);
+end
 
 --Function to create backgroundPainting
 function createBackgroundPainting()
