@@ -82,6 +82,11 @@ end
 
 
 function constructLevel()
+    logMessage("[INFO] Contructing level");
+    loadBank("../SideScroll_Game/assets/audio/SideScroll_Game/Build/Desktop/Master.bank");
+    loadBank("../SideScroll_Game/assets/audio/SideScroll_Game/Build/Desktop/Master.strings.bank");
+    loadBank("../SideScroll_Game/assets/audio/SideScroll_Game/Build/Desktop/World.bank");
+    playEvent("event:/Theme");
     createBackgroundPainting();
     createBoundaryBox(0, 600, 1280, 5);
 
@@ -94,6 +99,6 @@ function constructLevel()
     createPlatform(800, 300, 300, 30);
     createBoundaryBox(780, 210, 320, 16);
 
-    playerUID = player.createPlayerEntity(615, 75, 96, 128);
+    playerUID = player.createPlayerEntity(615, -200, 96, 128);
 end
 

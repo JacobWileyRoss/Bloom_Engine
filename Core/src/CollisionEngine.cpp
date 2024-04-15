@@ -37,8 +37,8 @@ void CollisionEngine::update() {
             // Check entityA and entityB's Collider components SDL_rect for intersection. If HasIntersection is
             // ture, indicates collision between entityA and entityB
             if (SDL_HasIntersection(&colliderA.rect, &colliderB.rect)) {
-                std::cout << "[INFO] Collision detected between Entity " << entityA.UID << " and Entity "
-                << entityB.UID << std::endl;
+                //std::cout << "[INFO] Collision detected between Entity " << entityA.UID << " and Entity "
+                //<< entityB.UID << std::endl;
                 // Dispatches Collision Event to the registered functions in Core::Initialize()
                 CollisionData collisionData(entityA.UID, entityB.UID, physicsA.velX,
                                             physicsA.velY,physicsB.velX, physicsB.velY);

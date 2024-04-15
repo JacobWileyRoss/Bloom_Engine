@@ -135,4 +135,3 @@ function constructLevel()
     loadEntityBank(playerUID);
     logMessage("[INFO] Level Constructed");
 end
-

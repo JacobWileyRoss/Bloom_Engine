@@ -331,8 +331,6 @@ void ScriptingEngine::bindToLua() {
         }
         // Add other states as necessary
     });
-
-
 }
 
 

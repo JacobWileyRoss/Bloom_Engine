@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{74827171-b22b-4822-943d-6b4174aadf86}">
+		<property name="assetPath">
+			<value>Quake Jump Sound Effect.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.966530612244898</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{38f458e6-68aa-4fd1-9aa0-b6088ff38d77}</destination>
+		</relationship>
+	</object>
+</objects>
