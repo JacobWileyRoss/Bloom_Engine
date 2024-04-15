@@ -244,11 +244,38 @@ void Editor::Render() {
                     }
                     case ComponentType::Physics: {
                         auto& physics = dynamic_cast<Physics&>(*compPair.second);
+                        static int physicsModeIndex;
+//                        if(physics.mode == PhysicsMode::TopDown) {
+//                            physicsModeIndex = 0;
+//                        }
+//                        if(physics.mode == PhysicsMode::SideScroll) {
+//                            physicsModeIndex = 1;
+//                        }
+                        static PhysicsMode physicsModes[] = {
+                                PhysicsMode::TopDown,
+                                PhysicsMode::SideScroll
+                        };
+                        const char* modeNames[] = {
+                                "TopDown",
+                                "SideScroll"
+                        };
+                        ImGui::Combo("Mode", &physicsModeIndex, modeNames, IM_ARRAYSIZE(physicsModes));
+                        if (ImGui::Button("Set Physics Mode")) {
+                            physicsEngine.setPhysicsMode(currentSelectedEntity,
+                                                         physicsModes[physicsModeIndex]);
+                            std::string operation = "setPhysicsMode(entity" + std::to_string(currentSelectedEntity)
+                                                    + ", " + physicsModeToString(physicsModes[physicsModeIndex]) + ")\n";
+                            operationsLog.logOperation(operation);
+                            std::cout << "[INFO] LUA COMMAND LOGGED: " << operation  << std::endl;
+                        }
                         ImGui::InputFloat("DirX", &physics.dirX);
                         ImGui::InputFloat("DirY", &physics.dirY);
                         ImGui::InputFloat("VelX", &physics.velX);
                         ImGui::InputFloat("VelY", &physics.velY);
                         ImGui::InputFloat("Speed", &physics.speed);
+                        ImGui::InputFloat("Mass", &physics.mass);
+                        ImGui::InputFloat("Gravity", &physics.gravity);
+
                         break;
                     }
                     case ComponentType::Player: {
@@ -278,10 +305,10 @@ void Editor::Render() {
                         auto& sprite = dynamic_cast<Sprite&>(*compPair.second);
 
                         // Assuming ImGui::InputFloat returns true when the field is edited and Enter key is pressed
-                        bool posXChanged = ImGui::InputFloat("Position X", &sprite.rect.x,
+                        bool posXChanged = ImGui::InputFloat("PosX", &sprite.rect.x,
                                                              0.0f, 0.0f, "%.3f",
                                                              ImGuiInputTextFlags_EnterReturnsTrue);
-                        bool posYChanged = ImGui::InputFloat("Position Y", &sprite.rect.y,
+                        bool posYChanged = ImGui::InputFloat("PosY", &sprite.rect.y,
                                                              0.0f, 0.0f, "%.3f",
                                                              ImGuiInputTextFlags_EnterReturnsTrue);
                         bool widthChanged = ImGui::InputFloat("Width", &sprite.rect.w,
@@ -333,10 +360,10 @@ void Editor::Render() {
                     case ComponentType::Transform: {
                         auto& transform = dynamic_cast<Transform&>(*compPair.second);
                         // Assuming ImGui::InputFloat returns true when the field is edited and Enter key is pressed
-                        bool posXChanged = ImGui::InputFloat("Position X", &transform.posX,
+                        bool posXChanged = ImGui::InputFloat("PosX", &transform.posX,
                                                              0.0f, 0.0f, "%.3f",
                                                              ImGuiInputTextFlags_EnterReturnsTrue);
-                        bool posYChanged = ImGui::InputFloat("Position Y", &transform.posY,
+                        bool posYChanged = ImGui::InputFloat("PosY", &transform.posY,
                                                              0.0f, 0.0f, "%.3f",
                                                              ImGuiInputTextFlags_EnterReturnsTrue);
                         if (posXChanged || posYChanged) {

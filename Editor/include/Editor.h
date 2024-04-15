@@ -15,7 +15,8 @@
 #include "../../vendor/ImGuiFileDialog-master/ImGuiFileDialog.h"
 #include "OperationsLog.h"
 
-#include "../../Core//include/AudioEngine.h"
+#include "../../Core/include/AudioEngine.h"
+#include "../../Core/include/PhysicsEngine.h"
 #include "../../Core/include/FileSystem.h"
 #include "../../Core/include/RenderingEngine.h"
 #include "../../Core/include/ScriptingEngine.h"
@@ -30,8 +31,8 @@
 class Editor {
 public:
     Editor(SDL_Window* window, AudioEngine& audioEngine, RenderingEngine& renderingEngine, EntityManager& entityManager,
-           ScriptingEngine& scriptingEngine, StateMachine& stateMachine) : audioEngine(audioEngine), renderingEngine(renderingEngine), entityManager(entityManager),
-            scriptingEngine(scriptingEngine), stateMachine(stateMachine), window(window), consoleLogWindow(), consoleStreamBuffer(std::cout),
+           ScriptingEngine& scriptingEngine, PhysicsEngine& physicsEngine, StateMachine& stateMachine) : audioEngine(audioEngine), renderingEngine(renderingEngine), entityManager(entityManager),
+            scriptingEngine(scriptingEngine), physicsEngine(physicsEngine), stateMachine(stateMachine), window(window), consoleLogWindow(), consoleStreamBuffer(std::cout),
             fileTree(), codeEditor(){};
     void Initialize();
     void Update(SDL_Event &event);
@@ -46,6 +47,7 @@ private:
     RenderingEngine& renderingEngine;
     EntityManager& entityManager;
     ScriptingEngine& scriptingEngine;
+    PhysicsEngine& physicsEngine;
     FileSystem fileSystem;
     StateMachine& stateMachine;
     int currentSelectedEntity = -1; // Initialized to -1 to indicate no entity selected
