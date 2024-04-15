@@ -29,12 +29,12 @@ function Player.createPlayerEntity(posX, posY, width, height)
     setTexture(entityUID, "../TopDown_Game/assets/animation/hero_WalkCycleDown1.png")
     setRenderLayer(entityUID, RenderLayer.character)
     setTransform(entityUID, posX, posY)
-    setPhysics(entityUID, 0, 0, 250, PhysicsMode.SideScroll, 20, 60.0);
+    setPhysics(entityUID, 0, 0, 350, PhysicsMode.SideScroll, 20, 60.0);
     setJumpForce(entityUID, 600);
     setCamera(entityUID, posX, posY, 1280, 720);
     setBoundaryBox(entityUID, posX, posY, 32, 32)
     setBank(entityUID, "../TopDown_Game/assets/audio/Desktop/Player.bank");
-    loadBank("../TopDown_Game/assets/audio/Desktop/Player.bank");
+    loadBank("../SideScroll_Game/assets/audio/SideScroll_Game/Build/Desktop/Player.bank");
 
 
     -- Load WalkCycleDown
@@ -121,6 +121,7 @@ function Player.moveLeft(KeyCode)
     isMovingLeft = true;
     state = "movingLeft";
     triggerAnimationChange(entityUID, "movingLeft");
+    --playEvent("event:/walking");
 end
 
 function Player.stopMoveLeft(KeyCode)
@@ -137,6 +138,7 @@ function Player.moveRight(KeyCode)
     isMovingRight = true;
     state = "movingRight";
     triggerAnimationChange(entityUID, "movingRight");
+    --playEvent("event:/walking");
 end
 
 function Player.stopMoveRight(KeyCode)
@@ -153,6 +155,7 @@ function Player.jump(KeyCode)
     setIsJumping(entityUID, true);
     isJumping = true;
     state = "idle";
+    playEvent("event:/Jump");
 end
 
 function Player.stopJump(KeyCode)

@@ -53,7 +53,7 @@ void Core::Initialize() {
 
     // PhysicsEngine and AnimationEngine registering to the dispatcher for Input and Collision events
     dispatcher.addEventListener(EventType::InputKeyDown, [this](const Event& inputEvent) {
-        std::cout << "[INFO] Handling EventType::InputKeyDown" << std::endl;
+        //std::cout << "[INFO] Handling EventType::InputKeyDown" << std::endl;
         //physicsEngine.handleInputEvent(inputEvent);
         //animationEngine.handleInputEvent(inputEvent);
         audioEngine.HandleInputEvent(inputEvent);
@@ -61,7 +61,7 @@ void Core::Initialize() {
     });
 
     dispatcher.addEventListener(EventType::InputKeyUp, [this](const Event& inputEvent) {
-        std::cout << "[INFO] Handling EventType::InputKeyUp" << std::endl;
+        //std::cout << "[INFO] Handling EventType::InputKeyUp" << std::endl;
         //physicsEngine.handleInputEvent(inputEvent);
         //animationEngine.handleInputEvent(inputEvent);
         audioEngine.HandleInputEvent(inputEvent);
@@ -69,7 +69,7 @@ void Core::Initialize() {
     });
 
     dispatcher.addEventListener(EventType::Collision, [this](const Event& collisionEvent) {
-        std::cout << "[INFO] Handling EventType::Collision" << std::endl;
+        //std::cout << "[INFO] Handling EventType::Collision" << std::endl;
         physicsEngine.handleCollisionEvent(collisionEvent);
         //animationEngine.handleInputEvent(collisionEvent);
     });

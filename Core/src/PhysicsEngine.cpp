@@ -24,7 +24,7 @@ void PhysicsEngine::update(float deltaTime) {
 }
 
 void PhysicsEngine::updateTopDownPhysics(int entityUID, float deltaTime){
-    std::cout << "[INFO] PhysicsEngine::updateTopDown() called for Entity: " << entityUID << std::endl;
+    //std::cout << "[INFO] PhysicsEngine::updateTopDown() called for Entity: " << entityUID << std::endl;
     for (auto& [entityUID, entity] : entityManager.entities) {
         if (entityManager.hasComponent(entityUID, ComponentType::Physics)) {
 
@@ -59,9 +59,9 @@ void PhysicsEngine::updateSideScrollPhysics(int entityUID, float deltaTime) {
 
     // Apply gravity if needed
     if (physics.mode == PhysicsMode::SideScroll) {
-        std::cout << "[DEBUG] Entity UID: " << entityUID << " VelY before GRAVITY: " << physics.velY << std::endl;
+        //std::cout << "[DEBUG] Entity UID: " << entityUID << " VelY before GRAVITY: " << physics.velY << std::endl;
         physics.velY += (physics.gravity * deltaTime * physics.mass);
-        std::cout << "[DEBUG] Entity UID: " << entityUID << " VelY after GRAVITY: " << physics.velY << std::endl;
+        //std::cout << "[DEBUG] Entity UID: " << entityUID << " VelY after GRAVITY: " << physics.velY << std::endl;
     }
 
     // Handle jump initiation
@@ -140,7 +140,7 @@ void PhysicsEngine::handleCollisionEvent(const Event &event) {
             }
         }
     }
-    std::cout << "[INFO] PhysicsEngine::handleCollisionEvent - Collision resolved for entities " << collisionData.entity1UID << " and " << collisionData.entity2UID << std::endl;
+    //std::cout << "[INFO] PhysicsEngine::handleCollisionEvent - Collision resolved for entities " << collisionData.entity1UID << " and " << collisionData.entity2UID << std::endl;
 }
 
 // Applies force to Entity by modifying the transform component by the vel * delta time
