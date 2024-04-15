@@ -15,7 +15,7 @@ Core::Core() : window(nullptr), isRunning(false), fileSystem(), stateMachine(ent
                animationEngine(entityManager, dispatcher, deltaTime),
                collisionEngine(entityManager, dispatcher),
                audioEngine(entityManager),
-               scriptingEngine(lua, entityManager, dispatcher, renderingEngine, animationEngine,
+               scriptingEngine(lua, inputProcessor, entityManager, dispatcher, renderingEngine, animationEngine,
                                physicsEngine, collisionEngine, audioEngine) {}
 
 void Core::Initialize() {
@@ -54,21 +54,23 @@ void Core::Initialize() {
     // PhysicsEngine and AnimationEngine registering to the dispatcher for Input and Collision events
     dispatcher.addEventListener(EventType::InputKeyDown, [this](const Event& inputEvent) {
         std::cout << "[INFO] Handling EventType::InputKeyDown" << std::endl;
-        physicsEngine.handleInputEvent(inputEvent);
+        //physicsEngine.handleInputEvent(inputEvent);
         animationEngine.handleInputEvent(inputEvent);
         audioEngine.HandleInputEvent(inputEvent);
+        scriptingEngine.handleInput();
     });
 
     dispatcher.addEventListener(EventType::InputKeyUp, [this](const Event& inputEvent) {
         std::cout << "[INFO] Handling EventType::InputKeyUp" << std::endl;
-        physicsEngine.handleInputEvent(inputEvent);
+        //physicsEngine.handleInputEvent(inputEvent);
         animationEngine.handleInputEvent(inputEvent);
         audioEngine.HandleInputEvent(inputEvent);
+        scriptingEngine.handleInput();
     });
 
     dispatcher.addEventListener(EventType::Collision, [this](const Event& collisionEvent) {
         std::cout << "[INFO] Handling EventType::Collision" << std::endl;
-        physicsEngine.handleCollisionEvent(collisionEvent);
+        //physicsEngine.handleCollisionEvent(collisionEvent);
         animationEngine.handleInputEvent(collisionEvent);
     });
 
@@ -115,13 +117,8 @@ void Core::MainLoop() {
             if(event.type == SDL_QUIT) {
                 isRunning = false;
             }
-            switch (event.type) {
-                case SDL_KEYDOWN:
-                    inputProcessor.ProcessInput(event);
-                    break;
-                case SDL_KEYUP:
-                    inputProcessor.ProcessInput(event);
-            }
+            inputProcessor.ProcessInput(event);
+
         }
 
         // FileSystem checks the Lua script for the date of last modification, if changed it reload the script this

@@ -21485,7 +21485,7 @@ void ImGui::ShowIDStackToolWindow(bool* p_open)
     Text("HoveredId: 0x%08X, ActiveId:  0x%08X", hovered_id, active_id);
 #endif
     SameLine();
-    MetricsHelpMarker("Hover an item with the mouse to display elements of the ID Stack leading to the item's final ID.\nEach level of the stack correspond to a PushID() call.\nAll levels of the stack are hashed together to make the final ID of a widget (ID displayed at the bottom level of the stack).\nRead FAQ entry about the ID stack for details.");
+    MetricsHelpMarker("Hover an item with the mouse to display elements of the ID Stack leading to the item's final ID.\nEach level of the stack correspond to a PushID() call.\nAll scenes of the stack are hashed together to make the final ID of a widget (ID displayed at the bottom level of the stack).\nRead FAQ entry about the ID stack for details.");
 
     // CTRL+C to copy path
     const float time_since_copy = (float)g.Time - tool->CopyToClipboardLastTime;

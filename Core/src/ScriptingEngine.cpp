@@ -14,6 +14,7 @@ sol::state& ScriptingEngine::getLuaState() {
 
 void ScriptingEngine::update(float deltaTime) {
     // Example: Call the "update" function defined in Lua, passing deltaTime
+    //std::cout << "[INFO] ScriptingEngine::update() called with deltaTime: " << deltaTime << std::endl;
     lua["update"](deltaTime);
 }
 
@@ -55,6 +56,15 @@ void ScriptingEngine::bindToLua() {
             "Transform", ComponentType::Transform
     );
 
+    // Expose event types to Lua
+    lua["EventType"] = lua.create_table_with(
+            "InputKeyDown", EventType::InputKeyDown,
+            "InputKeyUp", EventType::InputKeyUp,
+            "Physics", EventType::Physics,
+            "Collision", EventType::Collision,
+            "Undefined", EventType::Undefined
+            );
+
     // Expose the AnimationTypes to Lua
     lua["AnimationType"] = lua.create_table_with(
             "WalkCycleUp", AnimationType::WalkCycleUP,
@@ -70,6 +80,14 @@ void ScriptingEngine::bindToLua() {
             "foreground", RenderLayer::foreground
     );
 
+    // Expose the KeyCode types to Lua
+    lua["KeyCode"] = lua.create_table_with(
+            "W", KeyCode::W,
+            "A", KeyCode::A,
+            "S", KeyCode::S,
+            "D", KeyCode::D
+    );
+
     // Expose game functions, entities, and components to Lua
     // Exposing a function to log messages from Lua:
     lua.set_function("logMessage", [](const std::string& message) {
@@ -79,6 +97,12 @@ void ScriptingEngine::bindToLua() {
     // Expose functionality to Lua to save the script for serializing Lua game state
     lua.set_function("saveScript", [this](const std::string& filePath, const std::string& data) {
         saveScript(filePath, data);
+    });
+
+    lua.set_function("dispatchEvent", [this](int entityUID, EventType eventType, KeyCode keyCode) {
+        EventData eventData = keyCode;
+        Event event(entityUID, eventType, eventData);
+        dispatcher.dispatchEvent(event);
     });
 
     // Exposing EntityManager's createEntity() functionality
@@ -115,6 +139,12 @@ void ScriptingEngine::bindToLua() {
         physicsEngine.setTransform(entityUID, posX, posY);
     });
 
+    // Expose the function to Lua to modify the Physics component
+    lua.set_function("setPhysics", [this](int entityUID, float dirX, float dirY, float speed) {
+        physicsEngine.setPhysics(entityUID, dirX, dirY, speed);
+    });
+
+
     lua.set_function("setCamera", [this](int entityUID, int posX, int posY, int width, int height) {
         renderingEngine.setCamera(entityUID, posX, posY, width, height);
     });
@@ -133,6 +163,10 @@ void ScriptingEngine::bindToLua() {
     lua.set_function("setBank", [this](int entityUID, std::string bankPath) {
         std::cout << "[DEBUG] Lua called setBank(" << entityUID << ", " << bankPath << ")" << std::endl;
         audioEngine.SetBank(entityUID, bankPath);
+    });
+
+    lua.set_function("getEntityBank", [this](int entityUID) {
+        audioEngine.getEntityBank(entityUID);
     });
 
     lua.set_function("loadBank", [this](std::string filepath) {
@@ -158,4 +192,24 @@ void ScriptingEngine::bindToLua() {
     lua.set_function("stopAllActiveAudioEvents", [this]() {
         audioEngine.StopAllActiveEvents();
     });
+
+    lua.set_function("applyForce", [this](int entityUID, float x, float y) {
+        physicsEngine.applyForce(entityUID, x, y);
+    });
+
+    // Expose the function to register key down callbacks
+    lua.set_function("registerKeyDownCallback", [&](KeyCode keyCode, sol::function func) {
+        inputProcessor.registerKeyDownCallback(keyCode, func);
+    });
+
+    // Expose the function to register key up callbacks
+    lua.set_function("registerKeyUpCallback", [&](KeyCode keyCode, sol::function func) {
+        inputProcessor.registerKeyUpCallback(keyCode, func);
+    });
+
+}
+
+
+void ScriptingEngine::handleInput() {
+    lua["handleInput"]();
 }

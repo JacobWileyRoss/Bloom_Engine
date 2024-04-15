@@ -42,5 +42,5 @@ GameStateRegistry["GameplayState"] = GameplayState
 
 function constructLevel()
     loadBank("../Editor/assets/audio/EngineUI.bank");
-    playEvent("event:/Startup");
+    playEvent("event:/Startup")
 end

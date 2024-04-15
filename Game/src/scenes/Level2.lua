@@ -4,6 +4,30 @@
 --- DateTime: 3/28/24 10:27 PM
 ---
 
+-- Add the directory containing the Player.lua module to the Lua package path
+-- Path should be relative to the runtime directory of the executable
+package.path = package.path .. ";../Game/src/actors/?.lua"
+
+-- Now require the Player module without specifying the '.lua' extension
+local player = require("Player")
+
+-- Binding movement functions to key events
+registerKeyDownCallback(KeyCode.W, function() player.moveUp(KeyCode.W) end)
+registerKeyUpCallback(KeyCode.W, function() player.stopMoveUp(KeyCode.W) end)
+
+registerKeyDownCallback(KeyCode.S, function() player.moveDown(KeyCode.S) end)
+registerKeyUpCallback(KeyCode.S, function() player.stopMoveDown(KeyCode.S) end)
+
+registerKeyDownCallback(KeyCode.A, function() player.moveLeft(KeyCode.A) end)
+registerKeyUpCallback(KeyCode.A, function() player.stopMoveLeft(KeyCode.A) end)
+
+registerKeyDownCallback(KeyCode.D, function() player.moveRight(KeyCode.D) end)
+registerKeyUpCallback(KeyCode.D, function() player.stopMoveRight(KeyCode.D) end)
+
+function update(deltaTime)
+    --logMessage("[INFO] Game script called update() with deltaTime: " .. deltaTime);
+    player.update(deltaTime);
+end
 
 MainMenuState = {}
 
@@ -94,60 +118,6 @@ end
 
 
 
--- Function to create and setup a new entity
-function createPlayerEntity(posX, posY, width, height)
-    -- Create Player Object
-    player = createEntity()
-    logMessage("[INFO] Lua created Entity: " .. player);
-    attachComponent(player, ComponentType.Player)
-    attachComponent(player, ComponentType.Transform)
-    attachComponent(player, ComponentType.Physics)
-    attachComponent(player, ComponentType.Collider)
-    attachComponent(player, ComponentType.Renderable)
-    attachComponent(player, ComponentType.Sprite)
-    attachComponent(player, ComponentType.Texture)
-    attachComponent(player, ComponentType.Animation)
-    attachComponent(player, ComponentType.Camera)
-    attachComponent(player, ComponentType.Audio)
-    setSprite(player, posX, posY, width, height)
-    setTexture(player, "../Game/assets/hero_WalkCycleDown1.png")
-    setRenderLayer(player, RenderLayer.character)
-    setTransform(player, posX, posY)
-    setCamera(player, posX, posY, 1280, 720);
-    setBoundaryBox(player, posX, posY, 32, 32)
-    setBank(player, "../Game/assets/audio/Desktop/Player.bank");
-
-    -- Load WalkCycleDown
-    addFrame(player, AnimationType.WalkCycleDown, "../Game/assets/hero_WalkCycleDown1.png")
-    addFrame(player, AnimationType.WalkCycleDown, "../Game/assets/hero_WalkCycleDown2.png")
-    addFrame(player, AnimationType.WalkCycleDown, "../Game/assets/hero_WalkCycleDown3.png")
-    addFrame(player, AnimationType.WalkCycleDown, "../Game/assets/hero_WalkCycleDown4.png")
-    addFrame(player, AnimationType.WalkCycleDown, "../Game/assets/hero_WalkCycleDown5.png")
-
-    --Load WalkCycleUp
-    addFrame(player, AnimationType.WalkCycleUp, "../Game/assets/hero_WalkCycleUp1.png")
-    addFrame(player, AnimationType.WalkCycleUp, "../Game/assets/hero_WalkCycleUp2.png")
-    addFrame(player, AnimationType.WalkCycleUp, "../Game/assets/hero_WalkCycleUp3.png")
-    addFrame(player, AnimationType.WalkCycleUp, "../Game/assets/hero_WalkCycleUp4.png")
-    addFrame(player, AnimationType.WalkCycleUp, "../Game/assets/hero_WalkCycleUp5.png")
-
-    --Load WalkCycleLeft
-    addFrame(player, AnimationType.WalkCycleLeft, "../Game/assets/hero_WalkCycleLeft1.png")
-    addFrame(player, AnimationType.WalkCycleLeft, "../Game/assets/hero_WalkCycleLeft2.png")
-    addFrame(player, AnimationType.WalkCycleLeft, "../Game/assets/hero_WalkCycleLeft3.png")
-    addFrame(player, AnimationType.WalkCycleLeft, "../Game/assets/hero_WalkCycleLeft4.png")
-    addFrame(player, AnimationType.WalkCycleLeft, "../Game/assets/hero_WalkCycleLeft5.png")
-
-    --Load WalkCycleRight
-    addFrame(player, AnimationType.WalkCycleRight, "../Game/assets/hero_WalkCycleRight1.png")
-    addFrame(player, AnimationType.WalkCycleRight, "../Game/assets/hero_WalkCycleRight2.png")
-    addFrame(player, AnimationType.WalkCycleRight, "../Game/assets/hero_WalkCycleRight3.png")
-    addFrame(player, AnimationType.WalkCycleRight, "../Game/assets/hero_WalkCycleRight4.png")
-    addFrame(player, AnimationType.WalkCycleRight, "../Game/assets/hero_WalkCycleRight5.png")
-
-end
-
-
 
 
 
@@ -161,9 +131,8 @@ function constructLevel()
     loadEntityBank(backgroundPainting);
     playEvent("event:/world_music_background");
     createBoundaryBox(430, -30, 60, 40);
-    createPlayerEntity(615, 600, 96, 128);
-    loadEntityBank(player);
+    playerUID = player.createPlayerEntity(615, 600, 96, 128);
+    loadEntityBank(playerUID);
     logMessage("[INFO] Level Constructed");
 end
-
 

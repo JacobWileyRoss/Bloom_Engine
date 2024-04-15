@@ -273,7 +273,7 @@ extern "C" {
  *
  *  If available, SDL can use libsamplerate ( http://www.mega-nerd.com/SRC/ )
  *  to handle audio resampling. There are different resampling modes available
- *  that produce different levels of quality, using more CPU.
+ *  that produce different scenes of quality, using more CPU.
  *
  *  If this hint isn't specified to a valid setting, or libsamplerate isn't
  *  available, SDL will use the default, internal resampling algorithm.
@@ -1283,9 +1283,9 @@ extern "C" {
 #define SDL_HINT_LINUX_JOYSTICK_DEADZONES "SDL_LINUX_JOYSTICK_DEADZONES"
 
 /**
- *  \brief A variable controlling the default SDL log levels.
+ *  \brief A variable controlling the default SDL log scenes.
  *
- *  This variable is a comma separated set of category=level tokens that define the default logging levels for SDL applications.
+ *  This variable is a comma separated set of category=level tokens that define the default logging scenes for SDL applications.
  *
  *  The category can be a numeric category, one of "app", "error", "assert", "system", "audio", "video", "render", "input", "test", or `*` for any unspecified category.
  *
@@ -1293,7 +1293,7 @@ extern "C" {
  *
  *  You can omit the category if you want to set the logging level for all categories.
  *
- *  If this hint isn't set, the default log levels are equivalent to:
+ *  If this hint isn't set, the default log scenes are equivalent to:
  *  "app=info,assert=warn,test=verbose,*=error"
  */
 #define SDL_HINT_LOGGING   "SDL_LOGGING"

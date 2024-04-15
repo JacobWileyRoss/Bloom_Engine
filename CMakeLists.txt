@@ -93,7 +93,6 @@ add_executable(Bloom_Engine main.cpp
         Core/src/StateMachine.cpp
         Core/include/StateMachine.h
         Core/include/GameState.h
-        Game/src/GameplayState.h
         Core/include/LuaGameState.h
         Core/include/Camera.h
         Editor/include/Editor.cpp
@@ -103,6 +102,7 @@ add_executable(Bloom_Engine main.cpp
         Core/src/AudioEngine.cpp
         Core/include/AudioEngine.h
         Core/include/Audio.h
+        Core/include/KeyCodes.h
 )
 
 

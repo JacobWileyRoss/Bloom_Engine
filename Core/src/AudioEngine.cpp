@@ -55,6 +55,12 @@ void AudioEngine::SetBank(int entityUID, std::string bankPath) {
     }
 }
 
+std::string AudioEngine::getEntityBank(int entityUID) {
+    auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
+    return audio.bankPath;
+}
+
+
 bool AudioEngine::LoadBank(const std::string& bankPath) {
     std::cout << "Loading Bank: " << bankPath << std::endl;
     FMOD::Studio::Bank* bank = nullptr;
@@ -64,7 +70,7 @@ bool AudioEngine::LoadBank(const std::string& bankPath) {
         return false;
     }
     loadedBanks.push_back(bank);
-    std::cout << "Bank loaded successfully" << std::endl;
+    std::cout << "Bank at " << bankPath << "loaded successfully" << std::endl;
     return true;
 }
 

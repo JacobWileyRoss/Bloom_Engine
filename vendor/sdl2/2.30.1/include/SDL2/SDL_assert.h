@@ -162,7 +162,7 @@ extern DECLSPEC SDL_AssertState SDLCALL SDL_ReportAssertion(SDL_AssertData *,
         } \
     } while (SDL_NULL_WHILE_LOOP_CONDITION)
 
-/* Enable various levels of assertions. */
+/* Enable various scenes of assertions. */
 #if SDL_ASSERT_LEVEL == 0   /* assertions disabled */
 #   define SDL_assert(condition) SDL_disabled_assert(condition)
 #   define SDL_assert_release(condition) SDL_disabled_assert(condition)

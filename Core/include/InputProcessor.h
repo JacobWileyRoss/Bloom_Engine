@@ -15,12 +15,14 @@
 #define BLOOM_ENGINE_INPUTPROCESSOR_H
 
 #include "Entity.h"
+#include "KeyCodes.h"
 #include "EntityManager.h"
 #include "Dispatcher.h"
 #include "Event.h"
 #include "Player.h"
 #include "Transform.h"
 #include "Physics.h"
+#include "../../vendor/sol2/include/sol/sol.hpp"
 
 /**
  * @class InputProcessor
@@ -47,11 +49,16 @@ public:
      * @param event A reference to the current SDL_Event to be processed.
      */
     void ProcessInput(SDL_Event& event);
-
+    void registerKeyDownCallback(KeyCode keyCode, sol::function callback);
+    void registerKeyUpCallback(KeyCode keyCode, sol::function callback);
 private:
     EntityManager& entityManager; ///< Reference to the engine's entity manager.
     Dispatcher& dispatcher; ///< Reference to the engine's event dispatcher.
     EventData eventData; ///< Struct to hold processed event data before dispatching.
+    std::unordered_map<KeyCode, std::vector<sol::function>> keyDownCallbacks;
+    std::unordered_map<KeyCode, std::vector<sol::function>> keyUpCallbacks;
+
+
 
 };
 
