@@ -44,55 +44,56 @@ std::vector<SDL_Texture *>& AnimationEngine::getAnimationType(int entityUID, Ani
 
 // This is the function called in Core::Initialize when AnimationEngine registered to the dispatcher for Input and
 // Collision event types. It detects what type of Input was detected and will start or stop the relevant animation cycle
-void AnimationEngine::handleInputEvent(const Event& event) {
-    std::cout << "[INFO] AnimationEngine received input event from Entity: " << event.entityUID << std::endl;
-
-    // Attempt to get the SDL_Scancode from eventData
-    auto scancode = std::get_if<SDL_Scancode>(&event.eventData);
-    if (scancode) { // Check if scancode was successfully obtained
-        switch (*scancode) {
-            case SDL_SCANCODE_W:
-                std::cout << "[INFO] AnimationEngine detected W Key Event" << std::endl;
-                if (event.eventType == EventType::InputKeyDown) {
-                    startAnimation(event.entityUID, AnimationType::WalkCycleUP);
-                } else if (event.eventType == EventType::InputKeyUp) {
-                    stopAnimation(event.entityUID, AnimationType::WalkCycleUP);
-                }
-                break;
-            case SDL_SCANCODE_S:
-                std::cout << "[INFO] AnimationEngine detected S Key Event" << std::endl;
-                if (event.eventType == EventType::InputKeyDown) {
-                    startAnimation(event.entityUID, AnimationType::WalkCycleDOWN);
-                } else if (event.eventType == EventType::InputKeyUp) {
-                    stopAnimation(event.entityUID, AnimationType::WalkCycleDOWN);
-                }
-                break;
-            case SDL_SCANCODE_A:
-                std::cout << "[INFO] AnimationEngine detected A Key Event" << std::endl;
-                if (event.eventType == EventType::InputKeyDown) {
-                    startAnimation(event.entityUID, AnimationType::WalkCycleLEFT);
-                } else if (event.eventType == EventType::InputKeyUp) {
-                    stopAnimation(event.entityUID, AnimationType::WalkCycleLEFT);
-                }
-                break;
-            case SDL_SCANCODE_D:
-                std::cout << "[INFO] AnimationEngine detected D Key Event" << std::endl;
-                if (event.eventType == EventType::InputKeyDown) {
-                    startAnimation(event.entityUID, AnimationType::WalkCycleRIGHT);
-                } else if (event.eventType == EventType::InputKeyUp) {
-                    stopAnimation(event.entityUID, AnimationType::WalkCycleRIGHT);
-                }
-                break;
-            default:
-                std::cout << "[WARNING] SDL_Scancode type not handled by AnimationEngine" << std::endl;
-                break;
-        }
-    }
-}
+//void AnimationEngine::handleInputEvent(const Event& event) {
+//    std::cout << "[INFO] AnimationEngine received input event from Entity: " << event.entityUID << std::endl;
+//
+//    // Attempt to get the SDL_Scancode from eventData
+//    auto keyCode = std::get_if<KeyCode>(&event.eventData);
+//    if (keyCode) { // Check if scancode was successfully obtained
+//        switch (*keyCode) {
+//            case KeyCode::W:
+//                std::cout << "[INFO] AnimationEngine detected W Key Event" << std::endl;
+//                if (event.eventType == EventType::InputKeyDown) {
+//                    startAnimation(event.entityUID, AnimationType::WalkCycleUP);
+//                } else if (event.eventType == EventType::InputKeyUp) {
+//                    stopAnimation(event.entityUID, AnimationType::WalkCycleUP);
+//                }
+//                break;
+//            case KeyCode::S:
+//                std::cout << "[INFO] AnimationEngine detected S Key Event" << std::endl;
+//                if (event.eventType == EventType::InputKeyDown) {
+//                    startAnimation(event.entityUID, AnimationType::WalkCycleDOWN);
+//                } else if (event.eventType == EventType::InputKeyUp) {
+//                    stopAnimation(event.entityUID, AnimationType::WalkCycleDOWN);
+//                }
+//                break;
+//            case KeyCode::A:
+//                std::cout << "[INFO] AnimationEngine detected A Key Event" << std::endl;
+//                if (event.eventType == EventType::InputKeyDown) {
+//                    startAnimation(event.entityUID, AnimationType::WalkCycleLEFT);
+//                } else if (event.eventType == EventType::InputKeyUp) {
+//                    stopAnimation(event.entityUID, AnimationType::WalkCycleLEFT);
+//                }
+//                break;
+//            case KeyCode::D:
+//                std::cout << "[INFO] AnimationEngine detected D Key Event" << std::endl;
+//                if (event.eventType == EventType::InputKeyDown) {
+//                    startAnimation(event.entityUID, AnimationType::WalkCycleRIGHT);
+//                } else if (event.eventType == EventType::InputKeyUp) {
+//                    stopAnimation(event.entityUID, AnimationType::WalkCycleRIGHT);
+//                }
+//                break;
+//            default:
+//                std::cout << "[WARNING] SDL_Scancode type not handled by AnimationEngine" << std::endl;
+//                break;
+//        }
+//    }
+//}
 
 // This function is called by handleInputEvent() after determining what InputKeyDown was detected and is handed the
 // relevant AnimationType to start
 void AnimationEngine::startAnimation(int entityUID, AnimationType animationType) {
+    std::cout << "[DEBUG] startAnimation called for: " << animationTypeToString(animationType) << std::endl;
     auto& animationComponent = entityManager.getEntityComponent<Animation>(entityUID,
                                                                            ComponentType::Animation);
 

@@ -378,7 +378,7 @@ COMPAT53_API void luaL_traceback(lua_State* L, lua_State* L1, const char* msg, i
 		lua_pushfstring(L, "%s\n", msg);
 	lua_pushliteral(L, "stack traceback:");
 	while (lua_getstack(L1, level++, &ar)) {
-		if (level == mark) {                       /* too many levels? */
+		if (level == mark) {                       /* too many scenes? */
 			lua_pushliteral(L, "\n\t...");        /* add a '...' */
 			level = numlevels - COMPAT53_LEVELS2; /* and skip to last ones */
 		}

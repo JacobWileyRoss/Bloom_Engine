@@ -35,39 +35,6 @@ void PhysicsEngine::update(float deltaTime) {
     }
 }
 
-// TODO this needs to be updated to support Input controls being defined in Lua and not hardcoded by InputProcessor
-// Handling of input event created by the InputProcessor and sent to the Dispatcher.
-void PhysicsEngine::handleInputEvent(const Event& event) {
-    int entityUID = event.entityUID;
-
-    // Check if the entity exists before attempting to access it
-    if (entityManager.entities.find(entityUID) == entityManager.entities.end()) {
-        std::cerr << "[ERROR] PhysicsEngine::handleInputEvent - Entity with UID " <<
-                        entityUID << " not found." << std::endl;
-        return;
-    }
-
-    Entity& entity = entityManager.getEntity(entityUID);
-
-    // Ensure the entity has a Physics component before proceeding
-    if (entity.components.find(ComponentType::Physics) == entity.components.end()) {
-        std::cerr << "[ERROR] PhysicsEngine::handleInputEvent - No Physics component found for Entity UID "
-                    << entityUID << "." << std::endl;
-        return;
-    }
-
-    auto& physics = entityManager.getEntityComponent<Physics>
-            (entityUID, ComponentType::Physics);
-
-    float velX = physics.velX * physics.speed;
-    float velY = physics.velY * physics.speed;
-
-    std::cout << "[DEBUG] PhysicsEngine::handleInputEvent - Processing input for Entity UID " << entityUID
-              << ". Velocity X: " << velX << ", Velocity Y: " << velY << std::endl;
-
-    applyForce(entity, velX, velY);
-}
-
 // TODO I need to review the handleCollisionEvent and make sure I completely understand it and determine if it is the best method
 // Takes 2 colliding entities and determines if any of them are the player object, the player entity gets velocity set
 // to 0 and transform set back. Checking for player because if that logic is applied to other entities, the player can
@@ -127,22 +94,42 @@ void PhysicsEngine::handleCollisionEvent(const Event &event) {
 }
 
 // Applies force to Entity by modifying the transform component by the vel * delta time
-void PhysicsEngine::applyForce(Entity& entity, float velX, float velY) {
-    // Ensure the entity has a Transform component before proceeding
-    if (entity.components.find(ComponentType::Transform) == entity.components.end()) {
-        std::cerr << "[ERROR] PhysicsEngine::applyForce - No Transform component found for Entity UID "
-                        << entity.UID << "." << std::endl;
-        return;
+void PhysicsEngine::applyForce(int entityUID, float dirX, float dirY) {
+    auto& physics = entityManager.getEntityComponent<Physics>(entityUID, ComponentType::Physics);
+    // Normalize the direction vector
+    float magnitude = std::hypot(dirX, dirY);
+    if (magnitude > 0) {
+        dirX /= magnitude;
+        dirY /= magnitude;
     }
 
-    auto& transform = entityManager.getEntityComponent<Transform>
-            (entity.UID, ComponentType::Transform);
-    transform.posX += velX * deltaTime;
-    transform.posY += velY * deltaTime;
+    // Calculate velocity based on direction and player speed
+    float velX = dirX * physics.speed * deltaTime;
+    float velY = dirY * physics.speed * deltaTime;
 
-    std::cout << "[INFO] PhysicsEngine::applyForce - Entity UID " << entity.UID << " new position: X: "
-                << transform.posX << ", Y: " << transform.posY << std::endl;
+    // Apply the calculated velocity to the entity's transform component
+    auto& entity = entityManager.getEntity(entityUID);
+    if (entity.components.find(ComponentType::Transform) != entity.components.end()) {
+        auto& transform = entityManager.getEntityComponent<Transform>(entity.UID, ComponentType::Transform);
+        transform.posX += velX;
+        transform.posY += velY;
+        std::cout << "[INFO] PhysicsEngine::applyForce - Moved Entity UID " << entity.UID
+                  << " to new position: X: " << transform.posX << ", Y: " << transform.posY << std::endl;
+    } else {
+        std::cerr << "[ERROR] PhysicsEngine::applyForce - No Transform component found for Entity UID "
+                  << entity.UID << "." << std::endl;
+    }
 }
+
+void PhysicsEngine::setPhysics(int entityUID, float dirX, float dirY, float speed){
+    auto& physics = entityManager.getEntityComponent<Physics>
+                                (entityUID, ComponentType::Physics);
+    physics.dirX = dirX;
+    physics.dirY = dirY;
+    physics.speed = speed;
+    std::cout << "[INFO] setPhysics() called for entityUID: " << entityUID << std::endl;
+}
+
 
 // This function can set a Transform Component's X and Y coordinate position to the specified coordinates
 void PhysicsEngine::setTransform(int entityUID, float posX, float posY) {

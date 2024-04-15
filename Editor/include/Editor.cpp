@@ -146,14 +146,14 @@ void Editor::Render() {
     ImGui::SetNextWindowSize(ImVec2(200, 400), ImGuiCond_FirstUseEver);
     if (ImGui::Begin("Project Browser")) {
         ImGui::DockBuilderDockWindow("Project Browser", dockspace_id2);
-        fileTree.DisplayFileTree("../Game", codeEditor);
+        fileTree.DisplayFileTree("../TopDown_Game", codeEditor);
     }
     ImGui::End();
 
     // Render Asset Browser docked
     if (ImGui::Begin("Asset Browser")) {
         ImGui::DockBuilderDockWindow("Asset Browser", dockspace_id2);
-        fileTree.DisplayFileTree("../Game/assets", codeEditor);
+        fileTree.DisplayFileTree("../TopDown_Game/assets", codeEditor);
     }
     ImGui::End();
 
@@ -243,6 +243,12 @@ void Editor::Render() {
                         ImGui::InputInt("Height", &collider.rect.h);
                     }
                     case ComponentType::Physics: {
+                        auto& physics = dynamic_cast<Physics&>(*compPair.second);
+                        ImGui::InputFloat("DirX", &physics.dirX);
+                        ImGui::InputFloat("DirY", &physics.dirY);
+                        ImGui::InputFloat("VelX", &physics.velX);
+                        ImGui::InputFloat("VelY", &physics.velY);
+                        ImGui::InputFloat("Speed", &physics.speed);
                         break;
                     }
                     case ComponentType::Player: {
@@ -383,50 +389,7 @@ void Editor::ShutDown() {
 }
 
 std::string Editor::Serialize(const std::string& filepath) {
-    // Default Lua scripts for game states
-    // TODO game state defaults need to be generated once then only updated with the rest of the script
-    std::string defaultGameStates = R"(
-MainMenuState = {}
 
-function MainMenuState.enter()
-    print("[INFO] Entering MainMenuState")
-end
-
-function MainMenuState.exit()
-    print("Exiting MainMenuState")
-end
-
-function MainMenuState.update(deltaTime)
-    -- Update logic here
-end
-
-function MainMenuState.render()
-    -- Rendering logic here
-end
-
-GameplayState = {}
-
-function GameplayState.enter()
-    print("[INFO] Entering GameplayState")
-end
-
-function GameplayState.exit()
-    print("Exiting GameplayStateState")
-end
-
-function GameplayState.update(deltaTime)
-    -- Update logic here
-end
-
-function GameplayState.render()
-    -- Rendering logic here
-end
-
--- Register the state with a global or a specific Lua registry for states
-GameStateRegistry = GameStateRegistry or {}
-GameStateRegistry["MainMenuState"] = MainMenuState
-GameStateRegistry["GameplayState"] = GameplayState
-)";
 
     // Fetch all logged operations
     std::string loggedOperations = operationsLog.getLoggedOperations();
@@ -435,7 +398,7 @@ GameStateRegistry["GameplayState"] = GameplayState
     std::string luaCodeForEntities = "function constructLevel()\n" + loggedOperations + "end\n";
 
     // Combine default game states with the constructLevel function
-    std::string finalLuaScript = defaultGameStates + "\n" + luaCodeForEntities;
+    std::string finalLuaScript = luaCodeForEntities;
 
     // Write to file
     std::ofstream outFile(filepath);

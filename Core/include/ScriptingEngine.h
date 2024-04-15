@@ -17,16 +17,19 @@
 #include "AnimationEngine.h"
 #include "CollisionEngine.h"
 #include "Animation.h"
+#include "InputProcessor.h"
+#include "Event.h"
 
 class ScriptingEngine {
 public:
-    explicit ScriptingEngine(sol::state& lua, EntityManager& entityManager, Dispatcher& dispatcher,
+    explicit ScriptingEngine(sol::state& lua, InputProcessor& inputProcessor, EntityManager& entityManager, Dispatcher& dispatcher,
                              RenderingEngine& renderingEngine,
                              AnimationEngine& animationEngine,
                              PhysicsEngine& physicsEngine,
                              CollisionEngine& collisionEngine,
                              AudioEngine& audioEngine) :
                              lua(lua),
+                             inputProcessor(inputProcessor),
                              entityManager(entityManager),
                              dispatcher(dispatcher),
                              renderingEngine(renderingEngine),
@@ -34,7 +37,7 @@ public:
                              physicsEngine(physicsEngine),
                              collisionEngine(collisionEngine),
                              audioEngine(audioEngine){
-        lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::table);
+        lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math, sol::lib::table);
         bindToLua();
     }
 
@@ -44,6 +47,7 @@ public:
     void loadScript(const std::string& filePath);
     void saveScript(const std::string& filePath, const std::string& data);
     void bindToLua();
+    void handleInput();
     std::string getCurrentSelectedScript() {return currentSelectedScript;};
     void setCurrentSelectedScript(std::string filepath) {
         currentSelectedScript = filepath;
@@ -56,6 +60,7 @@ public:
     }
 private:
     sol::state& lua;
+    InputProcessor& inputProcessor;
     EntityManager& entityManager;
     Dispatcher& dispatcher;
     RenderingEngine& renderingEngine;

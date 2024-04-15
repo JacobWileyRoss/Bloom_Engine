@@ -122,6 +122,7 @@ private:
     bool isRunning;
     float deltaTime{}; ///< DeltaTime tracks time between each frame, allowing for smooth gameplay decoupled from framerate
     std::time_t lastModifiedTimeLevel{}; ///< Time stamp used to track modifications for .lua scripts allowing for hot reloading when editing
+
 };
 
 

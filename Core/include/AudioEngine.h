@@ -31,6 +31,7 @@ public:
     AudioEngine(EntityManager& entityManager);
     bool Initialize();
     void SetBank(int entityUID, std::string bankPath);
+    std::string getEntityBank(int entityUID);
     bool LoadBank(const std::string& bankPath);
     void UnloadBank(FMOD::Studio::Bank* bank);
     void UnloadAllBanks();

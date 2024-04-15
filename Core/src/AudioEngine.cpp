@@ -25,7 +25,7 @@ bool AudioEngine::Initialize() {
     FMOD::Debug_Initialize(FMOD_DEBUG_LEVEL_WARNING | FMOD_DEBUG_LEVEL_ERROR | FMOD_DEBUG_TYPE_FILE, FMOD_DEBUG_MODE_CALLBACK, nullptr, "fmod_log.txt");
 
     // Load the master bank
-    FMOD_RESULT loadMasterBank = system->loadBankFile("../Game/assets/audio/Desktop/Master.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
+    FMOD_RESULT loadMasterBank = system->loadBankFile("../TopDown_Game/assets/audio/Desktop/Master.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
     if (loadMasterBank != FMOD_OK) {
         std::cerr << "Failed to load master bank: " << FMOD_ErrorString(result) << std::endl;
         return false;
@@ -34,7 +34,7 @@ bool AudioEngine::Initialize() {
     std::cout << "[INFO] MasterBank loaded from file successfully" << std::endl;
 
     // Load the strings bank
-    FMOD_RESULT loadStringsBank = system->loadBankFile("../Game/assets/audio/Desktop/Master.strings.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
+    FMOD_RESULT loadStringsBank = system->loadBankFile("../TopDown_Game/assets/audio/Desktop/Master.strings.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
     if (loadStringsBank != FMOD_OK) {
     std::cerr << "Failed to load master.strings bank: " << FMOD_ErrorString(result) << std::endl;
     return false;
@@ -55,6 +55,12 @@ void AudioEngine::SetBank(int entityUID, std::string bankPath) {
     }
 }
 
+std::string AudioEngine::getEntityBank(int entityUID) {
+    auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
+    return audio.bankPath;
+}
+
+
 bool AudioEngine::LoadBank(const std::string& bankPath) {
     std::cout << "Loading Bank: " << bankPath << std::endl;
     FMOD::Studio::Bank* bank = nullptr;
@@ -64,7 +70,7 @@ bool AudioEngine::LoadBank(const std::string& bankPath) {
         return false;
     }
     loadedBanks.push_back(bank);
-    std::cout << "Bank loaded successfully" << std::endl;
+    std::cout << "Bank at " << bankPath << "loaded successfully" << std::endl;
     return true;
 }
 

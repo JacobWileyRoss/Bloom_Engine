@@ -8,6 +8,7 @@
 #include <array>
 #include "Component.h"
 #include "../../../vendor/sdl2/2.30.1/include/SDL2/SDL.h"
+#include "KeyCodes.h"
 
 // TODO determine if this is the best place to define EventTypes
 // Define possible EventTypes
@@ -39,7 +40,7 @@ enum class EventType {
     float velX2, velY2; // Velocity of entity 2
 };
 
-using EventData = std::variant<std::array<float, 2>, char, SDL_Scancode, CollisionData>;
+using EventData = std::variant<std::array<float, 2>, char, SDL_Scancode, KeyCode, CollisionData>;
 
 
 class Event : public Component {

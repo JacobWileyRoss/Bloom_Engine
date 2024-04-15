@@ -1693,14 +1693,14 @@ public:
     static std::shared_ptr<FileInfos> create();
 
 public:
-    // extention of the file, the array is the levels of ext, by ex : .a.b.c, will be save in {.a.b.c, .b.c, .c}
-    // 10 level max are sufficient i guess. the others levels will be checked if countExtDot > 1
+    // extention of the file, the array is the scenes of ext, by ex : .a.b.c, will be save in {.a.b.c, .b.c, .c}
+    // 10 level max are sufficient i guess. the others scenes will be checked if countExtDot > 1
     std::array<std::string, EXT_MAX_LEVEL> fileExtLevels;
     std::array<std::string, EXT_MAX_LEVEL> fileExtLevels_optimized;  // optimized for search => insensitivecase
     // same for file name, can be sued in userFileAttributesFun
     std::array<std::string, EXT_MAX_LEVEL> fileNameLevels;
     std::array<std::string, EXT_MAX_LEVEL> fileNameLevels_optimized;  // optimized for search => insensitivecase
-    size_t countExtDot = 0U;                                         // count dots in file extention. this count will give the levels in fileExtLevels
+    size_t countExtDot = 0U;                                         // count dots in file extention. this count will give the scenes in fileExtLevels
     FileType fileType;                                               // fileType
     std::string filePath;                                            // path of the file
     std::string fileName;                                            // file name only
@@ -1721,10 +1721,10 @@ public:
     bool SearchForTag(const std::string& vTag) const;  // will search a tag in fileNameExt and fileNameExt_optimized
     bool SearchForExt(const std::string& vExt,
         const bool& vIsCaseInsensitive,
-        const size_t& vMaxLevel = EXT_MAX_LEVEL) const;  // will check the fileExtLevels levels for vExt, until vMaxLevel
+        const size_t& vMaxLevel = EXT_MAX_LEVEL) const;  // will check the fileExtLevels scenes for vExt, until vMaxLevel
     bool SearchForExts(const std::string& vComaSepExts,
         const bool& vIsCaseInsensitive,
-        const size_t& vMaxLevel = EXT_MAX_LEVEL) const;  // will check the fileExtLevels levels for vExts (ext are coma separated), until vMaxLevel
+        const size_t& vMaxLevel = EXT_MAX_LEVEL) const;  // will check the fileExtLevels scenes for vExts (ext are coma separated), until vMaxLevel
     bool FinalizeFileTypeParsing(const size_t& vMaxDotToExtract);  // finalize the parsing the file (only a file or link to file. no dir)
 };
 

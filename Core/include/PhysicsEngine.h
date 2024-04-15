@@ -13,14 +13,16 @@
 
 class PhysicsEngine {
 public:
-    explicit PhysicsEngine(EntityManager& entityManager, Dispatcher& dispatcher, float& deltaTime) :
-                            entityManager(entityManager), dispatcher(dispatcher), deltaTime(deltaTime)
+    explicit PhysicsEngine( EntityManager& entityManager, Dispatcher& dispatcher,
+                           float& deltaTime) : entityManager(entityManager),
+                            dispatcher(dispatcher), deltaTime(deltaTime)
                             {std::cout <<"[INFO] Physics Engine initialized successfully" << std::endl;};
 
     void update(float deltaTime);
     void handleInputEvent(const Event& event);
     void handleCollisionEvent(const Event& event);
-    void applyForce(Entity& entity, float x, float y);
+    void applyForce(int entityUID, float x, float y);
+    void setPhysics(int entityUID, float dirX, float dirY, float speed);
     void setTransform(int entityUID, float posX, float posY);
 
 private:

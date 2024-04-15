@@ -120,19 +120,19 @@ typedef enum
     SDL_JOYDEVICEREMOVED,       /**< An opened joystick has been removed */
     SDL_JOYBATTERYUPDATED,      /**< Joystick battery level change */
 
-    /* Game controller events */
-    SDL_CONTROLLERAXISMOTION  = 0x650, /**< Game controller axis motion */
-    SDL_CONTROLLERBUTTONDOWN,          /**< Game controller button pressed */
-    SDL_CONTROLLERBUTTONUP,            /**< Game controller button released */
-    SDL_CONTROLLERDEVICEADDED,         /**< A new Game controller has been inserted into the system */
-    SDL_CONTROLLERDEVICEREMOVED,       /**< An opened Game controller has been removed */
+    /* TopDown_Game controller events */
+    SDL_CONTROLLERAXISMOTION  = 0x650, /**< TopDown_Game controller axis motion */
+    SDL_CONTROLLERBUTTONDOWN,          /**< TopDown_Game controller button pressed */
+    SDL_CONTROLLERBUTTONUP,            /**< TopDown_Game controller button released */
+    SDL_CONTROLLERDEVICEADDED,         /**< A new TopDown_Game controller has been inserted into the system */
+    SDL_CONTROLLERDEVICEREMOVED,       /**< An opened TopDown_Game controller has been removed */
     SDL_CONTROLLERDEVICEREMAPPED,      /**< The controller mapping was updated */
-    SDL_CONTROLLERTOUCHPADDOWN,        /**< Game controller touchpad was touched */
-    SDL_CONTROLLERTOUCHPADMOTION,      /**< Game controller touchpad finger was moved */
-    SDL_CONTROLLERTOUCHPADUP,          /**< Game controller touchpad finger was lifted */
-    SDL_CONTROLLERSENSORUPDATE,        /**< Game controller sensor was updated */
+    SDL_CONTROLLERTOUCHPADDOWN,        /**< TopDown_Game controller touchpad was touched */
+    SDL_CONTROLLERTOUCHPADMOTION,      /**< TopDown_Game controller touchpad finger was moved */
+    SDL_CONTROLLERTOUCHPADUP,          /**< TopDown_Game controller touchpad finger was lifted */
+    SDL_CONTROLLERSENSORUPDATE,        /**< TopDown_Game controller sensor was updated */
     SDL_CONTROLLERUPDATECOMPLETE_RESERVED_FOR_SDL3,
-    SDL_CONTROLLERSTEAMHANDLEUPDATED,  /**< Game controller Steam handle has changed */
+    SDL_CONTROLLERSTEAMHANDLEUPDATED,  /**< TopDown_Game controller Steam handle has changed */
 
     /* Touch events */
     SDL_FINGERDOWN      = 0x700,
@@ -412,7 +412,7 @@ typedef struct SDL_JoyBatteryEvent
 } SDL_JoyBatteryEvent;
 
 /**
- *  \brief Game controller axis motion event structure (event.caxis.*)
+ *  \brief TopDown_Game controller axis motion event structure (event.caxis.*)
  */
 typedef struct SDL_ControllerAxisEvent
 {
@@ -429,7 +429,7 @@ typedef struct SDL_ControllerAxisEvent
 
 
 /**
- *  \brief Game controller button event structure (event.cbutton.*)
+ *  \brief TopDown_Game controller button event structure (event.cbutton.*)
  */
 typedef struct SDL_ControllerButtonEvent
 {
@@ -454,7 +454,7 @@ typedef struct SDL_ControllerDeviceEvent
 } SDL_ControllerDeviceEvent;
 
 /**
- *  \brief Game controller touchpad event structure (event.ctouchpad.*)
+ *  \brief TopDown_Game controller touchpad event structure (event.ctouchpad.*)
  */
 typedef struct SDL_ControllerTouchpadEvent
 {
@@ -469,7 +469,7 @@ typedef struct SDL_ControllerTouchpadEvent
 } SDL_ControllerTouchpadEvent;
 
 /**
- *  \brief Game controller sensor event structure (event.csensor.*)
+ *  \brief TopDown_Game controller sensor event structure (event.csensor.*)
  */
 typedef struct SDL_ControllerSensorEvent
 {
@@ -634,11 +634,11 @@ typedef union SDL_Event
     SDL_JoyButtonEvent jbutton;             /**< Joystick button event data */
     SDL_JoyDeviceEvent jdevice;             /**< Joystick device change event data */
     SDL_JoyBatteryEvent jbattery;           /**< Joystick battery event data */
-    SDL_ControllerAxisEvent caxis;          /**< Game Controller axis event data */
-    SDL_ControllerButtonEvent cbutton;      /**< Game Controller button event data */
-    SDL_ControllerDeviceEvent cdevice;      /**< Game Controller device event data */
-    SDL_ControllerTouchpadEvent ctouchpad;  /**< Game Controller touchpad event data */
-    SDL_ControllerSensorEvent csensor;      /**< Game Controller sensor event data */
+    SDL_ControllerAxisEvent caxis;          /**< TopDown_Game Controller axis event data */
+    SDL_ControllerButtonEvent cbutton;      /**< TopDown_Game Controller button event data */
+    SDL_ControllerDeviceEvent cdevice;      /**< TopDown_Game Controller device event data */
+    SDL_ControllerTouchpadEvent ctouchpad;  /**< TopDown_Game Controller touchpad event data */
+    SDL_ControllerSensorEvent csensor;      /**< TopDown_Game Controller sensor event data */
     SDL_AudioDeviceEvent adevice;           /**< Audio device event data */
     SDL_SensorEvent sensor;                 /**< Sensor event data */
     SDL_QuitEvent quit;                     /**< Quit request event data */
