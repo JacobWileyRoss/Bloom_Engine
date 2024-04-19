@@ -44,8 +44,8 @@ function createBackgroundPainting()
     attachComponent(backgroundPainting, ComponentType.Texture)
 
     -- Set sprite, texture, render layer, and initial transform
-    setSprite(backgroundPainting, 0, 0, 1280, 720)
-    setTexture(backgroundPainting, "../SideScroll_Game/assets/background_enchanted_tech_forest_001.png")
+    setSprite(backgroundPainting, 0, 0, 5120, 720)
+    setTexture(backgroundPainting, "../SideScroll_Game/assets/background_Enchanted_Course_001.png")
     setRenderLayer(backgroundPainting, RenderLayer.background)
     setTransform(backgroundPainting, 0, 0)
 end
@@ -88,16 +88,17 @@ function constructLevel()
     loadBank("../SideScroll_Game/assets/audio/SideScroll_Game/Build/Desktop/World.bank");
     playEvent("event:/Theme");
     createBackgroundPainting();
-    createBoundaryBox(0, 600, 1280, 5);
 
-    createPlatform(800, 570, 300, 30);
-    createBoundaryBox(780, 480, 320, 16);
+    createBoundaryBox(0, 610, 5120, 5);
 
-    createPlatform(340, 440, 300, 30);
-    createBoundaryBox(320, 350, 320, 16);
+    createBoundaryBox(800, 470, 200, 300);
+    createBoundaryBox(1113, 335, 334, 29);
+    createBoundaryBox(1710, 350, 200, 82);
+    createBoundaryBox(2020, 200, 752, 33);
+    createBoundaryBox(2084, 618, 200, 82);
 
-    createPlatform(800, 300, 300, 30);
-    createBoundaryBox(780, 210, 320, 16);
+
+
 
     playerUID = player.createPlayerEntity(615, -200, 96, 128);
 end

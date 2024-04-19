@@ -184,8 +184,8 @@ void PhysicsEngine::setPhysics(int entityUID, float dirX, float dirY, float spee
 void PhysicsEngine::setPhysics(int entityUID, float velX, float velY, float speed, PhysicsMode mode, float gravity, float mass) {;
     auto& physics = entityManager.getEntityComponent<Physics>
             (entityUID, ComponentType::Physics);
-    physics.velX = velX;
-    physics.velY = velY;
+    physics.dirX = velX;
+    physics.dirY = velY;
     physics.speed = speed;
     physics.mode = mode;
     physics.gravity = gravity;
