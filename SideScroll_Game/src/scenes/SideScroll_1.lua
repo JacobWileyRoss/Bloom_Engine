@@ -95,7 +95,14 @@ function constructLevel()
     createBoundaryBox(1113, 335, 334, 29);
     createBoundaryBox(1710, 350, 200, 82);
     createBoundaryBox(2020, 200, 752, 33);
-    createBoundaryBox(2084, 618, 200, 82);
+    createBoundaryBox(2040, 530, 200, 82);
+    createBoundaryBox(2325, 410, 200, 82);
+    createBoundaryBox(3300, 530, 200, 82);
+    createBoundaryBox(3600, 350, 200, 82);
+    createBoundaryBox(3845, 470, 240, 300);
+    createBoundaryBox(4150, 370, 200, 82);
+    createBoundaryBox(3840, 175, 752, 33);
+
 
 
 
