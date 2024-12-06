@@ -12,8 +12,6 @@ void InputProcessor::ProcessInput(SDL_Event& event) {
     auto keyCode = static_cast<KeyCode>(event.key.keysym.sym);
     if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
 
-
-
         // Check and trigger key down callbacks
         if (event.type == SDL_KEYDOWN) {
             if (!event.key.repeat) {
@@ -28,6 +26,7 @@ void InputProcessor::ProcessInput(SDL_Event& event) {
 
         // Check and trigger key up callbacks if needed
         if (event.type == SDL_KEYUP) {
+            setLastPressedKey(keyCode);
             pressedKeys.erase(keyCode);
             if (keyUpCallbacks.find(keyCode) != keyUpCallbacks.end()) {
                 for (auto& callback : keyUpCallbacks[keyCode]) {
@@ -48,4 +47,16 @@ void InputProcessor::registerKeyUpCallback(KeyCode keyCode, sol::function callba
 
 bool InputProcessor::isKeyPressed(KeyCode keyCode) {
     return pressedKeys.find(keyCode) != pressedKeys.end();
+}
+
+const std::unordered_set<KeyCode> InputProcessor::getPressedKeys() {
+    return pressedKeys;
+}
+
+void InputProcessor::setLastPressedKey(KeyCode keyCode) {
+    lastPressedKey = keyCode;
+}
+
+const KeyCode InputProcessor::getLastPressedKey() {
+    return lastPressedKey;
 }

@@ -12,7 +12,7 @@ Core::Core() : window(nullptr), isRunning(false), fileSystem(), stateMachine(ent
                dispatcher(entityManager),
                physicsEngine(entityManager, dispatcher, deltaTime),
                inputProcessor(entityManager,dispatcher), renderingEngine(entityManager, dispatcher),
-               animationEngine(entityManager, dispatcher, deltaTime),
+               animationEngine(entityManager, inputProcessor, dispatcher, deltaTime),
                collisionEngine(entityManager, dispatcher),
                audioEngine(entityManager, inputProcessor),
                scriptingEngine(lua, inputProcessor, entityManager, dispatcher, renderingEngine, animationEngine,

@@ -45,7 +45,6 @@ bool AudioEngine::Initialize() {
 }
 
 void AudioEngine::SetBank(int entityUID, std::string bankPath) {
-
     if (entityManager.hasComponent(entityUID, ComponentType::Audio)) {
         auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
         audio.bankPath = bankPath;
@@ -59,7 +58,6 @@ std::string AudioEngine::getEntityBank(int entityUID) {
     auto& audio = entityManager.getEntityComponent<Audio>(entityUID, ComponentType::Audio);
     return audio.bankPath;
 }
-
 
 bool AudioEngine::LoadBank(const std::string& bankPath) {
     std::cout << "Loading Bank: " << bankPath << std::endl;
@@ -147,13 +145,11 @@ FMOD::Studio::EventInstance* AudioEngine::PlayEvent(int entityUID, const std::st
         std::cerr << "Error: Failed to create event instance for " << eventPath
         << ". Error: " << FMOD_ErrorString(result) << std::endl;
     }
-
     result = eventInstance->start();
     if (result != FMOD_OK) {
         std::cerr << "Error: Failed to start event " << eventPath
         << ". Error: " << FMOD_ErrorString(result) << std::endl;
     }
-
     audioComponent.eventInstances[eventName] = eventInstance;
     std::cout << "[INFO] AudioEngine::PlayEvent(" << eventName << ", " << eventPath << ")" << std::endl;
     activeEvents.emplace(eventPath, eventInstance);
@@ -166,18 +162,17 @@ void AudioEngine::Update() {
 
 void AudioEngine::HandleInputEvent(const Event& event) {
     std::cout << "[INFO] AudioEngine::HandleInputEvent() called" << std::endl;
-
+    auto& pressedKeys = inputProcessor.getPressedKeys();
     if(event.eventType == EventType::InputKeyDown) {
         std::cout << "[DEBUG] HandleInputEvent() InputKeyDown called" << std::endl;
-        if (inputProcessor.pressedKeys.size() == 1) {
+        if (pressedKeys.size() == 1) {
             auto eventInstance = PlayEvent(event.entityUID, "walking", "event:/Walking");
             eventInstance->setParameterByName("repeat", 1.0);
         }
     }
-
     if(event.eventType == EventType::InputKeyUp) {
         std::cout << "[DEBUG] HandleInputEvent() InputKeyUp called" << std::endl;
-        if (inputProcessor.pressedKeys.empty()) {
+        if (pressedKeys.empty()) {
             auto& audioComponent = entityManager.getEntityComponent<Audio>(event.entityUID, ComponentType::Audio);
             if (audioComponent.eventInstances.count("walking") > 0) {
                 FMOD::Studio::EventInstance* eventInstance = audioComponent.eventInstances["walking"];
@@ -186,7 +181,6 @@ void AudioEngine::HandleInputEvent(const Event& event) {
                 audioComponent.eventInstances.erase("walking");
             }
         }
-
     }
 }
 
