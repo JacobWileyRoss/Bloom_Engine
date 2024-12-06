@@ -4,7 +4,7 @@
 
 #include "../include/AudioEngine.h"
 
-AudioEngine::AudioEngine(EntityManager& entityManager) : entityManager(entityManager) {}
+AudioEngine::AudioEngine(EntityManager& entityManager, InputProcessor& inputProcessor) : entityManager(entityManager), inputProcessor(inputProcessor) {}
 
 bool AudioEngine::Initialize() {
     FMOD_RESULT result = FMOD::Studio::System::create(&system);
@@ -168,18 +168,25 @@ void AudioEngine::HandleInputEvent(const Event& event) {
     std::cout << "[INFO] AudioEngine::HandleInputEvent() called" << std::endl;
 
     if(event.eventType == EventType::InputKeyDown) {
-    auto eventInstance = PlayEvent(event.entityUID, "walking", "event:/Walking");
-    eventInstance->setParameterByName("repeat", 1.0);
+        std::cout << "[DEBUG] HandleInputEvent() InputKeyDown called" << std::endl;
+        if (inputProcessor.pressedKeys.size() == 1) {
+            auto eventInstance = PlayEvent(event.entityUID, "walking", "event:/Walking");
+            eventInstance->setParameterByName("repeat", 1.0);
+        }
     }
+
     if(event.eventType == EventType::InputKeyUp) {
         std::cout << "[DEBUG] HandleInputEvent() InputKeyUp called" << std::endl;
-        auto& audioComponent = entityManager.getEntityComponent<Audio>(event.entityUID, ComponentType::Audio);
-        if (audioComponent.eventInstances.count("walking") > 0) {
-            FMOD::Studio::EventInstance* eventInstance = audioComponent.eventInstances["walking"];
-            eventInstance->stop(FMOD_STUDIO_STOP_IMMEDIATE);
-            eventInstance->release();
-            audioComponent.eventInstances.erase("walking");
+        if (inputProcessor.pressedKeys.empty()) {
+            auto& audioComponent = entityManager.getEntityComponent<Audio>(event.entityUID, ComponentType::Audio);
+            if (audioComponent.eventInstances.count("walking") > 0) {
+                FMOD::Studio::EventInstance* eventInstance = audioComponent.eventInstances["walking"];
+                eventInstance->stop(FMOD_STUDIO_STOP_IMMEDIATE);
+                eventInstance->release();
+                audioComponent.eventInstances.erase("walking");
+            }
         }
+
     }
 }
 
