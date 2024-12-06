@@ -14,6 +14,8 @@
 #ifndef BLOOM_ENGINE_INPUTPROCESSOR_H
 #define BLOOM_ENGINE_INPUTPROCESSOR_H
 
+#include <unordered_set>
+
 #include "Entity.h"
 #include "KeyCodes.h"
 #include "EntityManager.h"
@@ -22,6 +24,7 @@
 #include "Player.h"
 #include "Transform.h"
 #include "Physics.h"
+
 #include "../../vendor/sol2/include/sol/sol.hpp"
 
 /**
@@ -51,6 +54,8 @@ public:
     void ProcessInput(SDL_Event& event);
     void registerKeyDownCallback(KeyCode keyCode, sol::function callback);
     void registerKeyUpCallback(KeyCode keyCode, sol::function callback);
+    bool isKeyPressed(KeyCode keyCode);
+    std::unordered_set<KeyCode> pressedKeys;
 private:
     EntityManager& entityManager; ///< Reference to the engine's entity manager.
     Dispatcher& dispatcher; ///< Reference to the engine's event dispatcher.

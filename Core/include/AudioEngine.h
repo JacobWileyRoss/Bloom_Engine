@@ -10,6 +10,7 @@
 #include "EntityManager.h"
 #include "Event.h"
 #include "Audio.h"
+#include "InputProcessor.h"
 
 #include <../../../vendor/fmod/api/core/inc/fmod.h>
 #include <../../../vendor/fmod/api/core/inc/fmod.hpp>
@@ -28,7 +29,7 @@
 
 class AudioEngine {
 public:
-    AudioEngine(EntityManager& entityManager);
+    AudioEngine(EntityManager& entityManager, InputProcessor& inputProcessor);
     bool Initialize();
     void SetBank(int entityUID, std::string bankPath);
     std::string getEntityBank(int entityUID);
@@ -46,6 +47,8 @@ public:
 
 private:
     EntityManager& entityManager;
+    InputProcessor& inputProcessor;
+
     FMOD::Studio::System* system = nullptr;
     FMOD::System* coreSystem;
     FMOD::Sound* sound = nullptr;
