@@ -11,6 +11,7 @@
 //#include <SDL_image.h>
 
 #include "EntityManager.h"
+#include "InputProcessor.h"
 #include "Dispatcher.h"
 #include "Animation.h"
 #include "Sprite.h"
@@ -19,8 +20,8 @@
 
 class AnimationEngine {
     public:
-    explicit AnimationEngine(EntityManager& entityManager, Dispatcher& dispatcher, float& deltaTime) :
-                                entityManager(entityManager), dispatcher(dispatcher), deltaTime(deltaTime) {} ;
+    explicit AnimationEngine(EntityManager& entityManager, InputProcessor& inputProcessor, Dispatcher& dispatcher, float& deltaTime) :
+                                entityManager(entityManager), inputProcessor(inputProcessor), dispatcher(dispatcher), deltaTime(deltaTime) {} ;
 
     void addFrame(int entityUID, AnimationType animationType, SDL_Texture *frame);
     std::vector<SDL_Texture*>& getAnimationType(int entityUID, AnimationType animationType);
@@ -32,6 +33,7 @@ class AnimationEngine {
 
 private:
     EntityManager& entityManager;
+    InputProcessor& inputProcessor;
     Dispatcher& dispatcher;
     static SDL_Renderer* renderer;
     float& deltaTime;

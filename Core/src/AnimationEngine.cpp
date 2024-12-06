@@ -25,73 +25,20 @@ std::vector<SDL_Texture *>& AnimationEngine::getAnimationType(int entityUID, Ani
     switch (animationType) {
         case AnimationType::WalkCycleUP:
             return entityAnimations.walkCycleUP;
-            break;
         case AnimationType::WalkCycleDOWN:
             return entityAnimations.walkCycleDOWN;
-            break;
         case AnimationType::WalkCycleLEFT:
             return entityAnimations.walkCycleLEFT;
-            break;
         case AnimationType::WalkCycleRIGHT:
             return entityAnimations.walkCycleRIGHT;
-            break;
         default:
             std::cout << "[WARNING] AnimationType not handled" << std::endl;
             return emptyAnimation;
-            break;
     }
 }
 
-// This is the function called in Core::Initialize when AnimationEngine registered to the dispatcher for Input and
-// Collision event types. It detects what type of Input was detected and will start or stop the relevant animation cycle
-//void AnimationEngine::handleInputEvent(const Event& event) {
-//    std::cout << "[INFO] AnimationEngine received input event from Entity: " << event.entityUID << std::endl;
-//
-//    // Attempt to get the SDL_Scancode from eventData
-//    auto keyCode = std::get_if<KeyCode>(&event.eventData);
-//    if (keyCode) { // Check if scancode was successfully obtained
-//        switch (*keyCode) {
-//            case KeyCode::W:
-//                std::cout << "[INFO] AnimationEngine detected W Key Event" << std::endl;
-//                if (event.eventType == EventType::InputKeyDown) {
-//                    startAnimation(event.entityUID, AnimationType::WalkCycleUP);
-//                } else if (event.eventType == EventType::InputKeyUp) {
-//                    stopAnimation(event.entityUID, AnimationType::WalkCycleUP);
-//                }
-//                break;
-//            case KeyCode::S:
-//                std::cout << "[INFO] AnimationEngine detected S Key Event" << std::endl;
-//                if (event.eventType == EventType::InputKeyDown) {
-//                    startAnimation(event.entityUID, AnimationType::WalkCycleDOWN);
-//                } else if (event.eventType == EventType::InputKeyUp) {
-//                    stopAnimation(event.entityUID, AnimationType::WalkCycleDOWN);
-//                }
-//                break;
-//            case KeyCode::A:
-//                std::cout << "[INFO] AnimationEngine detected A Key Event" << std::endl;
-//                if (event.eventType == EventType::InputKeyDown) {
-//                    startAnimation(event.entityUID, AnimationType::WalkCycleLEFT);
-//                } else if (event.eventType == EventType::InputKeyUp) {
-//                    stopAnimation(event.entityUID, AnimationType::WalkCycleLEFT);
-//                }
-//                break;
-//            case KeyCode::D:
-//                std::cout << "[INFO] AnimationEngine detected D Key Event" << std::endl;
-//                if (event.eventType == EventType::InputKeyDown) {
-//                    startAnimation(event.entityUID, AnimationType::WalkCycleRIGHT);
-//                } else if (event.eventType == EventType::InputKeyUp) {
-//                    stopAnimation(event.entityUID, AnimationType::WalkCycleRIGHT);
-//                }
-//                break;
-//            default:
-//                std::cout << "[WARNING] SDL_Scancode type not handled by AnimationEngine" << std::endl;
-//                break;
-//        }
-//    }
-//}
-
-// This function is called by handleInputEvent() after determining what InputKeyDown was detected and is handed the
-// relevant AnimationType to start
+// This function checks the animationType, if it is different from the currentAnimationType it
+// sets the new animationType and begins the animation cycle
 void AnimationEngine::startAnimation(int entityUID, AnimationType animationType) {
     std::cout << "[DEBUG] startAnimation called for: " << animationTypeToString(animationType) << std::endl;
     auto& animationComponent = entityManager.getEntityComponent<Animation>(entityUID,
@@ -108,22 +55,43 @@ void AnimationEngine::startAnimation(int entityUID, AnimationType animationType)
     animationComponent.isPlaying = true;
     std::cout << "[INFO] isPlaying is set to: " << animationComponent.isPlaying << std::endl;
     std::cout << "[INFO] Starting animation for entity " << entityUID << " type: " <<
-    animationTypeToString(animationType) << std::endl;
+              animationTypeToString(animationType) << std::endl;
 }
 
-// This function is called by handleInputEvent() after determining what InputKeyUp event was detected and stops the
-// appropriate AnimationType
+// This function checks pressedKeys to determine the most up-to-date animationType to playback. If there are
+// no pressedKeys it halts all animation playback
 void AnimationEngine::stopAnimation(int entityUID, AnimationType animationType) {
-    auto& animationComponent = entityManager.getEntityComponent<Animation>(entityUID,
+    auto& animation = entityManager.getEntityComponent<Animation>(entityUID,
                                                                            ComponentType::Animation);
-    if(animationComponent.currentAnimationType == animationType) {
-        animationComponent.isPlaying = false;
-        animationComponent.currentFrameIndex = 0; // Reset to the first frame
-        std::cout << "[INFO] Stopping animation for entity " << entityUID << " type: " <<
-        animationTypeToString(animationType) << std::endl;
+    auto& pressedKeys = inputProcessor.getPressedKeys();
+    if (!pressedKeys.empty()) {
+        if (pressedKeys.find(KeyCode::W) != pressedKeys.end()) {
+            startAnimation(entityUID, AnimationType::WalkCycleUP);
+        } else if (pressedKeys.find(KeyCode::S) != pressedKeys.end()) {
+            startAnimation(entityUID, AnimationType::WalkCycleDOWN);
+        } else if (pressedKeys.find(KeyCode::A) != pressedKeys.end()) {
+            startAnimation(entityUID, AnimationType::WalkCycleLEFT);
+        } else if (pressedKeys.find(KeyCode::D) != pressedKeys.end()) {
+            startAnimation(entityUID, AnimationType::WalkCycleRIGHT);
+        }
     } else {
-        std::cout << "[WARNING] Attempted to stop an animation that is not currently playing for entity " <<
-        entityUID << std::endl;
+        if (animation.isPlaying) {
+            std::cout << "[INFO] Stopping animation for entity " << entityUID << " type: " <<
+                      animationTypeToString(animationType) << std::endl;
+            animation.isPlaying = false;
+            animation.currentFrameIndex = 0;
+            auto& animationFrames = animation.animations[animation.currentAnimationType];
+            if (!animationFrames.empty()) {
+                if (entityManager.hasComponent(entityUID, ComponentType::Texture)) {
+                    auto& textureComponent = entityManager.getEntityComponent<Texture>
+                            (entityUID, ComponentType::Texture);
+                    textureComponent.texture = animationFrames[0];
+                }
+            }
+        } else {
+            std::cout << "[WARNING] Attempted to stop an animation that is not currently playing for entity " <<
+                      entityUID << std::endl;
+        }
     }
 }
 
@@ -135,6 +103,7 @@ void AnimationEngine::update(float deltaTime) {
         if (entityManager.hasComponent(entityUID, ComponentType::Animation)) {
             auto& animation = entityManager.getEntityComponent<Animation>(entityUID,
                                                                           ComponentType::Animation);
+            auto& animationFrames = animation.animations[animation.currentAnimationType];
 
             // Ensure animation is playing and has a non-zero frameDuration
             if (animation.isPlaying && animation.frameDuration > 0.0f &&
@@ -151,8 +120,7 @@ void AnimationEngine::update(float deltaTime) {
                 if (entityManager.hasComponent(entityUID, ComponentType::Texture)) {
                     auto& textureComponent = entityManager.getEntityComponent<Texture>
                             (entityUID, ComponentType::Texture);
-                    textureComponent.texture =
-                            animation.animations[animation.currentAnimationType][animation.currentFrameIndex];
+                    textureComponent.texture = animationFrames[animation.currentFrameIndex];
                 }
             }
         }

@@ -55,11 +55,16 @@ public:
     void registerKeyDownCallback(KeyCode keyCode, sol::function callback);
     void registerKeyUpCallback(KeyCode keyCode, sol::function callback);
     bool isKeyPressed(KeyCode keyCode);
-    std::unordered_set<KeyCode> pressedKeys;
+    const std::unordered_set<KeyCode> getPressedKeys();
+    void setLastPressedKey(KeyCode keyCode);
+    const KeyCode getLastPressedKey();
+
 private:
     EntityManager& entityManager; ///< Reference to the engine's entity manager.
     Dispatcher& dispatcher; ///< Reference to the engine's event dispatcher.
     EventData eventData; ///< Struct to hold processed event data before dispatching.
+    std::unordered_set<KeyCode> pressedKeys;
+    KeyCode lastPressedKey;
     std::unordered_map<KeyCode, std::vector<sol::function>> keyDownCallbacks;
     std::unordered_map<KeyCode, std::vector<sol::function>> keyUpCallbacks;
 
